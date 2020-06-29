@@ -7,6 +7,7 @@ PROJECT_NAME='hopesfire'
 # 发布前准备
 ##
 function beforeDeploy() {
+    cd /opt/apps
     if [[ -d ${PROJECT_NAME} ]]; then
         echo "项目已存在，开始更新代码..."
         cd ${PROJECT_NAME}
