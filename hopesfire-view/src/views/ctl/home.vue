@@ -11,7 +11,7 @@
     #ctl_header {
         height: 64px;
         background: #515a6e;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+        padding: 0;
     }
 
     #ctl_footer {
@@ -32,7 +32,11 @@
 
     #ctl_card {
         width: 100%;
-        height: 100%;
+        height: 95%;
+    }
+
+    #ctl_nav {
+
     }
 
 </style>
@@ -40,23 +44,27 @@
     <div id="ctl_layout">
         <Layout style="width: 100%; height: 100%">
             <Header id="ctl_header">
-                <h2 style="color: #fff;">欢迎使用hopesfire系统！</h2>
+                <h2 style="color: #fff; position: relative; left: 10px;">欢迎使用hopesfire系统！</h2>
             </Header>
             <Layout style="width: 100%; height: 100%;">
                 <Sider id="ctl_nav" ref="nav" collapsible :collapsed-width="78" v-model="isCollapsed" hide-trigger>
-                    <Menu style="height: 100%" active-name="1-1" width="auto" :class="menuitemClasses">
-                        <MenuItem name="1-1">
-                            <Icon type="ios-navigate"></Icon>
-                            <span>权限管理</span>
-                        </MenuItem>
-                        <MenuItem name="1-2">
-                            <Icon type="ios-search"></Icon>
-                            <span>内容管理</span>
-                        </MenuItem>
-                        <MenuItem name="1-3">
-                            <Icon type="ios-settings"></Icon>
-                            <span>数据统计</span>
-                        </MenuItem>
+                    <Menu style="height: 100%" active-name="1-1" width="auto">
+                        <Submenu name="system">
+                            <template slot="title">
+                                <Icon type="ios-menu" />
+                                系统首页
+                            </template>
+                            <MenuItem name="1-1" to="/ctl/auth/user">数据大盘</MenuItem>
+                        </Submenu>
+                        <Submenu name="auth">
+                            <template slot="title">
+                                <Icon type="ios-settings" />
+                                权限控制
+                            </template>
+                            <MenuItem name="1-1" to="/ctl/auth/user">用户管理</MenuItem>
+                            <MenuItem name="1-2" to="/ctl/auth/role">角色管理</MenuItem>
+                            <MenuItem name="1-3" to="/ctl/auth/group">群组管理</MenuItem>
+                        </Submenu>
                     </Menu>
                 </Sider>
                 <Content id="ctl_content" style="width: 100%">
@@ -65,8 +73,8 @@
                         <BreadcrumbItem>Components</BreadcrumbItem>
                         <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
-                    <Card id="ctl_card">
-                        Content
+                    <Card id="ctl_card" dis-hover>
+                        <router-view></router-view>
                     </Card>
                 </Content>
             </Layout>
@@ -84,12 +92,6 @@
             }
         },
         computed: {
-            menuitemClasses() {
-                return [
-                    'menu-item',
-                    this.isCollapsed ? 'collapsed-menu' : ''
-                ]
-            }
         },
         methods: {}
     }

@@ -10,6 +10,7 @@
     <modules>
         <module>hopesfire-service</module>
         <module>hopesfire-web</module>
+        <module>hopesfire-view</module>
     </modules>
 
     <properties>
