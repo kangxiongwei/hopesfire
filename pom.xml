@@ -8,9 +8,9 @@
     <name>hopesfire</name>
 
     <modules>
+        <module>hopesfire-view</module>
         <module>hopesfire-service</module>
         <module>hopesfire-web</module>
-        <module>hopesfire-view</module>
     </modules>
 
     <properties>
@@ -48,19 +48,6 @@
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>
-            <!--springboot插件-->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.1.RELEASE</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
