@@ -25,8 +25,8 @@ function doDeploy() {
     cd /opt/apps/${PROJECT_NAME}
     mvn clean package -Dmaven.test.skip=true
     echo "Maven打包项目完成，开始拷贝文件并部署..."
-    cp ./hopesfire-web/target/*.jar ./hopesfire-web.jar
-    java -jar ./hopesfire-web.jar
+    cp ./hopesfire-web/target/*.jar ./${PROJECT_NAME}.jar
+    nohup java -jar ${PROJECT_NAME}.jar > jetty.log &
     echo "部署成功，请检查..."
 }
 
