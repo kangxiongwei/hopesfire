@@ -9,22 +9,33 @@ const routers = [
     {
         path: '/ctl',
         meta: {
-            title: ''
+            title: '首页'
         },
+        name: '首页',
         component: (resolve) => require(['./views/ctl/home.vue'], resolve),
         children: [
             {
-                path: '/ctl/auth/user',
-                component: (resolve) => require(['./views/ctl/user.vue'], resolve)
+                path: '/ctl/auth',
+                name: '权限控制',
+                children: [
+                    {
+                        path: '/ctl/auth/user',
+                        name: '用户管理',
+                        component: (resolve) => require(['./views/ctl/auth/user.vue'], resolve)
+                    },
+                    {
+                        path: '/ctl/auth/role',
+                        name: '角色管理',
+                        component: (resolve) => require(['./views/ctl/auth/role.vue'], resolve)
+                    },
+                    {
+                        path: '/ctl/auth/group',
+                        name: '群组管理',
+                        component: (resolve) => require(['./views/ctl/auth/group.vue'], resolve)
+                    }
+                ]
             },
-            {
-                path: '/ctl/auth/role',
-                component: (resolve) => require(['./views/ctl/role.vue'], resolve)
-            },
-            {
-                path: '/ctl/auth/group',
-                component: (resolve) => require(['./views/ctl/group.vue'], resolve)
-            }
+
         ]
     }
 ];

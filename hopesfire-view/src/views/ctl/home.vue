@@ -51,14 +51,14 @@
                     <Menu style="height: 100%" active-name="1-1" width="auto">
                         <Submenu name="system">
                             <template slot="title">
-                                <Icon type="ios-menu" />
+                                <Icon type="ios-menu"/>
                                 系统首页
                             </template>
                             <MenuItem name="1-1" to="/ctl/auth/user">数据大盘</MenuItem>
                         </Submenu>
                         <Submenu name="auth">
                             <template slot="title">
-                                <Icon type="ios-settings" />
+                                <Icon type="ios-settings"/>
                                 权限控制
                             </template>
                             <MenuItem name="1-1" to="/ctl/auth/user">用户管理</MenuItem>
@@ -69,9 +69,7 @@
                 </Sider>
                 <Content id="ctl_content" style="width: 100%">
                     <Breadcrumb id="ctl_breadcrumb">
-                        <BreadcrumbItem>Home</BreadcrumbItem>
-                        <BreadcrumbItem>Components</BreadcrumbItem>
-                        <BreadcrumbItem>Layout</BreadcrumbItem>
+                        <BreadcrumbItem v-for="path in currentPath">{{ path }}</BreadcrumbItem>
                     </Breadcrumb>
                     <Card id="ctl_card" dis-hover>
                         <router-view></router-view>
@@ -88,11 +86,25 @@
     export default {
         data() {
             return {
-                isCollapsed: false
+                isCollapsed: false,
+                currentPath: []
             }
         },
-        computed: {
+        methods: {
+            setCurrentPath(route) {
+                this.currentPath = [];
+                route.matched.forEach(item => {
+                    this.currentPath.push(item.name);
+                });
+            }
         },
-        methods: {}
+        watch: {
+            '$route'(newRoute) {
+                this.setCurrentPath(newRoute);
+            }
+        },
+        mounted() {
+            this.setCurrentPath(this.$route);
+        }
     }
 </script>
