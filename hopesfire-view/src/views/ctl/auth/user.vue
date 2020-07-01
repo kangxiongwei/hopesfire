@@ -33,14 +33,14 @@
             this.listUsers();
         },
         methods: {
-            async listUsers() {
-                await this.$axios.get('/ctl/auth/user/list')
+            listUsers() {
+                this.$axios.get('/ctl/auth/user/list')
                     .then(response => {
                         let data = response.data;
                         if (data.code === 200) {
                             this.userTable = data.data;
                         }
-                });
+                    });
             }
         }
     }
