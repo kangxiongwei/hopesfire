@@ -1,3 +1,5 @@
+const MenuComponent = (resolve) => require(['./views/ctl/menu.vue'], resolve);
+
 const routers = [
     {
         path: '/',
@@ -15,8 +17,21 @@ const routers = [
         component: (resolve) => require(['./views/ctl/home.vue'], resolve),
         children: [
             {
+                path: '/ctl/root',
+                name: '系统首页',
+                component: MenuComponent,
+                children: [
+                    {
+                        path: '/ctl/root/dashboard',
+                        name: '数据看板',
+                        component: (resolve) => require(['./views/ctl/root/dashboard'], resolve)
+                    }
+                ]
+            },
+            {
                 path: '/ctl/auth',
                 name: '权限控制',
+                component: MenuComponent,
                 children: [
                     {
                         path: '/ctl/auth/user',
@@ -34,8 +49,7 @@ const routers = [
                         component: (resolve) => require(['./views/ctl/auth/group.vue'], resolve)
                     }
                 ]
-            },
-
+            }
         ]
     }
 ];

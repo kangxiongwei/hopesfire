@@ -1,11 +1,9 @@
 <style scoped>
-    .content {
 
-    }
 </style>
 <template>
-    <div class="content">
-       用户管理
+    <div>
+        数据看板
     </div>
 </template>
 <script>
