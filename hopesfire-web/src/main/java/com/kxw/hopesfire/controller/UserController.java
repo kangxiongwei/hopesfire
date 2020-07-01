@@ -2,9 +2,11 @@ package com.kxw.hopesfire.controller;
 
 import com.kxw.hopesfire.model.HttpBaseModel;
 import com.kxw.hopesfire.model.UserModel;
+import com.kxw.hopesfire.service.IUserService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/ctl/auth")
 public class UserController {
+
+    @Resource
+    private IUserService userService;
 
     @RequestMapping("/user/list")
     public HttpBaseModel listUsers() {
