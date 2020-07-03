@@ -16,6 +16,7 @@ import java.util.Date;
 public class UserEntity extends BaseEntity {
 
     private String username;
+    private String password;
     private String nickname;
     private Integer sex;
     private Date createTime;

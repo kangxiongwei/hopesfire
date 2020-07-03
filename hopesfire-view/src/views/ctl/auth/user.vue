@@ -1,7 +1,5 @@
 <style scoped>
-    .content {
 
-    }
 </style>
 <template>
     <div class="content">
@@ -23,6 +21,10 @@
                         key: 'username'
                     },
                     {
+                        title: '昵称',
+                        key: 'nickname'
+                    },
+                    {
                         title: '性别',
                         key: 'sex'
                     }
@@ -38,8 +40,11 @@
                     .then(response => {
                         let data = response.data;
                         if (data.code === 200) {
-                            this.userTable = data.data;
+                            this.userTable = data.records;
                         }
+                    })
+                    .catch(error => {
+                        this.$router.push({name: "login"});
                     });
             }
         }

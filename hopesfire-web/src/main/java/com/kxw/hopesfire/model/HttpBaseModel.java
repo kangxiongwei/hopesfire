@@ -1,5 +1,6 @@
 package com.kxw.hopesfire.model;
 
+import com.kxw.hopesfire.exception.ServiceException;
 import lombok.Data;
 
 /**
@@ -20,6 +21,13 @@ public class HttpBaseModel {
         httpBaseModel.setCode(200);
         httpBaseModel.setMessage("success");
         httpBaseModel.setData(data);
+        return httpBaseModel;
+    }
+
+    public static HttpBaseModel buildFailed(ServiceException exp) {
+        HttpBaseModel httpBaseModel = new HttpBaseModel();
+        httpBaseModel.setCode(exp.getCode());
+        httpBaseModel.setMessage(exp.getMessage());
         return httpBaseModel;
     }
 

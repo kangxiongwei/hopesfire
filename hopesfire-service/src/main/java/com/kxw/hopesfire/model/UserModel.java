@@ -14,7 +14,10 @@ import lombok.EqualsAndHashCode;
 public class UserModel extends BaseModel {
 
     private String username;
+    private String password;
     private String nickname;
     private Integer sex;
+    private String createTime;
+    private String updateTime;
 
 }

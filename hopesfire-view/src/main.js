@@ -5,6 +5,7 @@ import Routers from './router';
 import Util from './libs/util';
 import App from './app.vue';
 import axios from './libs/axios'
+import {getToken} from './libs/store'
 import 'view-design/dist/styles/iview.css';
 
 Vue.use(VueRouter);
@@ -21,7 +22,17 @@ const router = new VueRouter(RouterConfig);
 router.beforeEach((to, from, next) => {
     ViewUI.LoadingBar.start();
     Util.title(to.meta.title);
-    next();
+    let token = getToken();
+    console.log("跳转到-->" + to.path);
+    if (!token || token === '') {
+        if (to.name === 'login' || to.name === 'index') {
+            next();
+        } else {
+            next({name: 'login'});
+        }
+    } else {
+        next();
+    }
 });
 
 router.afterEach((to, from, next) => {

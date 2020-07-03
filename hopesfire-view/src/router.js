@@ -3,10 +3,19 @@ const MenuComponent = (resolve) => require(['./views/ctl/menu.vue'], resolve);
 const routers = [
     {
         path: '/',
+        name: 'index',
         meta: {
-            title: ''
+            title: '首页'
         },
         component: (resolve) => require(['./views/index.vue'], resolve)
+    },
+    {
+        path: '/login',
+        name: 'login',
+        meta: {
+            title: '登录'
+        },
+        component: (resolve) => require(['./views/ctl/login/login.vue'], resolve)
     },
     {
         path: '/ctl',

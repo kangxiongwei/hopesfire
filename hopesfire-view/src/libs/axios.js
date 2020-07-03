@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import axios from 'axios'
-import env from '../config/env';
-
-const BASE_URL = env === 'development' ? 'http://localhost:8090' : '';
 
 //设置默认请求头，如果不需要可以取消这一步
 axios.defaults.headers = {
@@ -23,6 +20,9 @@ axios.interceptors.response.use(config => {
             case 500:
                 error.message = '服务端错误！';
                 break;
+            case 304:
+                error.message = '登录失败！';
+                break;
         }
     } else {
         error.message = "连接服务端失败！"
@@ -39,12 +39,13 @@ axios.interceptors.response.use(config => {
  */
 Vue.prototype.$post = function (url, params) {
     return new Promise((resolve, reject) => {
-        axios.post(url, params).then(
-            res => {
+        axios.post(url, params)
+            .then(res => {
                 resolve(res)
-            }).catch(err => {
-            reject(err)
-        })
+            })
+            .catch(err => {
+                reject(err)
+            })
     })
 };
 /**
