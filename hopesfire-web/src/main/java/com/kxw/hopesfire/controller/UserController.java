@@ -39,7 +39,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/delete/{id}")
     public HttpBaseModel deleteUser(@PathVariable Long id) {
         this.userService.delete(id);
         return HttpBaseModel.buildSuccess(id);
@@ -51,7 +51,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/get/{id}")
     public HttpBaseModel getUser(@PathVariable Long id) {
         UserModel user = userService.get(id);
         return HttpBaseModel.buildSuccess(user);

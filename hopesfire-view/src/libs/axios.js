@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import axios from 'axios'
+import env from '../config/env';
+
+const BASE_URL = env === 'development' ? 'http://localhost:8090' : '';
 
 //设置默认请求头，如果不需要可以取消这一步
 axios.defaults.headers = {

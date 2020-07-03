@@ -1,6 +1,5 @@
 package com.kxw.hopesfire.service;
 
-import com.kxw.hopesfire.model.PagerModel;
 import com.kxw.hopesfire.model.UserModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,17 +20,9 @@ public class UserServiceTest {
     private IUserService userService;
 
     @Test
-    public void testSaveUser() {
-        UserModel user = new UserModel(null, "user1", "用户1", 0);
-        this.userService.save(user);
-        System.out.println(user.getId());
-    }
-
-    @Test
-    public void testFindUsers() {
-        UserModel user = new UserModel();
-        PagerModel pager = userService.find(user);
-        System.out.println(pager);
+    public void test() {
+        UserModel model = this.userService.get(1L);
+        System.out.println(model);
     }
 
 }

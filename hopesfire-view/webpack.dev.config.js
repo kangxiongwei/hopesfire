@@ -31,5 +31,19 @@ module.exports = merge(webpackBaseConfig, {
             template: './src/template/index.ejs',
             inject: false
         })
-    ]
+    ],
+    //设置跨域代理
+    devServer: {
+        historyApiFallback: true,
+        hot: true,
+        inline: true,
+        stats: { colors: true },
+        proxy: {
+            '/ctl': {
+                target: 'http://localhost:8090',
+                pathRewrite: {'^/ctl' : '/ctl'},
+                changeOrigin: true
+            }
+        }
+    }
 });
