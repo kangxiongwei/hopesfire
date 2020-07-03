@@ -40,17 +40,17 @@ module.exports = merge(webpackBaseConfig, {
         stats: { colors: true },
         proxy: {
             '/ctl': {
-                target: 'http://localhost:8090',
+                target: 'http://localhost:80',
                 pathRewrite: {'^/ctl' : '/ctl'},
                 changeOrigin: true
             },
             '/login': {
-                target: 'http://localhost:8090',
+                target: 'http://localhost:80',
                 pathRewrite: {'^/login' : '/login'},
                 changeOrigin: true
             },
             '/logout': {
-                target: 'http://localhost:8090',
+                target: 'http://localhost:80',
                 pathRewrite: {'^/logout' : '/logout'},
                 changeOrigin: true
             }
