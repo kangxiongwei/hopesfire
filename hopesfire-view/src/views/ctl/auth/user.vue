@@ -34,7 +34,7 @@
         },
         methods: {
             listUsers() {
-                this.$axios.get('/ctl/auth/user/list')
+                this.$post('/ctl/auth/user/find', {"page": 1, "pageSize": 10})
                     .then(response => {
                         let data = response.data;
                         if (data.code === 200) {
