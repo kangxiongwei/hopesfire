@@ -9,6 +9,7 @@ import 'view-design/dist/styles/iview.css';
 
 Vue.use(VueRouter);
 Vue.use(ViewUI);
+Vue.prototype.$axios = axios;
 
 // 路由配置
 const RouterConfig = {
