@@ -2,8 +2,9 @@ package com.kxw.hopesfire.convert;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kxw.hopesfire.entity.BaseEntity;
-import com.kxw.hopesfire.model.BaseModel;
+import com.kxw.hopesfire.model.PagerModel;
+
+import java.util.List;
 
 /**
  * @author kangxiongwei
@@ -12,30 +13,31 @@ import com.kxw.hopesfire.model.BaseModel;
 public class PageConvert {
 
     /**
-     * 将分页对象从model类型转为entity类型
+     * 转换分页结果
      *
      * @param page
-     * @param <T>
-     * @param <E>
+     * @param records
      * @return
      */
-    public static <T extends BaseEntity, E extends BaseModel> IPage<T> convertToEntity(IPage<E> page) {
-        return new Page<>(page.getCurrent(), page.getSize());
+    public static <E, M> PagerModel convertToModel(IPage<E> page, List<M> records) {
+        PagerModel result = new PagerModel();
+        result.setPage(page.getCurrent());
+        result.setPageSize(page.getSize());
+        result.setPages(page.getPages());
+        result.setTotal(page.getTotal());
+        result.setRecords(records);
+        return result;
     }
 
     /**
-     * 将分页对象从entity类型转为model类型
+     * 转换分页参数
      *
-     * @param page
-     * @param <>
+     * @param pager
+     * @param <E>
      * @return
      */
-    public static <E extends BaseEntity, M extends BaseModel> IPage<M> convertToModel(IPage<E> page) {
-        IPage<M> result = new Page<>();
-        result.setCurrent(page.getCurrent());
-        result.setSize(page.getSize());
-        result.setPages(page.getPages());
-        result.setTotal(page.getTotal());
-        return result;
+    public static <E> IPage<E> convertPage(PagerModel pager) {
+        return new Page<>(pager.getPage(), pager.getPageSize());
     }
+
 }

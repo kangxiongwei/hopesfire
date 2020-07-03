@@ -1,6 +1,6 @@
 package com.kxw.hopesfire.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.kxw.hopesfire.model.PagerModel;
 import com.kxw.hopesfire.model.UserModel;
 
 /**
@@ -26,13 +26,20 @@ public interface IUserService {
     void delete(Long id);
 
     /**
+     * 获取单个用户信息
+     *
+     * @param id
+     * @return
+     */
+    UserModel get(Long id);
+
+    /**
      * 分页查询用户列表
      *
-     * @param page
      * @param user
      * @return
      */
-    IPage<UserModel> find(IPage<UserModel> page, UserModel user);
+    PagerModel find(UserModel user);
 
 
 }

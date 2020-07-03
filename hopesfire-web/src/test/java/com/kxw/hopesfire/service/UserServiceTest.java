@@ -1,7 +1,6 @@
 package com.kxw.hopesfire.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kxw.hopesfire.model.PagerModel;
 import com.kxw.hopesfire.model.UserModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,9 +29,9 @@ public class UserServiceTest {
 
     @Test
     public void testFindUsers() {
-        IPage<UserModel> page = new Page<>(1, 10);
-        IPage<UserModel> models = userService.find(page, null);
-        System.out.println(models);
+        UserModel user = new UserModel();
+        PagerModel pager = userService.find(user);
+        System.out.println(pager);
     }
 
 }
