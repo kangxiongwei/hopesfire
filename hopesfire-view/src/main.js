@@ -14,7 +14,6 @@ Vue.prototype.$axios = axios;
 
 // 路由配置
 const RouterConfig = {
-    mode: 'history',
     routes: Routers
 };
 const router = new VueRouter(RouterConfig);
@@ -23,7 +22,6 @@ router.beforeEach((to, from, next) => {
     ViewUI.LoadingBar.start();
     Util.title(to.meta.title);
     let token = getToken();
-    console.log("跳转到-->" + to.path);
     if (!token || token === '') {
         if (to.name === 'login' || to.name === 'index') {
             next();

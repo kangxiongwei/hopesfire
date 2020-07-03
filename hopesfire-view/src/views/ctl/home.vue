@@ -10,7 +10,7 @@
 
     #ctl_header {
         height: 64px;
-        background: #515a6e;
+        background: #2D8CF0;
         padding: 0;
     }
 

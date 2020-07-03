@@ -23,7 +23,6 @@ const store = new Vuex.Store({
 
 Vue.prototype.$store = store;
 
-
 //Cookie相关操作
 export const TOKEN_KEY = 'hopesfireToken';
 export const setToken = (token) => {

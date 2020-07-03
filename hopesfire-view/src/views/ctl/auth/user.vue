@@ -34,13 +34,16 @@
         mounted() {
             this.listUsers();
         },
+        reload() {
+            console.log("刷新页面");
+        },
         methods: {
             listUsers() {
                 this.$post('/ctl/auth/user/find', {"page": 1, "pageSize": 10})
                     .then(response => {
                         let data = response.data;
                         if (data.code === 200) {
-                            this.userTable = data.records;
+                            this.userTable = data.data.records;
                         }
                     })
                     .catch(error => {
