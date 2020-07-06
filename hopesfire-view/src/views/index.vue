@@ -40,6 +40,7 @@
         height: 30px;
         line-height: 30px;
         text-align: center;
+        color: white;
         margin: auto;
     }
 
@@ -48,7 +49,9 @@
         border-top: 1px solid white;
         border-bottom: 1px solid white;
         height: 30px;
+        line-height: 30px;
         text-align: center;
+        color: white;
         margin: auto;
     }
 
@@ -97,14 +100,14 @@
                     </Col>
                     <Col span="2" :class="ctlLoginClass">
                         <div @mouseover="selectHeaderNav('login')" @mouseout="unSelectHeaderNav('login')" @click="handleLoginClick">
-                            <Dropdown class="header_login_dropdown">
-                                <a href="javascript:void(0)" style="color: white">
+                            <Dropdown trigger="click" placement="top" @on-click="handleLoginInfo">
+                                <a href="javascript:void(0)" style="color: white;">
                                     {{ctlLoginUser}}
                                     <Icon type="ios-arrow-down"></Icon>
                                 </a>
-                                <DropdownMenu slot="list" class="header_login_dropdown_menu">
-                                    <DropdownItem class="header_login_dropdown_item">个人信息</DropdownItem>
-                                    <DropdownItem class="header_login_dropdown_item">退出登录</DropdownItem>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem name="userInfo">个人信息</DropdownItem>
+                                    <DropdownItem name="logout">退出登录</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </div>
@@ -124,6 +127,10 @@
                 </Row>
             </Footer>
         </Layout>
+        <Modal v-model="showUserInfo" closable draggable title="个人信息" ok-text="确认" cancel-text="取消">
+            <p>用户名: {{ loginUserInfo.username }}</p>
+            <p>用户昵称：{{ loginUserInfo.nickname }}</p>
+        </Modal>
     </div>
 </template>
 <script>
@@ -137,19 +144,15 @@
                 homeNavClass: 'header_nav',
                 ctlNavClass: 'header_nav',
                 ctlLoginClass: 'header_login',
-                ctlLoginUser: '登录'
+                ctlLoginUser: '',
+                showUserInfo: false,
+                loginUserInfo: {}
             }
         },
         mounted() {
             this.handleLoginClick();
         },
         methods: {
-            handleStart() {
-                this.$Modal.info({
-                    title: 'Bravo',
-                    content: 'Now, enjoy the convenience of View UI.'
-                });
-            },
             selectHeaderNav(type) {
                 if (type === 'home') {
                     this.homeNavClass = 'header_nav_hover';
@@ -179,6 +182,25 @@
                 } else {
                     let user = JSON.parse(loginUser);
                     this.ctlLoginUser = user.username;
+                }
+            },
+            handleLoginInfo(name) {
+                if (name === 'userInfo') {
+                    this.showUserInfo = true;
+                    let user = getToken();
+                    this.loginUserInfo = JSON.parse(user);
+                } else if (name === 'logout') {
+                    //退出登录
+                    this.$post('/logout').then(res => {
+                        if (res != null && res.data.code === 200) {
+                            this.$store.commit('setLoginToken', '');
+                            this.$router.push({name: 'index'});
+                        } else {
+                            this.$store.commit('setLoginError', res.data.message);
+                        }
+                    });
+                    this.$store.commit('setLoginToken', '');
+                    this.$router.push({name: 'index'});
                 }
             },
             selectCtlPage() {

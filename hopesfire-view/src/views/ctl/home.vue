@@ -27,6 +27,8 @@
     #ctl_footer {
         width: 100%;
         text-align: center;
+        color: white;
+        background: #030713;
     }
 
     #ctl_content {

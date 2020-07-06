@@ -34,6 +34,7 @@
 </template>
 
 <script>
+
     export default {
         components: {},
         data() {
@@ -55,8 +56,7 @@
                     if (res != null && res.data.code === 200) {
                         //更新本地状态和Cookie
                         this.$store.commit('setLoginToken', res.data.data);
-                        //登录成功，跳转到后台
-                        this.$router.push({path: "/ctl"})
+                        this.$router.push({path: "/"})
                     } else {
                         this.loginErrorMsg = res.data.message;
                     }
