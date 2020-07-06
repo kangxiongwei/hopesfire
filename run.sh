@@ -19,7 +19,7 @@ function beforeDeploy() {
 }
 
 function stopRunningApp() {
-    process = $(jps -l | grep ${PROJECT_NAME} | awk {printf $1})
+    process=$(jps -l | grep ${PROJECT_NAME} | awk {printf $1})
     if [[ $? -eq 0 ]]; then
         echo "${PROJECT_NAME}进程号为${process}"
     else
