@@ -10,15 +10,14 @@
 
     #ctl_header {
         height: 64px;
-        background: #2D8CF0;
+        background: #030713;
         padding: 0;
     }
 
     .header_nav_logo {
-        width: 50px;
-        height: 50px;
-        background: white;
-        margin: 7px 0 0 20px;
+        width: 30px;
+        height: 30px;
+        margin: 17px 0 0 10px;
     }
 
     .header_nav_title {
@@ -56,7 +55,7 @@
         <Layout style="width: 100%; height: 100%">
             <Header id="ctl_header">
                 <Row>
-                    <Col :span="1">
+                    <Col :span="1" style="width: 100px; text-align: center">
                         <img class="header_nav_logo" src="../../images/logo.png" @click="goToIndexPage"/>
                     </Col>
                     <Col :span="10">
