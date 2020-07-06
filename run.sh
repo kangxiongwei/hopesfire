@@ -18,6 +18,16 @@ function beforeDeploy() {
     fi
 }
 
+function stopRunningApp() {
+    process = $(jps -l | grep ${PROJECT_NAME} | awk {printf $1})
+    if [[ $? -eq 0 ]]; then
+        echo "${PROJECT_NAME}进程号为${process}"
+    else
+        echo "${PROJECT_NAME}进程号不存在！"
+    exit
+fi
+}
+
 ##
 # 执行发布命令
 ##
@@ -31,4 +41,5 @@ function doDeploy() {
 }
 
 beforeDeploy
+stopRunningApp
 doDeploy
