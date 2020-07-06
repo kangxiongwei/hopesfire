@@ -89,6 +89,7 @@
                                         <include>*.svg</include>
                                         <include>*.woff</include>
                                         <include>*.woff2</include>
+                                        <include>*.jpg</include>
                                     </includes>
                                 </resource>
                             </resources>
