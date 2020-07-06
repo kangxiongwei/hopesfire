@@ -14,6 +14,17 @@
         padding: 0;
     }
 
+    .header_nav_logo {
+        width: 50px;
+        height: 50px;
+        background: white;
+        margin: 7px 0 0 20px;
+    }
+
+    .header_nav_title {
+        color: white;
+    }
+
     #ctl_footer {
         width: 100%;
         text-align: center;
@@ -44,7 +55,14 @@
     <div id="ctl_layout">
         <Layout style="width: 100%; height: 100%">
             <Header id="ctl_header">
-                <h2 style="color: #fff; position: relative; left: 10px;">欢迎使用hopesfire系统！</h2>
+                <Row>
+                    <Col :span="1">
+                        <img class="header_nav_logo" src="../../images/logo.png" @click="goToIndexPage"/>
+                    </Col>
+                    <Col :span="10">
+                        <h2 class="header_nav_title">欢迎使用hopesfire系统！</h2>
+                    </Col>
+                </Row>
             </Header>
             <Layout style="width: 100%; height: 100%;">
                 <Sider id="ctl_nav" ref="nav" collapsible :collapsed-width="78" v-model="isCollapsed" hide-trigger>
@@ -96,6 +114,9 @@
                 route.matched.forEach(item => {
                     this.currentPath.push(item.name);
                 });
+            },
+            goToIndexPage() {
+                this.$router.push({name: "index"});
             }
         },
         watch: {
