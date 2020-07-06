@@ -95,7 +95,7 @@
                             控制台
                         </div>
                     </Col>
-                    <Col span="18">
+                    <Col span="16">
                         <div></div>
                     </Col>
                     <Col span="2" :class="ctlLoginClass">
