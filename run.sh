@@ -19,7 +19,7 @@ function beforeDeploy() {
 }
 
 function stopRunningApp() {
-    PID=$(jps -l | grep "$PROJECT_NAME" | awk "'{print $1}'")
+    PID=$(jps -l | grep "$PROJECT_NAME" | awk '{print $1}')
     if [[ $? -eq 0 ]]; then
         echo "${PROJECT_NAME}进程号为${PID}"
     else
