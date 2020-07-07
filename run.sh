@@ -19,9 +19,9 @@ function beforeDeploy() {
 }
 
 function stopRunningApp() {
-    process=$(jps -l | grep '${PROJECT_NAME}' | awk {printf $1})
+    PID=$(jps -l | grep "$PROJECT_NAME" | awk "'{print $1}'")
     if [[ $? -eq 0 ]]; then
-        echo "${PROJECT_NAME}进程号为${process}"
+        echo "${PROJECT_NAME}进程号为${PID}"
     else
         echo "${PROJECT_NAME}进程号不存在！"
     exit
@@ -41,5 +41,5 @@ function doDeploy() {
 }
 
 beforeDeploy
-# stopRunningApp
+stopRunningApp
 doDeploy
