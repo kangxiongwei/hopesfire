@@ -1,85 +1,11 @@
-<style scoped type="text/css" media="screen">
-    .index {
-        width: 100%;
-        height: 100%;
-    }
-
-    #header {
-        width: 100%;
-        height: 64px;
-        background: #030713;
-    }
-
-    .header_nav_row {
-        width: 100%;
-        height: 64px;
-    }
-
-    .header_nav {
-        width: 100px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        color: white;
-        margin: auto;
-    }
-
-    .header_nav_hover {
-        width: 100px;
-        border-top: 1px solid white;
-        border-bottom: 1px solid white;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        color: white;
-        margin: auto;
-    }
-
-    .header_login {
-        width: 100px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        color: white;
-        margin: auto;
-    }
-
-    .header_login_hover {
-        width: 100px;
-        border-top: 1px solid white;
-        border-bottom: 1px solid white;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        color: white;
-        margin: auto;
-    }
-
-    .header_logo_img {
-        width: 30px;
-        height: 30px;
-        margin: auto;
-    }
-
-    #main {
-        width: 100%;
-        height: 100%;
-        text-align: center;
-    }
-
-    #footer {
-        height: 64px;
-        text-align: center;
-        background: #030713;
-        color: white;
-    }
-
+<style scoped type="text/css">
+    @import "../styles/index.less";
 </style>
 <template>
-    <div class="index">
+    <div id="main">
         <Layout style="width: 100%; height: 100%">
             <Header id="header">
-                <Row type="flex" justify="start" class="header_nav_row" style="position: absolute; left: 0;">
+                <Row type="flex" justify="start" class="header_nav_row">
                     <Col span="2" :class="ctlLogoClass">
                         <div @mouseover="selectHeaderNav('logo')" @mouseout="unSelectHeaderNav('logo')">
                             <img class="header_logo_img" src="../images/logo.png" alt="logo"/>
@@ -114,7 +40,7 @@
                     </Col>
                 </Row>
             </Header>
-            <Content id="main">
+            <Content id="content">
                 <Row type="flex" justify="center" style="width: 100%; height: 100%">
                     <Col span="24" style="width: 100%; height: 100%">
                         <img style="width: 100%; height: 100%" src="../images/login-bg.jpg"/>

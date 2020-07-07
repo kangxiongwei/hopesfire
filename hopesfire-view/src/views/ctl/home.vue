@@ -1,60 +1,9 @@
 <style scoped>
-    #ctl_layout {
-        width: 100%;
-        height: 100%;
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        overflow: hidden;
-    }
-
-    #ctl_header {
-        height: 64px;
-        background: #030713;
-        padding: 0;
-    }
-
-    .header_nav_logo {
-        width: 30px;
-        height: 30px;
-        margin: 17px 0 0 10px;
-    }
-
-    .header_nav_title {
-        color: white;
-    }
-
-    #ctl_footer {
-        width: 100%;
-        text-align: center;
-        color: white;
-        background: #030713;
-    }
-
-    #ctl_content {
-        width: 100%;
-        height: 100%;
-        margin: 5px 0 0 5px;
-    }
-
-    #ctl_breadcrumb {
-        width: 100%;
-        margin: 5px 0 5px 5px;
-    }
-
-    #ctl_card {
-        width: 100%;
-        height: 95%;
-    }
-
-    #ctl_nav {
-
-    }
-
+    @import "../../styles/home.less";
 </style>
 <template>
     <div id="ctl_layout">
-        <Layout style="width: 100%; height: 100%">
+        <Layout style="height: 100%;">
             <Header id="ctl_header">
                 <Row>
                     <Col :span="1" style="width: 100px; text-align: center">
@@ -65,8 +14,8 @@
                     </Col>
                 </Row>
             </Header>
-            <Layout style="width: 100%; height: 100%;">
-                <Sider id="ctl_nav" ref="nav" collapsible :collapsed-width="78" v-model="isCollapsed" hide-trigger>
+            <Layout id="ctl_main">
+                <Sider ref="nav" collapsible :collapsed-width="78" v-model="isCollapsed" hide-trigger>
                     <Menu style="height: 100%" active-name="数据大盘" width="auto">
                         <Submenu name="系统首页">
                             <template slot="title">
@@ -86,11 +35,11 @@
                         </Submenu>
                     </Menu>
                 </Sider>
-                <Content id="ctl_content" style="width: 100%">
+                <Content id="ctl_content">
                     <Breadcrumb id="ctl_breadcrumb">
                         <BreadcrumbItem v-for="path in currentPath" :key="path">{{ path }}</BreadcrumbItem>
                     </Breadcrumb>
-                    <Card id="ctl_card">
+                    <Card id="ctl_card" dis-hover>
                         <router-view></router-view>
                     </Card>
                 </Content>
