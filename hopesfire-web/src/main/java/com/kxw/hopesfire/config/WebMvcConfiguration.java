@@ -26,4 +26,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .addPathPatterns("/ctl/**");
     }
 
+    @Override
+    protected void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("forward:index.html");
+        super.addViewControllers(registry);
+    }
 }
