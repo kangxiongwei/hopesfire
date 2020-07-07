@@ -16,6 +16,7 @@ function beforeDeploy() {
         echo "项目不存在，开始克隆代码..."
         git clone git@github.com:kangxiongwei/hopesfire.git
     fi
+    echo "项目代码更新完毕，开始进行部署..."
 }
 
 function stopRunningApp() {
@@ -24,8 +25,11 @@ function stopRunningApp() {
         echo "${PROJECT_NAME}进程号为${PID}"
     else
         echo "${PROJECT_NAME}进程号不存在！"
-    exit
-fi
+        exit
+    fi
+    echo "开始关闭${PROJECT_NAME}的进程${PID}..."
+    kill -9 ${PID}
+    echo "进程${PID}已停止..."
 }
 
 ##
