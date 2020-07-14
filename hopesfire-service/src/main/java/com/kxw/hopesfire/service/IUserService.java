@@ -1,6 +1,6 @@
 package com.kxw.hopesfire.service;
 
-import com.kxw.hopesfire.model.PagerModel;
+import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.model.UserModel;
 
 /**
@@ -41,5 +41,5 @@ public interface IUserService {
      */
     PagerModel find(UserModel user);
 
-
+    void update(UserModel user);
 }

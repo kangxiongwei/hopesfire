@@ -1,7 +1,7 @@
-package com.kxw.hopesfire.mapper;
+package com.kxw.hopesfire.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.kxw.hopesfire.entity.UserEntity;
+import com.kxw.hopesfire.dao.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

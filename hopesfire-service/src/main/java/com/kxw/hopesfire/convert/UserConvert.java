@@ -1,10 +1,10 @@
 package com.kxw.hopesfire.convert;
 
-import com.kxw.hopesfire.entity.UserEntity;
+import com.kxw.hopesfire.dao.entity.UserEntity;
 import com.kxw.hopesfire.model.UserModel;
-import org.assertj.core.util.Lists;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +27,7 @@ public class UserConvert {
         UserModel model = new UserModel();
         model.setId(user.getId());
         model.setUsername(user.getUsername());
+        model.setPassword(user.getPassword());
         model.setNickname(user.getNickname());
         model.setSex(user.getSex());
         return model;
@@ -40,7 +41,7 @@ public class UserConvert {
      */
     public static List<UserModel> convertModelList(List<UserEntity> entities) {
         if (CollectionUtils.isEmpty(entities)) {
-            return Lists.newArrayList();
+            return new ArrayList<>();
         }
         return entities.stream().map(UserConvert::convertModel).collect(Collectors.toList());
     }
@@ -58,6 +59,7 @@ public class UserConvert {
         UserEntity entity = new UserEntity();
         entity.setId(user.getId());
         entity.setUsername(user.getUsername());
+        entity.setPassword(user.getPassword());
         entity.setNickname(user.getNickname());
         entity.setSex(user.getSex());
         return entity;

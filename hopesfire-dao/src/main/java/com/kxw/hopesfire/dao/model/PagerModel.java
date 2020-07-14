@@ -1,4 +1,4 @@
-package com.kxw.hopesfire.model;
+package com.kxw.hopesfire.dao.model;
 
 import lombok.Data;
 

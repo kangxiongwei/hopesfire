@@ -1,4 +1,4 @@
-package com.kxw.hopesfire.entity;
+package com.kxw.hopesfire.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

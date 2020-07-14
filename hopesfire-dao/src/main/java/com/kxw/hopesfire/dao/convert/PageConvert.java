@@ -1,8 +1,8 @@
-package com.kxw.hopesfire.convert;
+package com.kxw.hopesfire.dao.convert;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kxw.hopesfire.model.PagerModel;
+import com.kxw.hopesfire.dao.model.PagerModel;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package com.kxw.hopesfire.model;
 
+import com.kxw.hopesfire.dao.model.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -18,11 +18,23 @@ public class UserServiceTest {
 
     @Resource
     private IUserService userService;
+    @Resource
+    private MySqlService mySqlService;
 
     @Test
     public void test() {
         UserModel model = this.userService.get(1L);
         System.out.println(model);
+    }
+
+    @Test
+    public void testTransactional() {
+        UserModel user = new UserModel();
+        user.setUsername("username");
+        user.setNickname("nickname");
+        user.setPassword("password");
+        user.setSex(0);
+        mySqlService.update(user);
     }
 
 }

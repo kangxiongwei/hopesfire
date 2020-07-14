@@ -1,7 +1,7 @@
 package com.kxw.hopesfire.controller;
 
+import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.model.HttpBaseModel;
-import com.kxw.hopesfire.model.PagerModel;
 import com.kxw.hopesfire.model.UserModel;
 import com.kxw.hopesfire.service.IUserService;
 import org.springframework.web.bind.annotation.*;
