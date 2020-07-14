@@ -3,6 +3,7 @@ package com.kxw.hopesfire.controller;
 import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.model.HttpBaseModel;
 import com.kxw.hopesfire.model.UserModel;
+import com.kxw.hopesfire.service.BiUserService;
 import com.kxw.hopesfire.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,8 @@ public class UserController {
 
     @Resource
     private IUserService userService;
+    @Resource
+    private BiUserService biUserService;
 
     /**
      * 保存用户信息
@@ -67,6 +70,12 @@ public class UserController {
     public HttpBaseModel listUsers(@RequestBody UserModel user) {
         PagerModel pager = this.userService.find(user);
         return HttpBaseModel.buildSuccess(pager);
+    }
+
+    @GetMapping("/user/all")
+    public HttpBaseModel feignUsers() {
+        int allUser = biUserService.getAllUser();
+        return HttpBaseModel.buildSuccess(allUser);
     }
 
 }
