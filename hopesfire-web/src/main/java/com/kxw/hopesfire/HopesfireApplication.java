@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author kangxiongwei
  */
 @SpringBootApplication
-@MapperScan("com.kxw.hopesfire.mapper")
+@MapperScan("com.kxw.hopesfire.dao.mapper")
 public class HopesfireApplication {
 
     public static void main(String[] args) {
