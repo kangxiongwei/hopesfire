@@ -10,8 +10,14 @@ import com.kxw.hopesfire.biz.exception.ServiceExceptionEnum;
 import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.biz.service.ILoginService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.kxw.hopesfire.biz.exception.ServiceExceptionEnum.LOGIN_USER_NOT_EXIST;
 
 /**
  * @author kangxiongwei
@@ -24,13 +30,25 @@ public class LoginServiceImpl implements ILoginService {
     private UserMapper userMapper;
 
     @Override
+    public UserModel get(String username) {
+        Map<String, Object> columns = new HashMap<>();
+        columns.put("username", username);
+        List<UserEntity> entities = userMapper.selectByMap(columns);
+        if (CollectionUtils.isEmpty(entities)) {
+            throw ServiceException.build(LOGIN_USER_NOT_EXIST);
+        }
+        UserEntity entity = entities.get(0);
+        return UserConvert.convertModel(entity);
+    }
+
+    @Override
     public UserModel login(String username, String password) {
         UserEntity entity = new UserEntity();
         entity.setUsername(username);
         Wrapper<UserEntity> wrapper = new QueryWrapper<>(entity);
         UserEntity user = userMapper.selectOne(wrapper);
         if (user == null) {
-            throw ServiceException.build(ServiceExceptionEnum.LOGIN_USER_NOT_EXIST);
+            throw ServiceException.build(LOGIN_USER_NOT_EXIST);
         }
         if (!password.equals(user.getPassword())) {
             throw ServiceException.build(ServiceExceptionEnum.LOGIN_PASSWORD_ERROR);

@@ -23,7 +23,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        HttpSession session = request.getSession();
+        /*HttpSession session = request.getSession();
         Object loginUser = session.getAttribute("loginUser");
         if (loginUser == null) {
             LOGGER.info("未登录，需要登录！");
@@ -32,7 +32,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         } else {
             LOGGER.info("已登录，当前用户：{}", loginUser);
             return true;
-        }
+        }*/
+        return true;
     }
 
 }

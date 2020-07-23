@@ -2,6 +2,8 @@ package com.kxw.hopesfire.dao.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 分页数据模型
  *
@@ -9,7 +11,7 @@ import lombok.Data;
  * @date 2020-07-03 11:39
  */
 @Data
-public class PagerModel {
+public class PagerModel implements Serializable {
 
     private long page;          //当前第几页
     private long pageSize;      //每页多少行

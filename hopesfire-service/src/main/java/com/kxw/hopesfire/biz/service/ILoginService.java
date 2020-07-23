@@ -19,4 +19,11 @@ public interface ILoginService {
      */
     UserModel login(String username, String password);
 
+    /**
+     * 根据用户名获取用户
+     *
+     * @param username
+     * @return
+     */
+    UserModel get(String username);
 }
