@@ -20,10 +20,10 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @EnableFeignClients
 @MapperScan("com.kxw.hopesfire.dao.mapper")
-public class HopesfireApplication {
+public class HopesfireWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HopesfireApplication.class, args);
+        SpringApplication.run(HopesfireWebApplication.class, args);
     }
 
     @Bean
