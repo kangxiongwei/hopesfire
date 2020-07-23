@@ -1,4 +1,4 @@
-package com.kxw.hopesfire;
+package com.kxw.hopesfire.web;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

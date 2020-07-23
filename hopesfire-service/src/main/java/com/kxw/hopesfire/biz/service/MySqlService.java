@@ -1,9 +1,9 @@
-package com.kxw.hopesfire.service;
+package com.kxw.hopesfire.biz.service;
 
-import com.kxw.hopesfire.convert.UserConvert;
+import com.kxw.hopesfire.biz.convert.UserConvert;
 import com.kxw.hopesfire.dao.entity.UserEntity;
 import com.kxw.hopesfire.dao.mapper.UserMapper;
-import com.kxw.hopesfire.model.UserModel;
+import com.kxw.hopesfire.biz.model.UserModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

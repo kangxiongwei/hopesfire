@@ -1,4 +1,4 @@
-package com.kxw.hopesfire.interceptors;
+package com.kxw.hopesfire.web.interceptors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

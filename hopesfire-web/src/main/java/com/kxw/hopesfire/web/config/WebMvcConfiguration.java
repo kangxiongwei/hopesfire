@@ -1,6 +1,6 @@
-package com.kxw.hopesfire.config;
+package com.kxw.hopesfire.web.config;
 
-import com.kxw.hopesfire.interceptors.LoginInterceptor;
+import com.kxw.hopesfire.web.interceptors.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 

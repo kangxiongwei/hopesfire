@@ -1,6 +1,8 @@
 package com.kxw.hopesfire.service;
 
-import com.kxw.hopesfire.model.UserModel;
+import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.biz.service.IUserService;
+import com.kxw.hopesfire.biz.service.MySqlService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,9 +1,9 @@
-package com.kxw.hopesfire.controller;
+package com.kxw.hopesfire.web.controller;
 
-import com.kxw.hopesfire.exception.ServiceException;
-import com.kxw.hopesfire.model.HttpBaseModel;
-import com.kxw.hopesfire.model.UserModel;
-import com.kxw.hopesfire.service.ILoginService;
+import com.kxw.hopesfire.biz.exception.ServiceException;
+import com.kxw.hopesfire.web.model.HttpBaseModel;
+import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.biz.service.ILoginService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

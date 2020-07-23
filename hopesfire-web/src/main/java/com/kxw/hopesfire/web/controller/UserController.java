@@ -1,10 +1,10 @@
-package com.kxw.hopesfire.controller;
+package com.kxw.hopesfire.web.controller;
 
 import com.kxw.hopesfire.dao.model.PagerModel;
-import com.kxw.hopesfire.model.HttpBaseModel;
-import com.kxw.hopesfire.model.UserModel;
-import com.kxw.hopesfire.service.BiUserService;
-import com.kxw.hopesfire.service.IUserService;
+import com.kxw.hopesfire.web.model.HttpBaseModel;
+import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.web.service.BiUserService;
+import com.kxw.hopesfire.biz.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

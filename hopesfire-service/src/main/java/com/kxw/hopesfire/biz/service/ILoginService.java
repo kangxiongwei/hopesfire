@@ -1,6 +1,6 @@
-package com.kxw.hopesfire.service;
+package com.kxw.hopesfire.biz.service;
 
-import com.kxw.hopesfire.model.UserModel;
+import com.kxw.hopesfire.biz.model.UserModel;
 
 /**
  * 登录注册接口

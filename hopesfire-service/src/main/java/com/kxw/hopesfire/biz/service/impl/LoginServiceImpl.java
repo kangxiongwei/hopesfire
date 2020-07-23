@@ -1,14 +1,14 @@
-package com.kxw.hopesfire.service.impl;
+package com.kxw.hopesfire.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.kxw.hopesfire.convert.UserConvert;
+import com.kxw.hopesfire.biz.convert.UserConvert;
 import com.kxw.hopesfire.dao.entity.UserEntity;
 import com.kxw.hopesfire.dao.mapper.UserMapper;
-import com.kxw.hopesfire.exception.ServiceException;
-import com.kxw.hopesfire.exception.ServiceExceptionEnum;
-import com.kxw.hopesfire.model.UserModel;
-import com.kxw.hopesfire.service.ILoginService;
+import com.kxw.hopesfire.biz.exception.ServiceException;
+import com.kxw.hopesfire.biz.exception.ServiceExceptionEnum;
+import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.biz.service.ILoginService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

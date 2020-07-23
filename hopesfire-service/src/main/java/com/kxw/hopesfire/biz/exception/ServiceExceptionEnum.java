@@ -1,4 +1,4 @@
-package com.kxw.hopesfire.exception;
+package com.kxw.hopesfire.biz.exception;
 
 /**
  * 业务异常枚举

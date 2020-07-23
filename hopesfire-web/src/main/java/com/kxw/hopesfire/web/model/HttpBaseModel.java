@@ -1,6 +1,6 @@
-package com.kxw.hopesfire.model;
+package com.kxw.hopesfire.web.model;
 
-import com.kxw.hopesfire.exception.ServiceException;
+import com.kxw.hopesfire.biz.exception.ServiceException;
 import lombok.Data;
 
 /**

@@ -1,4 +1,4 @@
-package com.kxw.hopesfire.config;
+package com.kxw.hopesfire.web.config;
 
 /**
  * 权限框架的相关配置

@@ -1,4 +1,4 @@
-package com.kxw.hopesfire.service;
+package com.kxw.hopesfire.web.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

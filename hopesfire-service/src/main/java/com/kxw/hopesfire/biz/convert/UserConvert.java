@@ -1,7 +1,7 @@
-package com.kxw.hopesfire.convert;
+package com.kxw.hopesfire.biz.convert;
 
 import com.kxw.hopesfire.dao.entity.UserEntity;
-import com.kxw.hopesfire.model.UserModel;
+import com.kxw.hopesfire.biz.model.UserModel;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;

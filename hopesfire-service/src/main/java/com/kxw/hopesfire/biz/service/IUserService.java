@@ -1,7 +1,7 @@
-package com.kxw.hopesfire.service;
+package com.kxw.hopesfire.biz.service;
 
 import com.kxw.hopesfire.dao.model.PagerModel;
-import com.kxw.hopesfire.model.UserModel;
+import com.kxw.hopesfire.biz.model.UserModel;
 
 /**
  * 用户管理服务
