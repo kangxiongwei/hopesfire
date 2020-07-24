@@ -13,4 +13,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper extends BaseMapper<UserEntity> {
 
+    /**
+     * 根据昵称获取
+     *
+     * @param nickname
+     * @return
+     */
+    UserEntity getUserByNickname(String nickname);
+
 }
