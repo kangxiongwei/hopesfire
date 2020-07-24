@@ -6,7 +6,9 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.realm.AuthenticatingRealm;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
 
 import javax.annotation.Resource;
 
@@ -16,7 +18,7 @@ import javax.annotation.Resource;
  * @author kangxiongwei
  * @date 2020-07-23 09:15
  */
-public class HopesfireRealm extends AuthenticatingRealm {
+public class HopesfireRealm extends AuthorizingRealm {
 
     @Resource
     private ILoginService loginService;
@@ -30,6 +32,7 @@ public class HopesfireRealm extends AuthenticatingRealm {
      */
     @Override
     public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        System.out.println("====================执行鉴权=====================");
         if (token.getPrincipal() == null) {
             return null;
         }
@@ -42,4 +45,15 @@ public class HopesfireRealm extends AuthenticatingRealm {
         }
     }
 
+    /**
+     * 授权
+     *
+     * @param principals
+     * @return
+     */
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        System.out.println("====================执行授权=====================");
+        return null;
+    }
 }
