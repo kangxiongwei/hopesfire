@@ -1,14 +1,16 @@
 package com.kxw.hopesfire.web.controller;
 
-import com.kxw.hopesfire.biz.exception.ServiceException;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
-import com.kxw.hopesfire.biz.model.UserModel;
-import com.kxw.hopesfire.biz.service.ILoginService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -17,26 +19,50 @@ import javax.servlet.http.HttpSession;
  * @author kangxiongwei
  * @date 2020-07-03 18:17
  */
-@RestController
+@Controller
 public class LoginController {
 
-    @Resource
-    private ILoginService loginService;
+    @RequestMapping({"/", "/index"})
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping("/user/add")
+    public String addUser() {
+        return "user/add";
+    }
+
+    @RequestMapping("/user/update")
+    public String updateUser() {
+        return "user/update";
+    }
+
+    @RequestMapping("/unauth")
+    public String unauth() {
+        return "unauth";
+    }
 
     /**
      * 用户登录
      *
-     * @param user
+     * @param username
+     * @param password
      * @return
      */
     @PostMapping("/login")
-    public HttpBaseModel login(@RequestBody UserModel user, HttpSession session) {
+    public String login(String username, String password) {
         try {
-            UserModel u = loginService.login(user.getUsername(), user.getPassword());
-            session.setAttribute("loginUser", u);
-            return HttpBaseModel.buildSuccess(u);
-        } catch (ServiceException e) {
-            return HttpBaseModel.buildFailed(e);
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            subject.login(token);
+            return "redirect:index";
+        } catch (AccountException e) {
+            return "redirect:unauth";
         }
     }
 
@@ -47,6 +73,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/logout")
+    @ResponseBody
     public HttpBaseModel logout(HttpSession session) {
         session.setAttribute("loginUser", null);
         return HttpBaseModel.buildSuccess(null);

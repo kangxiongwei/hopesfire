@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
-
 /**
  * @author kangxiongwei
  * @date 2020-07-01 16:33
@@ -18,8 +16,9 @@ public class UserEntity extends BaseEntity {
     private String username;
     private String password;
     private String nickname;
+    private String headImg;
     private Integer sex;
-    private Date createTime;
-    private Date updateTime;
+    private String telephone;
+    private String address;
 
 }

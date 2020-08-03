@@ -26,4 +26,5 @@ public interface ILoginService {
      * @return
      */
     UserModel get(String username);
+
 }

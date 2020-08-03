@@ -3,13 +3,14 @@ package com.kxw.hopesfire.biz.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.kxw.hopesfire.biz.convert.UserConvert;
+import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.biz.service.AbstractBaseService;
 import com.kxw.hopesfire.biz.service.IUserService;
 import com.kxw.hopesfire.dao.convert.PageConvert;
-import com.kxw.hopesfire.biz.convert.UserConvert;
 import com.kxw.hopesfire.dao.entity.UserEntity;
 import com.kxw.hopesfire.dao.mapper.UserMapper;
 import com.kxw.hopesfire.dao.model.PagerModel;
-import com.kxw.hopesfire.biz.model.UserModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +25,15 @@ import java.util.List;
  * @date 2020-07-01 16:22
  */
 @Service("userService")
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl extends AbstractBaseService<UserModel, UserEntity> implements IUserService {
 
     @Resource
     private UserMapper userMapper;
+
+    @Override
+    public void setMapper() {
+        this.setBaseMapper(userMapper);
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)

@@ -3,3 +3,9 @@
 *.iml
 *.jar
 *.class
+target/
+hopesfire-web/target/
+hopesfire-basic/target/
+hopesfire-dao/target/
+hopesfire-bi/target/
+hopesfire-service/target

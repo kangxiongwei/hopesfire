@@ -2,10 +2,7 @@ package com.kxw.hopesfire.web.auth;
 
 import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.biz.service.ILoginService;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -24,7 +21,7 @@ public class HopesfireRealm extends AuthorizingRealm {
     private ILoginService loginService;
 
     /**
-     * 鉴权
+     * 进行用户认证
      *
      * @param token
      * @return
@@ -32,21 +29,23 @@ public class HopesfireRealm extends AuthorizingRealm {
      */
     @Override
     public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("====================执行鉴权=====================");
-        if (token.getPrincipal() == null) {
-            return null;
+        if (token == null || token.getPrincipal() == null) {
+            throw new UnknownAccountException("签名不存在！");
         }
         String username = token.getPrincipal().toString();
-        try {
-            UserModel user = loginService.get(username);
-            return new SimpleAuthenticationInfo(username, user.getPassword(), getName());
-        } catch (Exception e) {
-            return null;
+        UserModel user = loginService.get(username);
+        if (user == null) {
+            throw new UnknownAccountException("用户名不存在！");
         }
+        String credentials = new String((char[]) token.getCredentials());
+        if (!user.getPassword().equals(credentials)) {
+            throw new UnknownAccountException("密码不正确！");
+        }
+        return new SimpleAuthenticationInfo(username, user.getPassword(), getName());
     }
 
     /**
-     * 授权
+     * 进行用户授权
      *
      * @param principals
      * @return
@@ -54,6 +53,9 @@ public class HopesfireRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("====================执行授权=====================");
+
+
+
         return null;
     }
 }

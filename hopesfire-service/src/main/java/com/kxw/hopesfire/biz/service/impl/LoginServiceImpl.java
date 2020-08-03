@@ -31,14 +31,10 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public UserModel get(String username) {
-        Map<String, Object> columns = new HashMap<>();
+        Map<String, Object> columns = new HashMap<>(2);
         columns.put("username", username);
         List<UserEntity> entities = userMapper.selectByMap(columns);
-        if (CollectionUtils.isEmpty(entities)) {
-            throw ServiceException.build(LOGIN_USER_NOT_EXIST);
-        }
-        UserEntity entity = entities.get(0);
-        return UserConvert.convertModel(entity);
+        return CollectionUtils.isEmpty(entities) ? null : UserConvert.convertModel(entities.get(0));
     }
 
     @Override
