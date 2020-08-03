@@ -18,6 +18,14 @@ const routers = [
         component: (resolve) => require(['./views/login/login.vue'], resolve)
     },
     {
+        path: '/register',
+        name: 'register',
+        meta: {
+            title: '注册'
+        },
+        component: (resolve) => require(['./views/login/register.vue'], resolve)
+    },
+    {
         path: '/ctl',
         meta: {
             title: '首页'

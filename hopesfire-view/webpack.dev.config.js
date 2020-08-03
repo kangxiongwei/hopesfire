@@ -49,6 +49,11 @@ module.exports = merge(webpackBaseConfig, {
                 pathRewrite: {'^/login' : '/login'},
                 changeOrigin: true
             },
+            '/register': {
+                target: 'http://localhost:80',
+                pathRewrite: {'^/register' : '/register'},
+                changeOrigin: true
+            },
             '/logout': {
                 target: 'http://localhost:80',
                 pathRewrite: {'^/logout' : '/logout'},

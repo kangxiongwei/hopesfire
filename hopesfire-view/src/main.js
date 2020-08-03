@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
     Util.title(to.meta.title);
     let token = getToken();
     if (!token || token === '') {
-        if (to.name === 'login' || to.name === 'index') {
+        if (to.name === 'login' || to.name === 'register' || to.name === 'index') {
             next();
         } else {
             next({name: 'login'});

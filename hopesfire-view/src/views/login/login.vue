@@ -27,6 +27,7 @@
                         </FormItem>
                     </Form>
                     <p class="login-tip">{{loginErrorMsg}}</p>
+                    <p class="register-tip">如果您还没有账号，请先<a @click="handleRegister">注册</a></p>
                 </div>
             </Card>
         </div>
@@ -61,6 +62,9 @@
                         this.loginErrorMsg = res.data.message;
                     }
                 });
+            },
+            handleRegister() {
+                this.$router.push({path: "/register"})
             }
         }
     }
