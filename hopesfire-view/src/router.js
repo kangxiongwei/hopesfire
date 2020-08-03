@@ -15,7 +15,7 @@ const routers = [
         meta: {
             title: '登录'
         },
-        component: (resolve) => require(['./views/ctl/login/login.vue'], resolve)
+        component: (resolve) => require(['./views/login/login.vue'], resolve)
     },
     {
         path: '/ctl',

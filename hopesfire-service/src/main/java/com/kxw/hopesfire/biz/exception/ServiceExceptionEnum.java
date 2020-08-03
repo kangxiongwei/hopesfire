@@ -8,8 +8,8 @@ package com.kxw.hopesfire.biz.exception;
  */
 public enum ServiceExceptionEnum {
 
-    LOGIN_USER_NOT_EXIST(551, "用户不存在！"),
-    LOGIN_PASSWORD_ERROR(552, "用户密码错误！");
+    LOGIN_ERROR(403, "登录失败！"),
+    AUTH_ERROR(405, "授权失败！");
 
     private int code;
     private String msg;

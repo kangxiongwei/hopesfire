@@ -30,16 +30,16 @@ public class HopesfireRealm extends AuthorizingRealm {
     @Override
     public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         if (token == null || token.getPrincipal() == null) {
-            throw new UnknownAccountException("签名不存在！");
+            throw new UnknownAccountException("签名不正确");
         }
         String username = token.getPrincipal().toString();
         UserModel user = loginService.get(username);
         if (user == null) {
-            throw new UnknownAccountException("用户名不存在！");
+            throw new UnknownAccountException("用户名不正确");
         }
         String credentials = new String((char[]) token.getCredentials());
         if (!user.getPassword().equals(credentials)) {
-            throw new UnknownAccountException("密码不正确！");
+            throw new UnknownAccountException("密码不正确");
         }
         return new SimpleAuthenticationInfo(username, user.getPassword(), getName());
     }
