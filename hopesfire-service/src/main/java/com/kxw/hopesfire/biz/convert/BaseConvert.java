@@ -1,14 +1,20 @@
 package com.kxw.hopesfire.biz.convert;
 
+import com.kxw.hopesfire.biz.exception.ServiceException;
+import com.kxw.hopesfire.biz.exception.ServiceExceptionEnum;
 import com.kxw.hopesfire.biz.model.RoleModel;
 import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.dao.entity.BaseEntity;
 import com.kxw.hopesfire.dao.entity.RoleEntity;
 import com.kxw.hopesfire.dao.entity.UserEntity;
 import com.kxw.hopesfire.dao.model.BaseModel;
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,6 +71,38 @@ public class BaseConvert {
         BaseEntity entity = createEntity(model);
         copyProperties(model, entity);
         return entity;
+    }
+
+    public static <M, E> E convertEntity(M model, E entity) {
+        BeanUtils.copyProperties(model, entity);
+        return entity;
+    }
+
+    public static <M, E> M convertModel(M model, E entity) {
+        BeanUtils.copyProperties(entity, model);
+        return model;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <M, E> List<M> convertEntities(M model, List<E> entities) {
+        if (CollectionUtils.isEmpty(entities)) {
+            return new ArrayList<>();
+        }
+        List<M> list = new ArrayList<>();
+        Class<?> clazz = model.getClass();
+        for (E entity : entities) {
+            M m = (M) createModel(clazz);
+            list.add(convertModel(m, entity));
+        }
+        return list;
+    }
+
+    private static Object createModel(Class<?> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (Exception e) {
+            throw ServiceException.build(ServiceExceptionEnum.REFLECT_ERROR);
+        }
     }
 
     private static void copyProperties(Object source, Object target) {

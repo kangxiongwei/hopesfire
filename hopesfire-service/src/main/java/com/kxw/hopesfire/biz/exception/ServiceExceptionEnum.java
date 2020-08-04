@@ -9,7 +9,8 @@ package com.kxw.hopesfire.biz.exception;
 public enum ServiceExceptionEnum {
 
     LOGIN_ERROR(403, "登录失败！"),
-    AUTH_ERROR(405, "授权失败！");
+    AUTH_ERROR(405, "授权失败！"),
+    REFLECT_ERROR(505, "反射异常！");
 
     private int code;
     private String msg;
