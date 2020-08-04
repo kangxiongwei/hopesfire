@@ -30,6 +30,9 @@ public class UserConvert {
         model.setPassword(user.getPassword());
         model.setNickname(user.getNickname());
         model.setSex(user.getSex());
+        model.setHeadImg(user.getHeadImg());
+        model.setTelephone(user.getTelephone());
+        model.setAddress(user.getAddress());
         return model;
     }
 
@@ -62,6 +65,9 @@ public class UserConvert {
         entity.setPassword(user.getPassword());
         entity.setNickname(user.getNickname());
         entity.setSex(user.getSex());
+        entity.setHeadImg(user.getHeadImg());
+        entity.setTelephone(user.getTelephone());
+        entity.setAddress(user.getAddress());
         return entity;
     }
 

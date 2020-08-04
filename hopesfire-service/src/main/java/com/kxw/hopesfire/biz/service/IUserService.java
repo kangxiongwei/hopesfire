@@ -41,5 +41,4 @@ public interface IUserService {
      */
     PagerModel find(UserModel user);
 
-    void update(UserModel user);
 }

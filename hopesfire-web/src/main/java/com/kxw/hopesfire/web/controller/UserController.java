@@ -64,7 +64,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/find")
-    public HttpBaseModel listUsers(@RequestBody UserModel user) {
+    public HttpBaseModel findUsers(@RequestBody UserModel user) {
         PagerModel pager = this.userService.find(user);
         return HttpBaseModel.buildSuccess(pager);
     }
