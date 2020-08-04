@@ -1,4 +1,4 @@
-<style scoped>
+<style scoped lang="less">
     @import "../../styles/home.less";
 </style>
 <template>
@@ -16,18 +16,21 @@
             </Header>
             <Layout id="ctl_main">
                 <Sider ref="nav" collapsible :collapsed-width="78" v-model="isCollapsed" hide-trigger>
-                    <Menu style="height: 100%" active-name="数据大盘" width="auto">
+                    <Menu style="height: 100%" width="auto" accordion :open-names="['系统首页']" :class="this.navBarClass">
+                        <div id="ctl_nav_bar" @click="collapsedSider">
+                            <Icon :type="navBarType" size="20"/>
+                        </div>
                         <Submenu name="系统首页">
                             <template slot="title">
                                 <Icon type="ios-menu"/>
-                                系统首页
+                                <span>系统首页</span>
                             </template>
                             <MenuItem name="数据大盘" to="/ctl/root/dashboard">数据大盘</MenuItem>
                         </Submenu>
                         <Submenu name="权限控制">
                             <template slot="title">
                                 <Icon type="ios-settings"/>
-                                权限控制
+                                <span>权限控制</span>
                             </template>
                             <MenuItem name="2-1" to="/ctl/auth/user">用户管理</MenuItem>
                             <MenuItem name="2-2" to="/ctl/auth/role">角色管理</MenuItem>
@@ -39,7 +42,7 @@
                     <Breadcrumb id="ctl_breadcrumb">
                         <BreadcrumbItem v-for="path in currentPath" :key="path">{{ path }}</BreadcrumbItem>
                     </Breadcrumb>
-                    <Card id="ctl_card" dis-hover padding="0" style="padding-left: 5px">
+                    <Card id="ctl_card" dis-hover :padding="0" style="padding-left: 5px">
                         <router-view></router-view>
                     </Card>
                 </Content>
@@ -55,7 +58,9 @@
         data() {
             return {
                 isCollapsed: false,
-                currentPath: []
+                currentPath: [],
+                navBarType: 'ios-arrow-back',
+                navBarClass: 'nav-bar-open'
             }
         },
         methods: {
@@ -67,6 +72,16 @@
             },
             goToIndexPage() {
                 this.$router.push({name: "index"});
+            },
+            collapsedSider() {
+                /*if (this.isCollapsed) {
+                    this.navBarType = 'ios-arrow-back'
+                    this.navBarClass = 'nav-bar-open'
+                } else {
+                    this.navBarType = 'ios-arrow-forward'
+                    this.navBarClass = 'nav-bar-close'
+                }*/
+                //this.$refs['nav'].toggleCollapse();
             }
         },
         watch: {
