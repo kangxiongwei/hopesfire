@@ -1,7 +1,9 @@
 package com.kxw.hopesfire.biz.service;
 
-import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.dao.model.PagerModel;
+
+import java.util.List;
 
 /**
  * 用户管理服务
@@ -40,5 +42,13 @@ public interface IUserService {
      * @return
      */
     PagerModel find(UserModel user);
+
+    /**
+     * 给用户添加多个角色
+     *
+     * @param userId
+     * @param roleIds
+     */
+    void addUserRoles(Long userId, List<Long> roleIds);
 
 }

@@ -8,11 +8,15 @@ import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.biz.service.IUserService;
 import com.kxw.hopesfire.dao.convert.PageConvert;
 import com.kxw.hopesfire.dao.entity.UserEntity;
+import com.kxw.hopesfire.dao.entity.UserRoleEntity;
 import com.kxw.hopesfire.dao.mapper.UserMapper;
+import com.kxw.hopesfire.dao.mapper.UserRoleMapper;
 import com.kxw.hopesfire.dao.model.PagerModel;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +30,8 @@ public class UserServiceImpl implements IUserService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public void save(UserModel user) {
@@ -57,4 +63,24 @@ public class UserServiceImpl implements IUserService {
         return PageConvert.convertToModel(entities, records);
     }
 
+    /**
+     * 给用户添加多个角色
+     *
+     * @param userId
+     * @param roleIds
+     */
+    @Override
+    public void addUserRoles(Long userId, List<Long> roleIds) {
+        if (CollectionUtils.isEmpty(roleIds) || userId == null) {
+            return;
+        }
+        List<UserRoleEntity> entities = new ArrayList<>(roleIds.size());
+        for (Long roleId: roleIds) {
+            UserRoleEntity entity = new UserRoleEntity();
+            entity.setUserId(userId);
+            entity.setRoleId(roleId);
+            entities.add(entity);
+        }
+        this.userRoleMapper.batchInsert(entities);
+    }
 }
