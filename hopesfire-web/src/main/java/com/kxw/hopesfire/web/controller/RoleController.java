@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 角色控制接口
@@ -65,10 +66,22 @@ public class RoleController {
      * @return
      */
     @PostMapping("/role/find")
-    public HttpBaseModel findUsers(@RequestBody RoleModel role) {
+    public HttpBaseModel findRoles(@RequestBody RoleModel role) {
         role.setName(StringUtils.isBlank(role.getName()) ? null : role.getName());
         PagerModel pager = this.roleService.find(role);
         return HttpBaseModel.buildSuccess(pager);
+    }
+
+    /**
+     * 查询所有角色，不分页
+     *
+     * @param role
+     * @return
+     */
+    @PostMapping("/role/list")
+    public HttpBaseModel listRoles(@RequestBody RoleModel role) {
+        List<RoleModel> list = this.roleService.list(role);
+        return HttpBaseModel.buildSuccess(list);
     }
 
 }

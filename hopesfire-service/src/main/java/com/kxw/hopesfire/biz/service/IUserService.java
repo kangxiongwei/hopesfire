@@ -1,5 +1,6 @@
 package com.kxw.hopesfire.biz.service;
 
+import com.kxw.hopesfire.biz.model.RoleModel;
 import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.dao.model.PagerModel;
 
@@ -50,5 +51,36 @@ public interface IUserService {
      * @param roleIds
      */
     void addUserRoles(Long userId, List<Long> roleIds);
+
+    /**
+     * 删除用户的多个角色
+     *
+     * @param userId
+     * @param roleIds
+     */
+    void deleteUserRoles(Long userId, List<Long> roleIds);
+
+    /**
+     * 根据用户ID删除所有角色
+     *
+     * @param userId
+     */
+    void deleteUserRoles(Long userId);
+
+    /**
+     * 查询某个用户的对应的所有角色
+     *
+     * @param userId
+     * @return
+     */
+    List<RoleModel> listUserRoles(Long userId);
+
+    /**
+     * 查询用户没有的角色列表
+     *
+     * @param userId
+     * @return
+     */
+    List<RoleModel> otherUserRoles(Long userId);
 
 }

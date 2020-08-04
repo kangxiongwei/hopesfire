@@ -22,6 +22,7 @@
             <template slot-scope="{row}" slot="action">
                 <Button type="primary" size="small" @click="beforeSaveRole('update',row)">编辑</Button>
                 <Button type="error" size="small" @click="deleteRole(row)">删除</Button>
+                <Button type="success" size="small" @click="">群组</Button>
             </template>
         </Table>
         <template>
@@ -77,7 +78,8 @@
                         title: '操作',
                         slot: 'action',
                         fixed: 'right',
-                        width: 150
+                        width: 220,
+                        align: 'center'
                     }
                 ],
                 roleTable: [],

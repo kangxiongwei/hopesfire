@@ -21,4 +21,12 @@ public interface UserRoleMapper extends BaseMapper<UserRoleEntity> {
      */
     void batchInsert(@Param("list") List<UserRoleEntity> list);
 
+    /**
+     * 批量删除
+     *
+     * @param userId
+     * @param roleIds
+     */
+    void batchDelete(@Param("userId") Long userId, @Param("roleIds") List<Long> roleIds);
+
 }

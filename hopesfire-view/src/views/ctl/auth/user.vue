@@ -9,8 +9,9 @@
         </Row>
         <Table stripe border size="small" :columns="userTableHeader" :data="userTable">
             <template slot-scope="{row}" slot="action">
-                <Button type="primary" size="small" style="margin-right: 5px" @click="updateUser(row)">编辑</Button>
+                <Button type="primary" size="small" @click="updateUser(row)">编辑</Button>
                 <Button type="error" size="small" @click="deleteUser(row)">删除</Button>
+                <Button type="success" size="small" @click="userRole(row, 'row')">角色</Button>
             </template>
         </Table>
         <Drawer title="更新用户" :closable="true" :width="40" v-model="updateUserDrawer">
@@ -46,6 +47,19 @@
                     <Button @click="doReset('userForm')" type="primary">重置</Button>
                 </FormItem>
             </Form>
+        </Drawer>
+        <Drawer title="角色管理" :closable="true" :width="40" v-model="userRoleDrawer" :on-close="resetUserRoles">
+            <Transfer :data="userRoleTable"
+                      :target-keys="targetUserRoleIds"
+                      :titles="['所有角色','已有角色']"
+                      :render-format="formatUserRoles"
+                      :list-style="userRoleTransferStyle"
+                      filterable
+                      @on-change="changeUserRoles">
+            </Transfer>
+            <div style="text-align: center; margin-top: 10px">
+                <Button type="primary" @click="saveUserRoles">保存</Button>
+            </div>
         </Drawer>
     </div>
 </template>
@@ -88,7 +102,7 @@
                     {
                         title: '操作',
                         slot: 'action',
-                        width: 150,
+                        width: 220,
                         align: 'center',
                         fixed: 'right'
                     }
@@ -128,7 +142,16 @@
                             type: 'number'
                         }
                     ]
-                }
+                },
+                userRoleDrawer: false,
+                userRoleTable: [],
+                targetUserRoleIds: [],
+                userRoleTransferStyle: {
+                    height: '500px',
+                    width: '200px',
+                    margin: '0 0 0 5%'
+                },
+                selectUserId: null
             }
         },
         mounted() {
@@ -211,6 +234,82 @@
                     .catch(error => {
                         this.$Message.error('删除用户失败！' + error);
                     })
+            },
+            doGetUserRoles(id) {
+                this.targetUserRoleIds = []
+                this.$get('/ctl/auth/user/role/list/' + id)
+                    .then(res => {
+                        let data = res.data;
+                        if (data != null && data.code === 200) {
+                            let array = data.data;
+                            array.forEach((item, index) => {
+                                this.targetUserRoleIds.push(item.id)
+                            })
+                        }
+                    })
+            },
+            doGetAllRoles() {
+                this.userRoleTable = []
+                this.$post('/ctl/auth/role/list', {})
+                .then(res => {
+                    let data = res.data;
+                    if (data != null && data.code === 200) {
+                        let array = data.data;
+                        array.forEach((item,index) => {
+                            this.userRoleTable.push({
+                                key: item.id,
+                                label: item.name
+                            })
+                        })
+                    }
+                })
+            },
+            userRole(row, type) {
+                this.userRoleDrawer = true;
+                if (type === 'id') {
+                    this.selectUserId = row;
+                } else {
+                    this.selectUserId = row.id;
+                }
+                this.doGetAllRoles();
+                this.doGetUserRoles(this.selectUserId);
+            },
+            changeUserRoles(newTargetKeys, direction, moveKeys) {
+                this.targetUserRoleIds = newTargetKeys;
+            },
+            formatUserRoles(item) {
+                return item.label
+            },
+            changeSelectedRoles(selection) {
+                this.selectUserRoleIds = []
+                for (let row in selection) {
+                    let data = this.userRoleTable[row];
+                    this.selectUserRoleIds.push(data.id);
+                }
+            },
+            deleteUserRoles() {
+                this.$post('ctl/auth/user/role/delete', {
+                    userId: this.selectUserId,
+                    roleIds: this.selectUserRoleIds
+                }).then(res => {
+                    if (res != null && res.data.code === 200) {
+                        this.userRole(this.selectUserId, 'id');
+                    }
+                })
+            },
+            saveUserRoles() {
+                this.$post('ctl/auth/user/role/save', {
+                    userId: this.selectUserId,
+                    roleIds: this.targetUserRoleIds
+                }).then(res => {
+                    if (res != null && res.data.code === 200) {
+                        this.userRole(this.selectUserId, 'id');
+                    }
+                })
+            },
+            resetUserRoles() {
+                this.selectUserId = null;
+                this.targetUserRoleIds = []
             }
         }
     }

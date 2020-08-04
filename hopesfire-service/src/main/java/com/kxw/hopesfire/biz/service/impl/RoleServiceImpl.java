@@ -76,4 +76,18 @@ public class RoleServiceImpl implements IRoleService {
         List<RoleModel> records = BaseConvert.convertEntities(new RoleModel(), entities.getRecords());
         return PageConvert.convertToModel(entities, records);
     }
+
+    /**
+     * 查询角色
+     *
+     * @param role
+     * @return
+     */
+    @Override
+    public List<RoleModel> list(RoleModel role) {
+        Wrapper<RoleEntity> wrapper = new QueryWrapper<>(BaseConvert.convertEntity(role, new RoleEntity()));
+        List<RoleEntity> entities = this.roleMapper.selectList(wrapper);
+        return BaseConvert.convertEntities(new RoleModel(), entities);
+    }
+
 }
