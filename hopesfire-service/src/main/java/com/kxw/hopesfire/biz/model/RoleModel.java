@@ -16,7 +16,5 @@ public class RoleModel extends BaseModel {
 
     private String name;
     private String remark;
-    private String createTime;
-    private String updateTime;
 
 }

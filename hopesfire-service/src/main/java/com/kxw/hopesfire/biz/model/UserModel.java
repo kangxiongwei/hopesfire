@@ -23,8 +23,6 @@ public class UserModel extends BaseModel {
     private Integer sex;
     private String telephone;
     private String address;
-    private String createTime;
-    private String updateTime;
     private List<RoleModel> roles;
 
 }

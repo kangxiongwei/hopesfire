@@ -12,5 +12,7 @@ import lombok.EqualsAndHashCode;
 public class BaseModel extends PagerModel {
 
     private Long id;
+    private String createTime;
+    private String updateTime;
 
 }

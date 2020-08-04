@@ -1,5 +1,6 @@
 package com.kxw.hopesfire.biz.convert;
 
+import com.kxw.hopesfire.basic.util.DateUtil;
 import com.kxw.hopesfire.biz.exception.ServiceException;
 import com.kxw.hopesfire.biz.exception.ServiceExceptionEnum;
 import com.kxw.hopesfire.biz.model.RoleModel;
@@ -12,10 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 拷贝属性
@@ -80,6 +78,12 @@ public class BaseConvert {
 
     public static <M, E> M convertModel(M model, E entity) {
         BeanUtils.copyProperties(entity, model);
+        if (model instanceof BaseModel && entity instanceof BaseEntity) {
+            BaseEntity e = (BaseEntity) entity;
+            BaseModel m = (BaseModel) model;
+            m.setCreateTime(DateUtil.formatDateTime(e.getCreateTime()));
+            m.setUpdateTime(DateUtil.formatDateTime(e.getUpdateTime()));
+        }
         return model;
     }
 

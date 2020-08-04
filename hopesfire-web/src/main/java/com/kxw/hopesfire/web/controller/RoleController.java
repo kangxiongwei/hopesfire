@@ -4,6 +4,7 @@ import com.kxw.hopesfire.biz.model.RoleModel;
 import com.kxw.hopesfire.biz.service.IRoleService;
 import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -65,6 +66,7 @@ public class RoleController {
      */
     @PostMapping("/role/find")
     public HttpBaseModel findUsers(@RequestBody RoleModel role) {
+        role.setName(StringUtils.isBlank(role.getName()) ? null : role.getName());
         PagerModel pager = this.roleService.find(role);
         return HttpBaseModel.buildSuccess(pager);
     }

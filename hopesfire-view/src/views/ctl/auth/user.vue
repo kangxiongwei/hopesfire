@@ -140,10 +140,7 @@
                         }
                     })
                     .catch(error => {
-                        this.$Modal.error({
-                            title: '错误提示',
-                            content: '删除失败，' + error
-                        })
+                        this.$Message.error('查询用户列表失败！')
                     });
             },
             formatSex(row) {

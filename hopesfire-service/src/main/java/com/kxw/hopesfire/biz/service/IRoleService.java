@@ -37,6 +37,7 @@ public interface IRoleService {
      * 查询角色
      *
      * @param pager
+     * @return
      */
     PagerModel find(RoleModel pager);
 
