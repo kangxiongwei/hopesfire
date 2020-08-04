@@ -3,7 +3,11 @@
 </style>
 <template>
     <div class="content">
-        <Table stripe border :columns="userTableHeader" :data="userTable">
+        <Row type="flex" align="middle" style="height: 5px">
+            <Col span="22"></Col>
+            <Col span="2"></Col>
+        </Row>
+        <Table stripe border size="small" :columns="userTableHeader" :data="userTable">
             <template slot-scope="{row}" slot="action">
                 <Button type="primary" size="small" style="margin-right: 5px" @click="updateUser(row)">编辑</Button>
                 <Button type="error" size="small" @click="deleteUser(row)">删除</Button>

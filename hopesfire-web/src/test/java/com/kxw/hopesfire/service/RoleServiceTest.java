@@ -1,7 +1,7 @@
 package com.kxw.hopesfire.service;
 
-import com.kxw.hopesfire.biz.model.UserModel;
-import com.kxw.hopesfire.biz.service.IUserService;
+import com.kxw.hopesfire.biz.model.RoleModel;
+import com.kxw.hopesfire.biz.service.IRoleService;
 import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.web.HopesfireWebApplication;
 import org.junit.Test;
@@ -13,27 +13,21 @@ import javax.annotation.Resource;
 
 /**
  * @author kangxiongwei
- * @date 2020-07-01 17:00
+ * @date 2020/8/4 4:14 下午
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = HopesfireWebApplication.class)
-public class UserServiceTest {
+public class RoleServiceTest {
 
     @Resource
-    private IUserService userService;
+    private IRoleService roleService;
 
     @Test
-    public void test() {
-        UserModel model = this.userService.get(1L);
-        System.out.println(model);
-    }
-
-    @Test
-    public void testFindUsers() {
-        UserModel user = new UserModel();
-        user.setPage(1);
-        user.setPageSize(5);
-        PagerModel pager = this.userService.find(user);
+    public void testFindRoles() {
+        RoleModel role = new RoleModel();
+        role.setPage(1);
+        role.setPageSize(5);
+        PagerModel pager = roleService.find(role);
         System.out.println(pager);
     }
 

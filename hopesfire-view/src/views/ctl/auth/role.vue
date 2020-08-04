@@ -3,9 +3,9 @@
 </style>
 <template>
     <div class="content">
-        <Row>
+        <Row type="flex" align="middle">
             <Col span="22">
-                <Form size="small" :label-width="70" inline>
+                <Form :label-width="70" inline style="height: 34px; line-height: 34px">
                     <FormItem label="角色名称">
                         <Input size="small" type="text" v-model="queryRoleForm.name"></Input>
                     </FormItem>
@@ -18,7 +18,7 @@
                 <Button type="primary" size="small" @click="beforeSaveRole('insert', null)">添加角色</Button>
             </Col>
         </Row>
-        <Table stripe border  size="small" :columns="roleTableHeader" :data="roleTable">
+        <Table stripe border size="small" :columns="roleTableHeader" :data="roleTable">
             <template slot-scope="{row}" slot="action">
                 <Button type="primary" size="small" @click="beforeSaveRole('update',row)">编辑</Button>
                 <Button type="error" size="small" @click="deleteRole(row)">删除</Button>
@@ -29,7 +29,7 @@
                   :total="queryRoleForm.total"
                   :page-size="queryRoleForm.pageSize"
                   :current="queryRoleForm.page"
-                  @change="findRoles"
+                  @on-change="changeCurrentPage"
             />
         </template>
         <Drawer :title="saveRoleDrawerTitle" :closable="true" :width="40" v-model="saveRoleDrawer">
@@ -167,6 +167,10 @@
                         this.doDeleteRole(row.id)
                     }
                 })
+            },
+            changeCurrentPage(current) {
+                this.queryRoleForm.page = current;
+                this.findRoles();
             },
             findRoles() {
                 this.$post('/ctl/auth/role/find', {

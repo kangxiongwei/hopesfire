@@ -39,7 +39,7 @@
                     <Breadcrumb id="ctl_breadcrumb">
                         <BreadcrumbItem v-for="path in currentPath" :key="path">{{ path }}</BreadcrumbItem>
                     </Breadcrumb>
-                    <Card id="ctl_card" dis-hover>
+                    <Card id="ctl_card" dis-hover padding="0" style="padding-left: 5px">
                         <router-view></router-view>
                     </Card>
                 </Content>
