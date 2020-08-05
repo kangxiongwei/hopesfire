@@ -36,6 +36,13 @@
                             <MenuItem name="2-2" to="/ctl/auth/role">角色管理</MenuItem>
                             <MenuItem name="2-3" to="/ctl/auth/group">群组管理</MenuItem>
                         </Submenu>
+                        <Submenu name="饮食管理">
+                            <template slot="title">
+                                <Icon type="ios-alarm"/>
+                                <span>饮食管理</span>
+                            </template>
+                            <MenuItem name="3-1" to="/ctl/user/meal">饮食记录</MenuItem>
+                        </Submenu>
                     </Menu>
                 </Sider>
                 <Content id="ctl_content">

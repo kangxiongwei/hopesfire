@@ -41,7 +41,7 @@ public class HopesfireRealm extends AuthorizingRealm {
         if (!user.getPassword().equals(credentials)) {
             throw new UnknownAccountException("密码不正确");
         }
-        return new SimpleAuthenticationInfo(username, user.getPassword(), getName());
+        return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
     }
 
     /**

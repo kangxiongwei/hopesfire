@@ -25,7 +25,7 @@ public class LoginController {
     @Resource
     private IUserService userService;
 
-    /**
+    /**nnn
      * 用户登录
      *
      * @param user

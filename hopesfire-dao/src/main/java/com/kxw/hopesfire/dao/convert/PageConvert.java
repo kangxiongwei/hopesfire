@@ -1,9 +1,11 @@
 package com.kxw.hopesfire.dao.convert;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kxw.hopesfire.dao.model.PagerModel;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,7 +39,14 @@ public class PageConvert {
      * @return
      */
     public static <E> IPage<E> convertPage(PagerModel pager) {
-        return new Page<>(pager.getPage(), pager.getPageSize());
+        Page<E> page = new Page<>(pager.getPage(), pager.getPageSize());
+        String sort = pager.getSort();
+        if (sort != null && !"".equals(sort)) {
+            String order = pager.getOrder();
+            OrderItem item = "desc".equalsIgnoreCase(order) ? OrderItem.desc(sort) : OrderItem.asc(sort);
+            page.setOrders(Arrays.asList(item));
+        }
+        return page;
     }
 
 }

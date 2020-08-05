@@ -32,8 +32,7 @@ public class ShiroConfiguration {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/ctl/auth/**", "authc");
-        chainDefinition.addPathDefinition("/user/**", "authc");
+        chainDefinition.addPathDefinition("/ctl/**", "authc");
         chainDefinition.addPathDefinition("/**", "anon");
         return chainDefinition;
     }

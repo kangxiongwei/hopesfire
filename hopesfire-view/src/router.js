@@ -66,7 +66,19 @@ const routers = [
                         component: (resolve) => require(['./views/ctl/auth/group.vue'], resolve)
                     }
                 ]
-            }
+            },
+            {
+                path: '/ctl/meal',
+                name: '饮食管理',
+                component: MenuComponent,
+                children: [
+                    {
+                        path: '/ctl/user/meal',
+                        name: '饮食记录',
+                        component: (resolve) => require(['./views/ctl/meal/meal'], resolve)
+                    }
+                ]
+            },
         ]
     }
 ];
