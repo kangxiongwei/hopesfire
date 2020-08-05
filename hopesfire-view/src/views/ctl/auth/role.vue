@@ -7,7 +7,7 @@
             <Col span="22">
                 <Form :label-width="70" inline style="height: 34px; line-height: 34px">
                     <FormItem label="角色名称">
-                        <Input size="small" type="text" v-model="queryRoleForm.name"></Input>
+                        <Input size="small" type="text" v-model="roleQueryForm.name"></Input>
                     </FormItem>
                     <FormItem :label-width="0" style="text-align: center">
                         <Button @click="findRoles()" type="primary" size="small" icon="ios-search">查询</Button>
@@ -27,9 +27,9 @@
         </Table>
         <template>
             <Page style="margin-top: 5px" size="small" show-total show-elevator
-                  :total="queryRoleForm.total"
-                  :page-size="queryRoleForm.pageSize"
-                  :current="queryRoleForm.page"
+                  :total="roleQueryForm.total"
+                  :page-size="roleQueryForm.pageSize"
+                  :current="roleQueryForm.page"
                   @on-change="changeCurrentPage"
             />
         </template>
@@ -50,6 +50,9 @@
     </div>
 </template>
 <script>
+
+    import role from '../../../api/role'
+
     export default {
         data() {
             return {
@@ -99,7 +102,7 @@
                         }
                     ]
                 },
-                queryRoleForm: {
+                roleQueryForm: {
                     name: null,
                     pageSize: 10,
                     page: 1,
@@ -111,36 +114,21 @@
             this.findRoles();
         },
         methods: {
-            doSaveRole() {
-                this.$post('/ctl/auth/role/save', {
-                    id: this.roleForm.id,
-                    name: this.roleForm.name,
-                    remark: this.roleForm.remark
-                }).then(response => {
-                    if (response != null && response.data.code === 200) {
-                        this.findRoles();
-                        this.resetRole('roleForm');
-                    } else {
-                        this.$Message.error("保存角色失败！")
-                    }
-                })
-            },
-            doDeleteRole(id) {
-                this.$get('/ctl/auth/role/delete/' + id)
-                    .then(response => {
-                        if (response != null && response.data.code === 200) {
-                            this.findRoles();
-                        } else {
-                            this.$Message.error("删除角色失败！")
-                        }
-                    })
-            },
             saveRole(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.doSaveRole();
-                        this.saveRoleDrawer = false;
-                        this.saveRoleDrawerTitle = '';
+                        role.doSaveRole(this, {
+                            id: this.roleForm.id,
+                            name: this.roleForm.name,
+                            remark: this.roleForm.remark
+                        }).then(res => {
+                            if (res) {
+                                this.saveRoleDrawer = false;
+                                this.saveRoleDrawerTitle = '';
+                                this.findRoles();
+                                this.resetRole('roleForm');
+                            }
+                        });
                     } else {
                         this.$Message.error("您输入的参数有误，请检查后重新输入！")
                     }
@@ -150,6 +138,7 @@
                 this.saveRoleDrawer = true;
                 if (action === 'insert') {
                     this.saveRoleDrawerTitle = '添加角色';
+                    this.roleForm.id = null;
                 } else {
                     this.saveRoleDrawerTitle = '更新角色';
                     this.roleForm.id = row.id;
@@ -166,27 +155,28 @@
                     content: '您确认要删除该条记录吗？',
                     closable: true,
                     onOk: () => {
-                        this.doDeleteRole(row.id)
+                        role.doDeleteRole(this, row.id).then(res => {
+                            if (res) {
+                                this.findRoles();
+                            }
+                        })
                     }
                 })
             },
             changeCurrentPage(current) {
-                this.queryRoleForm.page = current;
+                this.roleQueryForm.page = current;
                 this.findRoles();
             },
             findRoles() {
-                this.$post('/ctl/auth/role/find', {
-                    page: this.queryRoleForm.page,
-                    pageSize: this.queryRoleForm.pageSize,
-                    name: this.queryRoleForm.name
+                role.doFindRoles(this, {
+                    page: this.roleQueryForm.page,
+                    pageSize: this.roleQueryForm.pageSize,
+                    name: this.roleQueryForm.name
                 }).then(response => {
-                    let data = response.data;
-                    if (data.code === 200) {
-                        this.roleTable = data.data.records;
-                        this.queryRoleForm.total = data.data.total;
+                    if (response != null) {
+                        this.roleTable = response.records;
+                        this.roleQueryForm.total = response.total;
                     }
-                }).catch(() => {
-                    this.$Message.error("查询角色列表失败！");
                 })
             }
         }
