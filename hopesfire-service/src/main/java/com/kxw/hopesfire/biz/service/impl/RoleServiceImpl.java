@@ -1,7 +1,6 @@
 package com.kxw.hopesfire.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.model.RoleModel;
@@ -48,7 +47,7 @@ public class RoleServiceImpl implements IRoleService {
      * @param id
      */
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         this.roleMapper.deleteById(id);
     }
 
@@ -59,7 +58,7 @@ public class RoleServiceImpl implements IRoleService {
      * @return
      */
     @Override
-    public RoleModel get(Integer id) {
+    public RoleModel get(Long id) {
         RoleEntity entity = this.roleMapper.selectById(id);
         return entity == null ? null : BaseConvert.convertModel(new RoleModel(), entity);
     }
@@ -71,10 +70,9 @@ public class RoleServiceImpl implements IRoleService {
      */
     @Override
     public PagerModel find(RoleModel role) {
-        Wrapper<RoleEntity> wrapper = new QueryWrapper<>(BaseConvert.convertEntity(role, new RoleEntity()));
+        Wrapper<RoleEntity> wrapper = BaseConvert.convertWrapper(role, new RoleEntity());
         IPage<RoleEntity> entities = this.roleMapper.selectPage(PageConvert.convertPage(role), wrapper);
-        List<RoleModel> records = BaseConvert.convertEntities(new RoleModel(), entities.getRecords());
-        return PageConvert.convertToModel(entities, records);
+        return BaseConvert.convertPageModel(new RoleModel(), entities);
     }
 
     /**
@@ -85,9 +83,9 @@ public class RoleServiceImpl implements IRoleService {
      */
     @Override
     public List<RoleModel> list(RoleModel role) {
-        Wrapper<RoleEntity> wrapper = new QueryWrapper<>(BaseConvert.convertEntity(role, new RoleEntity()));
+        Wrapper<RoleEntity> wrapper = BaseConvert.convertWrapper(role, new RoleEntity());
         List<RoleEntity> entities = this.roleMapper.selectList(wrapper);
-        return BaseConvert.convertEntities(new RoleModel(), entities);
+        return BaseConvert.convertModels(new RoleModel(), entities);
     }
 
 }

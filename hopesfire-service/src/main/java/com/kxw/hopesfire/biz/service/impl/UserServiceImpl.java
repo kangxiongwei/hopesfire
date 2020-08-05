@@ -63,6 +63,17 @@ public class UserServiceImpl implements IUserService {
         return UserConvert.convertModel(entity);
     }
 
+    /**
+     * 带条件查询结果
+     *
+     * @param model
+     * @return
+     */
+    @Override
+    public List<UserModel> list(UserModel model) {
+        return null;
+    }
+
     @Override
     public PagerModel find(UserModel user) {
         Wrapper<UserEntity> wrapper = new QueryWrapper<>(UserConvert.convertEntity(user));
@@ -147,7 +158,7 @@ public class UserServiceImpl implements IUserService {
             return new ArrayList<>();
         }
         List<RoleEntity> roles = this.roleMapper.selectBatchIds(roleIds);
-        return BaseConvert.convertEntities(new RoleModel(), roles);
+        return BaseConvert.convertModels(new RoleModel(), roles);
     }
 
     /**
@@ -163,7 +174,7 @@ public class UserServiceImpl implements IUserService {
             return new ArrayList<>();
         }
         List<RoleEntity> roles = this.roleMapper.otherRoles(roleIds);
-        return BaseConvert.convertEntities(new RoleModel(), roles);
+        return BaseConvert.convertModels(new RoleModel(), roles);
     }
 
 }
