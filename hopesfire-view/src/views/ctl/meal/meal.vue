@@ -35,7 +35,7 @@
                   @on-change="changeCurrentPage"
             />
         </template>
-        <Drawer :title="saveMealDrawerTitle" :closable="true" :width="40" v-model="saveMealDrawer">
+        <Drawer :title="saveMealDrawerTitle" :closable="true" :width="40" v-model="saveMealDrawer" @on-close="resetMealDrawer">
             <Form ref="mealForm" :model="mealForm" :label-width="80" label-position="right">
                 <FormItem label="类型" prop="mealType">
                     <RadioGroup v-model="mealForm.mealType">
@@ -174,8 +174,7 @@
                     mealName: meals
                 }).then(() => {
                     this.saveMealDrawer = false;
-                    this.mealTags = [];
-                    this.resetMeal(name);
+                    this.resetMealDrawer();
                     this.findMeals();
                 })
             },
@@ -207,9 +206,14 @@
             },
             resetMeal(name) {
                 this.$refs[name].resetFields();
+                this.mealTags = []
             },
             resetQueryMeal() {
                 this.mealQueryForm.mealType = null;
+            },
+            resetMealDrawer() {
+                this.resetMeal('mealForm');
+                this.mealTags = []
             },
             addMealTag(event) {
                 if (this.mealForm.mealName === null || this.mealForm.mealName === '') {
