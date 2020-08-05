@@ -1,5 +1,7 @@
 package com.kxw.hopesfire.web.controller;
 
+import com.kxw.hopesfire.biz.model.GroupModel;
+import com.kxw.hopesfire.biz.model.RoleGroupModel;
 import com.kxw.hopesfire.biz.model.RoleModel;
 import com.kxw.hopesfire.biz.service.IRoleService;
 import com.kxw.hopesfire.dao.model.PagerModel;
@@ -42,7 +44,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("/role/delete/{id}")
-    public HttpBaseModel deleteUser(@PathVariable Integer id) {
+    public HttpBaseModel deleteUser(@PathVariable Long id) {
         this.roleService.delete(id);
         return HttpBaseModel.buildSuccess(id);
     }
@@ -54,7 +56,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("/role/get/{id}")
-    public HttpBaseModel getUser(@PathVariable Integer id) {
+    public HttpBaseModel getUser(@PathVariable Long id) {
         RoleModel role = roleService.get(id);
         return HttpBaseModel.buildSuccess(role);
     }
@@ -82,6 +84,18 @@ public class RoleController {
     public HttpBaseModel listRoles(@RequestBody RoleModel role) {
         List<RoleModel> list = this.roleService.list(role);
         return HttpBaseModel.buildSuccess(list);
+    }
+
+    @PostMapping("/role/group/save")
+    public HttpBaseModel saveRoleGroups(@RequestBody RoleGroupModel roleGroup) {
+        this.roleService.addRoleGroups(roleGroup);
+        return HttpBaseModel.buildSuccess(roleGroup.getRoleId());
+    }
+
+    @GetMapping("/role/group/list/{id}")
+    public HttpBaseModel listRoleGroups(@PathVariable Long id) {
+        List<GroupModel> groups = this.roleService.listRoleGroups(id);
+        return HttpBaseModel.buildSuccess(groups);
     }
 
 }

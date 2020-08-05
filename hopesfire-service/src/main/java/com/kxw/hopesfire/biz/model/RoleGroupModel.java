@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class RoleGroupModel {
 
-    private Long groupId;
-    private List<Long> roleIds;
+    private Long roleId;
+    private List<Long> groupIds;
 
 }

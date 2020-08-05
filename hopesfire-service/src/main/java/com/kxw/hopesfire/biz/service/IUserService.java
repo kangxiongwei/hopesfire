@@ -44,12 +44,4 @@ public interface IUserService extends IBaseService<UserModel> {
      */
     List<RoleModel> listUserRoles(Long userId);
 
-    /**
-     * 查询用户没有的角色列表
-     *
-     * @param userId
-     * @return
-     */
-    List<RoleModel> otherUserRoles(Long userId);
-
 }

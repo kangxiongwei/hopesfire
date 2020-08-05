@@ -1,8 +1,11 @@
 package com.kxw.hopesfire.biz.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.model.GroupModel;
 import com.kxw.hopesfire.biz.service.IGroupService;
+import com.kxw.hopesfire.dao.convert.PageConvert;
 import com.kxw.hopesfire.dao.entity.GroupEntity;
 import com.kxw.hopesfire.dao.mapper.GroupMapper;
 import com.kxw.hopesfire.dao.model.PagerModel;
@@ -68,7 +71,9 @@ public class GroupServiceImpl implements IGroupService {
      */
     @Override
     public PagerModel find(GroupModel group) {
-        return null;
+        Wrapper<GroupEntity> wrapper = BaseConvert.convertWrapper(group, new GroupEntity());
+        IPage<GroupEntity> page = this.groupMapper.selectPage(PageConvert.convertPage(group), wrapper);
+        return BaseConvert.convertPageModel(new GroupModel(), page);
     }
 
     /**
@@ -79,6 +84,8 @@ public class GroupServiceImpl implements IGroupService {
      */
     @Override
     public List<GroupModel> list(GroupModel group) {
-        return null;
+        Wrapper<GroupEntity> wrapper = BaseConvert.convertWrapper(group, new GroupEntity());
+        List<GroupEntity> entities = this.groupMapper.selectList(wrapper);
+        return BaseConvert.convertModels(new GroupModel(), entities);
     }
 }

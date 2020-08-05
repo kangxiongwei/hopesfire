@@ -65,12 +65,12 @@ public class BaseConvert {
         return list;
     }
 
-    public static <M, E> PagerModel convertPageModel(M model, IPage<E> entities) {
-        if (entities == null) {
+    public static <M, E> PagerModel convertPageModel(M model, IPage<E> page) {
+        if (page == null) {
             return null;
         }
-        List<M> records = convertModels(model, entities.getRecords());
-        return PageConvert.convertToModel(entities, records);
+        List<M> records = convertModels(model, page.getRecords());
+        return PageConvert.convertToModel(page, records);
     }
 
     private static Object createModel(Class<?> clazz) {

@@ -73,30 +73,6 @@ public class UserController {
     }
 
     /**
-     * 查询用户没有的角色
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping("/user/role/other/{id}")
-    public HttpBaseModel otherUserRoles(@PathVariable Long id) {
-        List<RoleModel> roles = this.userService.otherUserRoles(id);
-        return HttpBaseModel.buildSuccess(roles);
-    }
-
-    /**
-     * 根据用户ID删除已有角色列表
-     *
-     * @param userRole
-     * @return
-     */
-    @PostMapping("/user/role/delete")
-    public HttpBaseModel deleteUserRoles(@RequestBody UserRoleModel userRole) {
-        this.userService.deleteUserRoles(userRole.getUserId(), userRole.getRoleIds());
-        return HttpBaseModel.buildSuccess(userRole.getUserId());
-    }
-
-    /**
      * 根据用户ID增加角色列表
      *
      * @param userRole

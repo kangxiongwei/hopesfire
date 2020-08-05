@@ -161,20 +161,4 @@ public class UserServiceImpl implements IUserService {
         return BaseConvert.convertModels(new RoleModel(), roles);
     }
 
-    /**
-     * 查询用户没有的角色列表
-     *
-     * @param userId
-     * @return
-     */
-    @Override
-    public List<RoleModel> otherUserRoles(Long userId) {
-        List<Long> roleIds = this.listUserRoleIds(userId);
-        if (CollectionUtils.isEmpty(roleIds)) {
-            return new ArrayList<>();
-        }
-        List<RoleEntity> roles = this.roleMapper.otherRoles(roleIds);
-        return BaseConvert.convertModels(new RoleModel(), roles);
-    }
-
 }
