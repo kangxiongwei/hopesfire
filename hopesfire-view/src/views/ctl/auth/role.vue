@@ -22,7 +22,7 @@
             <template slot-scope="{row}" slot="action">
                 <Button type="primary" size="small" @click="beforeSaveRole('update',row)">编辑</Button>
                 <Button type="error" size="small" @click="deleteRole(row)">删除</Button>
-                <Button type="success" size="small" @click="">群组</Button>
+                <Button type="success" size="small" @click="roleGroup(row)">群组</Button>
             </template>
         </Table>
         <template>
@@ -47,11 +47,25 @@
                 </FormItem>
             </Form>
         </Drawer>
+        <Drawer title="群组管理" :closable="true" :width="40" v-model="roleGroupDrawer" :on-close="resetRoleGroups">
+            <Transfer filterable
+                      :data="roleGroupTable"
+                      :target-keys="targetRoleGroupIds"
+                      :titles="['所有群组','已有群组']"
+                      :render-format="formatRoleGroups"
+                      :list-style="roleGroupTransferStyle"
+                      @on-change="changeRoleGroups">
+            </Transfer>
+            <div style="text-align: center; margin-top: 10px">
+                <Button type="primary" @click="saveRoleGroups">保存</Button>
+            </div>
+        </Drawer>
     </div>
 </template>
 <script>
 
     import role from '../../../api/role'
+    import group from '../../../api/group'
 
     export default {
         data() {
@@ -107,7 +121,16 @@
                     pageSize: 10,
                     page: 1,
                     total: null
-                }
+                },
+                roleGroupDrawer: false,
+                selectRoleRow: null,
+                targetRoleGroupIds: [],
+                roleGroupTable: [],
+                roleGroupTransferStyle: {
+                    height: '500px',
+                    width: '200px',
+                    margin: '0 0 0 5%'
+                },
             }
         },
         mounted() {
@@ -176,6 +199,55 @@
                     if (response != null) {
                         this.roleTable = response.records;
                         this.roleQueryForm.total = response.total;
+                    }
+                })
+            },
+            doGetAllGroups() {
+                this.roleGroupTable = []
+                group.doListGroups(this, {}).then(res => {
+                    if (res != null) {
+                        res.forEach((item) => {
+                            this.roleGroupTable.push({
+                                key: item.id,
+                                label: item.name
+                            })
+                        })
+                    }
+                })
+            },
+            doGetRoleGroups(roleId) {
+                this.targetRoleGroupIds = []
+                role.doListRoleGroups(this, roleId).then(res => {
+                    if (res != null) {
+                        res.forEach((item) => {
+                            this.targetRoleGroupIds.push(item.id)
+                        })
+                    }
+                });
+            },
+            roleGroup(row) {
+                this.roleGroupDrawer = true;
+                this.selectRoleRow = row;
+                this.doGetAllGroups();
+                this.doGetRoleGroups(row.id);
+            },
+            resetRoleGroups() {
+                this.selectRoleRow = null
+                this.targetRoleGroupIds = []
+            },
+            formatRoleGroups(item) {
+                return item.label
+            },
+            changeRoleGroups(newTargetKeys, direction, moveKeys) {
+                this.targetRoleGroupIds = newTargetKeys;
+            },
+            saveRoleGroups() {
+                role.doSaveRoleGroups(this, {
+                    roleId: this.selectRoleRow.id,
+                    groupIds: this.targetRoleGroupIds
+                }).then(res => {
+                    if (res) {
+                        this.roleGroup(this.selectRoleRow);
                     }
                 })
             }

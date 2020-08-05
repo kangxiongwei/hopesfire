@@ -2,7 +2,9 @@ import {get, post} from '../libs/axios'
 
 const ROLE_SAVE_URL = '/ctl/auth/role/save'
 const ROLE_DELETE_URL = '/ctl/auth/role/delete/'
-const ROLE_FIND_URL = '/ctl/auth/role/find';
+const ROLE_FIND_URL = '/ctl/auth/role/find'
+const ROLE_GROUP_LIST_URL = '/ctl/auth/role/group/list/'
+const ROLE_GROUP_SAVE_URL = '/ctl/auth/role/group/save'
 
 function doSaveRole(vuex, params) {
     return post(ROLE_SAVE_URL, params).then(response => {
@@ -44,4 +46,33 @@ function doFindRoles(vuex, params) {
     })
 }
 
-export default {doSaveRole, doDeleteRole, doFindRoles}
+function doListRoleGroups(vuex, roleId) {
+    return get(ROLE_GROUP_LIST_URL + roleId).then(res => {
+        let data = res.data;
+        if (data.code === 200) {
+            return data.data;
+        } else {
+            vuex.$Message.error("查询角色群组失败！" + data.message);
+            return null;
+        }
+    }).catch(() => {
+        vuex.$Message.error("查询角色群组失败！");
+        return null;
+    })
+}
+
+function doSaveRoleGroups(vuex, params) {
+    return post(ROLE_GROUP_SAVE_URL, params).then(res => {
+        if (res.data.code === 200) {
+            return true;
+        } else {
+            vuex.$Message.error("保存角色群组失败！" + res.data.message);
+            return false;
+        }
+    }).catch(() => {
+        vuex.$Message.error("保存角色群组失败！");
+        return false;
+    })
+}
+
+export default {doSaveRole, doDeleteRole, doFindRoles, doListRoleGroups, doSaveRoleGroups}

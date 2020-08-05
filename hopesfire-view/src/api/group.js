@@ -3,6 +3,7 @@ import {get, post} from '../libs/axios'
 const GROUP_SAVE_URL = '/ctl/auth/group/save'
 const GROUP_DELETE_URL = '/ctl/auth/group/delete/'
 const GROUP_FIND_URL = '/ctl/auth/group/find'
+const GROUP_LIST_URL = '/ctl/auth/group/list'
 
 function doSaveGroup(vuex, params) {
     return post(GROUP_SAVE_URL, params).then(res => {
@@ -47,4 +48,19 @@ function doFindGroups(vuex, params) {
     })
 }
 
-export default {doFindGroups, doSaveGroup, doDeleteGroup};
+function doListGroups(vuex, params) {
+    return post(GROUP_LIST_URL, params).then(res => {
+        let data = res.data;
+        if (data != null && data.code === 200) {
+            return data.data;
+        } else {
+            vuex.$Message.error('查询分组列表失败！' + data.message);
+            return null;
+        }
+    }).catch(() => {
+        vuex.$Message.error('查询群组列表失败！');
+        return null;
+    })
+}
+
+export default {doFindGroups, doSaveGroup, doDeleteGroup, doListGroups};
