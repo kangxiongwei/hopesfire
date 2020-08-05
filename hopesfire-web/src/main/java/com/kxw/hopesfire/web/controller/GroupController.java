@@ -4,6 +4,7 @@ import com.kxw.hopesfire.biz.model.GroupModel;
 import com.kxw.hopesfire.biz.service.IGroupService;
 import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,6 +37,7 @@ public class GroupController {
 
     @PostMapping("/group/find")
     public HttpBaseModel find(@RequestBody GroupModel group) {
+        group.setName(StringUtils.defaultIfBlank(group.getName(), null));
         PagerModel model = this.groupService.find(group);
         return HttpBaseModel.buildSuccess(model);
     }

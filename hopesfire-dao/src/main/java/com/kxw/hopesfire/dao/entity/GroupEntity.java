@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 public class GroupEntity extends BaseEntity {
 
     private String name;
-    private int tenantId;
+    private Long tenantId;
     private String remark;
 
 }
