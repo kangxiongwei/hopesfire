@@ -185,7 +185,7 @@
                         this.roleTable = data.data.records;
                         this.queryRoleForm.total = data.data.total;
                     }
-                }).catch(error => {
+                }).catch(() => {
                     this.$Message.error("查询角色列表失败！");
                 })
             }

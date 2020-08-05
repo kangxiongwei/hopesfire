@@ -24,6 +24,14 @@
                 <Button type="error" size="small" @click="deleteGroup(row)">删除</Button>
             </template>
         </Table>
+        <template>
+            <Page style="margin-top: 5px" size="small" show-total show-elevator
+                  :total="groupQueryForm.total"
+                  :page-size="groupQueryForm.pageSize"
+                  :current="groupQueryForm.page"
+                  @on-change="changeCurrentPage"
+            />
+        </template>
         <Drawer :title="saveGroupDrawerTitle" :closable="true" :width="40" v-model="saveGroupDrawer">
             <Form ref="groupForm" :model="groupForm" :rules="groupValidate" :label-width="80" label-position="right">
                 <FormItem label="群组名称" prop="name">
@@ -82,7 +90,8 @@
                     tenantId: null,
                     name: null,
                     page: 1,
-                    pageSize: 10
+                    pageSize: 10,
+                    total: 0
                 },
                 groupForm: {
                     id: null,
@@ -114,6 +123,7 @@
                 }).then(res => {
                     if (res != null) {
                         this.groupTable = res.records;
+                        this.groupQueryForm.total = res.total;
                     }
                 });
             },
@@ -148,12 +158,24 @@
                 })
             },
             deleteGroup(row) {
-                group.deleteGroup(this, row.id);
-                this.findGroups();
+                this.$Modal.confirm({
+                    title: '确认删除',
+                    content: '您确认要删除该条记录吗？',
+                    closable: true,
+                    onOk: () => {
+                       group.doDeleteGroup(this, row.id).then(res => {
+                           this.findGroups();
+                       })
+                    }
+                })
             },
             resetGroup(name) {
                 this.$refs[name].resetFields();
-            }
+            },
+            changeCurrentPage(current) {
+                this.groupQueryForm.page = current;
+                this.findGroups();
+            },
         }
 
     }

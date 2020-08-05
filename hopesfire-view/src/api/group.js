@@ -32,18 +32,6 @@ function doDeleteGroup(vuex, id) {
     })
 }
 
-function deleteGroup(vuex, id) {
-    vuex.$Modal.confirm({
-        title: '确认删除',
-        content: '您确认要删除该条记录吗？',
-        closable: true,
-        onOk: () => {
-            doDeleteGroup(vuex, id).then(() => {
-            });
-        }
-    })
-}
-
 function doFindGroups(vuex, params) {
     return post(GROUP_FIND_URL, params).then(res => {
         let data = res.data;
@@ -59,4 +47,4 @@ function doFindGroups(vuex, params) {
     })
 }
 
-export default {doFindGroups, doSaveGroup, deleteGroup};
+export default {doFindGroups, doSaveGroup, doDeleteGroup};
