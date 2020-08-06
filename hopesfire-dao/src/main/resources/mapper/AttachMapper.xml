@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kxw.hopesfire.dao.mapper.AttachMapper">
+
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_attach(attach_type, origin_name, file_name, file_path, file_url, username)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.attachType}, #{item.originName}, #{item.fileName}, #{item.filePath}, #{item.fileUrl}, #{item.username})
+        </foreach>
+    </insert>
+
+</mapper>

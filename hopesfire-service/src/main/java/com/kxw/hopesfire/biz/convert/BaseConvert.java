@@ -32,6 +32,19 @@ public class BaseConvert {
         return entity;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <M, E> List<E> convertEntities(List<M> models, E entity) {
+        if (models == null || models.size() == 0) {
+            return null;
+        }
+        List<E> entities = new ArrayList<>();
+        Class<?> clazz = entity.getClass();
+        for (M model : models) {
+            entities.add(convertEntity(model, (E) createInstance(clazz)));
+        }
+        return entities;
+    }
+
     public static <M, E> Wrapper<E> convertWrapper(M model, E entity) {
         E e = convertEntity(model, entity);
         return new QueryWrapper<>(e);
@@ -59,7 +72,7 @@ public class BaseConvert {
         List<M> list = new ArrayList<>();
         Class<?> clazz = model.getClass();
         for (E entity : entities) {
-            M m = (M) createModel(clazz);
+            M m = (M) createInstance(clazz);
             list.add(convertModel(m, entity));
         }
         return list;
@@ -73,7 +86,7 @@ public class BaseConvert {
         return PageConvert.convertToModel(page, records);
     }
 
-    private static Object createModel(Class<?> clazz) {
+    private static Object createInstance(Class<?> clazz) {
         try {
             return clazz.newInstance();
         } catch (Exception e) {
