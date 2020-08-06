@@ -41,7 +41,8 @@
                                 <Icon type="ios-alarm"/>
                                 <span>饮食管理</span>
                             </template>
-                            <MenuItem name="3-1" to="/ctl/user/meal">饮食记录</MenuItem>
+                            <MenuItem name="3-1" to="/ctl/meal/category">菜品管理</MenuItem>
+                            <MenuItem name="3-2" to="/ctl/user/meal">饮食记录</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>

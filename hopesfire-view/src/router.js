@@ -73,9 +73,14 @@ const routers = [
                 component: MenuComponent,
                 children: [
                     {
+                        path: '/ctl/meal/category',
+                        name: '菜品管理',
+                        component: (resolve) => require(['./views/ctl/meal/meal'], resolve)
+                    },
+                    {
                         path: '/ctl/user/meal',
                         name: '饮食记录',
-                        component: (resolve) => require(['./views/ctl/meal/meal'], resolve)
+                        component: (resolve) => require(['./views/ctl/meal/user_meal'], resolve)
                     }
                 ]
             },

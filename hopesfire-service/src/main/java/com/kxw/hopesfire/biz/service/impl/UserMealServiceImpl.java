@@ -3,13 +3,19 @@ package com.kxw.hopesfire.biz.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
+import com.kxw.hopesfire.biz.convert.MealConvert;
 import com.kxw.hopesfire.biz.model.UserMealModel;
 import com.kxw.hopesfire.biz.service.IUserMealService;
 import com.kxw.hopesfire.dao.convert.PageConvert;
+import com.kxw.hopesfire.dao.entity.MealEntity;
 import com.kxw.hopesfire.dao.entity.UserMealEntity;
+import com.kxw.hopesfire.dao.mapper.MealMapper;
 import com.kxw.hopesfire.dao.mapper.UserMealMapper;
 import com.kxw.hopesfire.dao.model.PagerModel;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,6 +29,8 @@ public class UserMealServiceImpl implements IUserMealService {
 
     @Resource
     private UserMealMapper userMealMapper;
+    @Resource
+    private MealMapper mealMapper;
 
     /**
      * 保存数据，有ID时更新，无ID时插入
@@ -30,10 +38,15 @@ public class UserMealServiceImpl implements IUserMealService {
      * @param model
      */
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void save(UserMealModel model) {
         UserMealEntity entity = BaseConvert.convertEntity(model, new UserMealEntity());
         if (entity.getId() == null) {
             this.userMealMapper.insert(entity);
+            List<MealEntity> entities = MealConvert.convertEntity(model);
+            if (!CollectionUtils.isEmpty(entities)) {
+                this.mealMapper.batchInsert(entities);
+            }
         } else {
             this.userMealMapper.updateById(entity);
         }
