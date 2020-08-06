@@ -19,6 +19,9 @@ axios.interceptors.response.use(
                 case 400:
                     error.message = '客户端错误！';
                     break;
+                case 403:
+                    error.message = '登录失败！';
+                    break;
                 case 500:
                     error.message = '服务端错误！';
                     break;

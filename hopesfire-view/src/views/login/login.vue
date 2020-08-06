@@ -26,7 +26,6 @@
                             <Button @click="handleSubmit" type="primary" long>登录</Button>
                         </FormItem>
                     </Form>
-                    <p class="login-tip">{{loginErrorMsg}}</p>
                     <p class="register-tip">如果您还没有账号，请先<a @click="handleRegister">注册</a></p>
                 </div>
             </Card>
@@ -36,6 +35,9 @@
 
 <script>
 
+    import login from '../../api/login'
+    import {getToken} from "../../libs/store";
+
     export default {
         components: {},
         data() {
@@ -43,25 +45,24 @@
                 loginUser: {
                     username: '',
                     password: ''
-                },
-                loginErrorMsg: ''
+                }
             }
         },
+        mounted() {
+            this.initLoginUser();
+        },
         methods: {
+            initLoginUser() {
+                let token = getToken();
+                if (token !== '') {
+                    let user = JSON.parse(token);
+                    this.loginUser.username = user.username;
+                    this.loginUser.password = user.password;
+                    this.handleSubmit();
+                }
+            },
             handleSubmit() {
-                this.loginErrorMsg = '';
-                this.$post('/login', {
-                    username: this.loginUser.username,
-                    password: this.loginUser.password
-                }).then(res => {
-                    if (res != null && res.data.code === 200) {
-                        //更新本地状态和Cookie
-                        this.$store.commit('setLoginToken', res.data.data);
-                        this.$router.push({path: "/"})
-                    } else {
-                        this.loginErrorMsg = res.data.message;
-                    }
-                });
+                login.login(this, this.loginUser);
             },
             handleRegister() {
                 this.$router.push({path: "/register"})
@@ -69,7 +70,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>

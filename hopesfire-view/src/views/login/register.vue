@@ -52,6 +52,8 @@
 
 <script>
 
+    import login from '../../api/login'
+
     export default {
         components: {},
         data() {
@@ -94,21 +96,7 @@
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$post('/register', {
-                            username: this.loginUser.username,
-                            password: this.loginUser.password,
-                            nickname: this.loginUser.nickname,
-                            sex: this.loginUser.sex,
-                            headImg: this.loginUser.headImg,
-                            telephone: this.loginUser.telephone,
-                            address: this.loginUser.address
-                        }).then(res => {
-                            if (res != null && res.data.code === 200) {
-                                this.$router.push({path: "/login"})
-                            } else {
-                                this.loginErrorMsg = res.data.message;
-                            }
-                        });
+                        login.register(this, this.loginUser);
                     } else {
                         this.$Message.error('您输入的参数有误，请确认后再提交！');
                     }

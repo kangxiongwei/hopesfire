@@ -37,7 +37,7 @@ public class LoginController {
             Subject subject = SecurityUtils.getSubject();
             UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
             subject.login(token);
-            return HttpBaseModel.buildSuccess(user);
+            return HttpBaseModel.buildSuccess(subject.getPrincipal());
         } catch (AccountException e) {
             return HttpBaseModel.buildFailed(e);
         }

@@ -56,12 +56,15 @@
         <Modal v-model="showUserInfo" closable draggable title="个人信息" ok-text="确认" cancel-text="取消">
             <p>用户名: {{ loginUserInfo.username }}</p>
             <p>用户昵称：{{ loginUserInfo.nickname }}</p>
+            <p>电话：{{ loginUserInfo.telephone}}</p>
+            <p>住址：{{loginUserInfo.address}}</p>
         </Modal>
     </div>
 </template>
 <script>
 
     import {getToken} from '../libs/store'
+    import login from '../api/login'
 
     export default {
         data() {
@@ -117,16 +120,7 @@
                     this.loginUserInfo = JSON.parse(user);
                 } else if (name === 'logout') {
                     //退出登录
-                    this.$post('/logout').then(res => {
-                        if (res != null && res.data.code === 200) {
-                            this.$store.commit('setLoginToken', '');
-                            this.$router.push({name: 'index'});
-                        } else {
-                            this.$store.commit('setLoginError', res.data.message);
-                        }
-                    });
-                    this.$store.commit('setLoginToken', '');
-                    this.$router.push({name: 'index'});
+                    login.logout(this);
                 }
             },
             selectCtlPage() {
