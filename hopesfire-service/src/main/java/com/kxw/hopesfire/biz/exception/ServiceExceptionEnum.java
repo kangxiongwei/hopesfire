@@ -10,7 +10,9 @@ public enum ServiceExceptionEnum {
 
     LOGIN_ERROR(403, "登录失败！"),
     AUTH_ERROR(405, "授权失败！"),
-    REFLECT_ERROR(505, "反射异常！");
+    REFLECT_ERROR(505, "反射异常！"),
+    FILE_NOT_EXIST(506, "文件不存在！"),
+    IO_EXCEPTION(507, "文件流处理失败！");
 
     private int code;
     private String msg;

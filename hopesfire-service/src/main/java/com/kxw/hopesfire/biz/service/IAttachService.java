@@ -19,5 +19,13 @@ public interface IAttachService extends IBaseService<AttachModel> {
      */
     void save(List<AttachModel> attaches);
 
+    /**
+     * 根据文件名和类型查询文件
+     *
+     * @param attachType
+     * @param fileName
+     * @return
+     */
+    AttachModel getAttachByName(Integer attachType, String fileName);
 
 }

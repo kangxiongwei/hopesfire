@@ -1,9 +1,6 @@
 package com.kxw.hopesfire.basic.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.channels.FileChannel;
 
 /**
@@ -31,15 +28,55 @@ public class IoUtil {
         } catch (Exception e) {
             throw new RuntimeException("拷贝文件数据流处理时异常！");
         } finally {
+            closeChannel(inputChannel);
+            closeChannel(outputChannel);
+        }
+    }
+
+    public static void copyStream(InputStream inputStream, OutputStream outputStream) {
+        BufferedInputStream bis = new BufferedInputStream(inputStream);
+        byte[] buffer = new byte[1024];
+        try {
+            int i = bis.read(buffer);
+            while (i != -1) {
+                outputStream.write(buffer, 0, i);
+                i = bis.read(buffer);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("拷贝数据流时异常！");
+        } finally {
+            closeStream(inputStream);
+            closeStream(outputStream);
+        }
+    }
+
+    public static void closeChannel(FileChannel channel) {
+        if (channel == null) {
+            return;
+        }
+        try {
+            channel.close();
+        } catch (IOException e) {
+            throw new RuntimeException("拷贝文件关闭数据流时异常！");
+        }
+    }
+
+    public static void closeStream(InputStream inputStream) {
+        if (inputStream != null) {
             try {
-                if (inputChannel != null) {
-                    inputChannel.close();
-                }
-                if (outputChannel != null) {
-                    outputChannel.close();
-                }
+                inputStream.close();
             } catch (IOException e) {
-                throw new RuntimeException("拷贝文件关闭数据流时异常！");
+                throw new RuntimeException("关闭输入流异常！");
+            }
+        }
+    }
+
+    public static void closeStream(OutputStream outputStream) {
+        if (outputStream != null) {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException("关闭输出流异常！");
             }
         }
     }

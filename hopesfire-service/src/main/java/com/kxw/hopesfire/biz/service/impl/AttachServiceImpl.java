@@ -1,6 +1,7 @@
 package com.kxw.hopesfire.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.model.AttachModel;
@@ -100,6 +101,22 @@ public class AttachServiceImpl implements IAttachService {
         Wrapper<AttachEntity> wrapper = BaseConvert.convertWrapper(model, new AttachEntity());
         IPage<AttachEntity> page = this.attachMapper.selectPage(PageConvert.convertPage(model), wrapper);
         return BaseConvert.convertPageModel(new AttachModel(), page);
+    }
+
+    /**
+     * 根据文件名和类型查询文件
+     *
+     * @param attachType
+     * @param fileName
+     * @return
+     */
+    @Override
+    public AttachModel getAttachByName(Integer attachType, String fileName) {
+        AttachEntity entity = new AttachEntity();
+        entity.setOriginName(fileName);
+        entity.setAttachType(attachType);
+        AttachEntity one = this.attachMapper.selectOne(new QueryWrapper<>(entity));
+        return BaseConvert.convertModel(new AttachModel(), one);
     }
 
 }
