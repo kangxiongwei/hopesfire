@@ -12,6 +12,18 @@
                     <Col :span="10">
                         <h2 class="header_nav_title">欢迎使用hopesfire系统！</h2>
                     </Col>
+                    <Col span="2" :offset="10" class="header_login" style="text-align: center">
+                        <Dropdown trigger="click" placement="top" @on-click="handleLoginInfo">
+                            <a href="javascript:void(0)" style="color: white;">
+                                {{loginUser.username}}
+                                <Icon type="ios-arrow-down"></Icon>
+                            </a>
+                            <DropdownMenu slot="list">
+                                <DropdownItem name="userInfo">个人信息</DropdownItem>
+                                <DropdownItem name="logout">退出登录</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </Col>
                 </Row>
             </Header>
             <Layout id="ctl_main">
@@ -59,16 +71,28 @@
                 Copyright &copy; 2020-2025 希望之火 | 京ICP备20021406号
             </Footer>
         </Layout>
+        <Modal v-model="showUserInfo" closable draggable title="个人信息" ok-text="确认" cancel-text="取消">
+            <p>用户名: {{ loginUser.username }}</p>
+            <p>用户昵称：{{ loginUser.nickname }}</p>
+            <p>电话：{{ loginUser.telephone}}</p>
+            <p>住址：{{loginUser.address}}</p>
+        </Modal>
     </div>
 </template>
 <script>
+
+    import {getToken} from "../../libs/store";
+    import login from "../../api/login";
+
     export default {
         data() {
             return {
                 isCollapsed: false,
                 currentPath: [],
                 navBarType: 'ios-arrow-back',
-                navBarClass: 'nav-bar-open'
+                navBarClass: 'nav-bar-open',
+                loginUser: {},
+                showUserInfo: false
             }
         },
         methods: {
@@ -80,6 +104,22 @@
             },
             goToIndexPage() {
                 this.$router.push({name: "index"});
+            },
+            getLoginUser() {
+                let token = getToken();
+                if (token === '') {
+                    this.loginUser.username = '';
+                } else {
+                    this.loginUser = JSON.parse(token);
+                }
+            },
+            handleLoginInfo(name) {
+                if (name === 'userInfo') {
+                    this.showUserInfo = true;
+                } else if (name === 'logout') {
+                    //退出登录
+                    login.logout(this);
+                }
             },
             collapsedSider() {
                 /*if (this.isCollapsed) {
@@ -99,6 +139,7 @@
         },
         mounted() {
             this.setCurrentPath(this.$route);
+            this.getLoginUser();
         }
     }
 </script>
