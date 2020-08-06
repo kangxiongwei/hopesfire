@@ -77,11 +77,16 @@ function doDeleteMeal(vuex, id) {
     return doDelete(vuex, MEAL_DELETE_URL + id, '菜品')
 }
 
+function doListMeals(vuex, params) {
+    return doFind(vuex, MEAL_LiST_URL, params, '菜品列表');
+}
+
 export default {
     doFindUserMeals,
     doSaveUserMeal,
     doDeleteUserMeal,
     doFindMeals,
     doSaveMeal,
-    doDeleteMeal
+    doDeleteMeal,
+    doListMeals
 }

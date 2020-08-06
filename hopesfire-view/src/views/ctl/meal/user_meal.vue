@@ -45,7 +45,11 @@
                     </RadioGroup>
                 </FormItem>
                 <FormItem label="主食" prop="mainMeal">
-                    <Input type="text" v-model="mealForm.mainMeal" placeholder="请输入主食" clearable></Input>
+                    <Select multiple filterable allow-create
+                            placeholder="请选择主食"
+                            v-model="mealForm.mainMeal">
+                        <Option v-for="(option, index) in mainMeals" :value="option.mealName" :key="index">{{option.mealName}}</Option>
+                    </Select>
                 </FormItem>
                 <FormItem label="菜品" prop="mealName">
                     <Input type="text" v-model="mealForm.mealName"
@@ -53,6 +57,11 @@
                            @on-enter="addMealTag"
                            @on-blur="addMealTag">
                     </Input>
+                    <!--<AutoComplete clearable size="small" v-model="mealForm.mealName"
+                                  placeholder="请输入菜品名称，按Tab键确认"
+                                  :data="mealNamesComplete"
+                                  @on-blur="addMealTag">
+                    </AutoComplete>-->
                     <Tag v-for="(item, index) of mealTags" closable :name="index" :color="item.color" @on-close="deleteMealTag">{{item.name}}</Tag>
                 </FormItem>
                 <FormItem :label-width="0" style="text-align: center">
@@ -123,7 +132,7 @@
                 mealForm: {
                     id: null,
                     mealType: null,
-                    mainMeal: '',
+                    mainMeal: [],
                     mealName: ''
                 },
                 mealTags: [],
@@ -132,7 +141,9 @@
                     'success',
                     'warning',
                     'error'
-                ]
+                ],
+                mainMeals: [],
+                mealNamesComplete: []
             }
         },
         mounted() {
@@ -176,12 +187,12 @@
                 this.mealTags.forEach((item) => {
                     mealNames.push(item.name)
                 });
-                let meals = mealNames.join(",");
+                let mainMeals = this.mealForm.mainMeal;
                 meal.doSaveUserMeal(this, {
                     id: this.mealForm.id,
                     mealType: this.mealForm.mealType,
-                    mainMeal: this.mealForm.mainMeal,
-                    mealName: meals
+                    mainMeal: mainMeals.join(","),
+                    mealName: mealNames.join(",")
                 }).then(() => {
                     this.saveMealDrawer = false;
                     this.resetMealDrawer();
@@ -192,17 +203,21 @@
                 this.saveMealDrawer = true;
                 this.saveMealDrawerTitle = '添加饮食记录';
                 this.mealForm.id = null;
+                this.listMeal(1);
+                //this.listMeal(2);
             },
             updateMeal(row) {
                 this.saveMealDrawer = true;
                 this.saveMealDrawerTitle = '修改饮食记录';
                 this.mealForm.id = row.id;
                 this.mealForm.mealType = row.mealType;
-                this.mealForm.mainMeal = row.mainMeal;
+                this.mealForm.mainMeal = row.mainMeal.split(",");
                 let mealNames = row.mealName.split(",");
                 mealNames.forEach((item) => {
                     this.mealTags.push({name: item, color: this.randomMealTagColor()});
                 })
+                this.listMeal(1);
+                //this.listMeal(2);
             },
             deleteMeal(row) {
                 this.$Modal.confirm({
@@ -220,6 +235,8 @@
             resetMeal(name) {
                 this.$refs[name].resetFields();
                 this.mealTags = []
+                this.mealNamesComplete = []
+                this.mainMeals = []
             },
             resetQueryMeal() {
                 this.mealQueryForm.mealType = null;
@@ -243,6 +260,15 @@
                 let length = this.mealTagColors.length;
                 let random = Math.floor(Math.random() * length);
                 return this.mealTagColors[random];
+            },
+            listMeal(type) {
+                meal.doListMeals(this, {
+                    mealType: type
+                }).then(res => {
+                    if (type === 1) {
+                        this.mainMeals = res;
+                    }
+                })
             }
         }
     }

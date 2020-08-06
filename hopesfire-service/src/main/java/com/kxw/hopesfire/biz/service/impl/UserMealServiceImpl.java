@@ -43,12 +43,12 @@ public class UserMealServiceImpl implements IUserMealService {
         UserMealEntity entity = BaseConvert.convertEntity(model, new UserMealEntity());
         if (entity.getId() == null) {
             this.userMealMapper.insert(entity);
-            List<MealEntity> entities = MealConvert.convertEntity(model);
-            if (!CollectionUtils.isEmpty(entities)) {
-                this.mealMapper.batchInsert(entities);
-            }
         } else {
             this.userMealMapper.updateById(entity);
+        }
+        List<MealEntity> entities = MealConvert.convertEntity(model);
+        if (!CollectionUtils.isEmpty(entities)) {
+            this.mealMapper.batchInsert(entities);
         }
     }
 
