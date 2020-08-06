@@ -53,7 +53,7 @@
                            @on-enter="addMealTag"
                            @on-blur="addMealTag">
                     </Input>
-                    <Tag v-for="item in mealTags" closable @on-close="deleteMealTag">{{item}}</Tag>
+                    <Tag v-for="(item, index) of mealTags" closable :name="index" :color="item.color" @on-close="deleteMealTag">{{item.name}}</Tag>
                 </FormItem>
                 <FormItem :label-width="0" style="text-align: center">
                     <Button @click="saveMeal('mealForm')" type="primary">保存</Button>
@@ -126,7 +126,13 @@
                     mainMeal: '',
                     mealName: ''
                 },
-                mealTags: []
+                mealTags: [],
+                mealTagColors: [
+                    'primary',
+                    'success',
+                    'warning',
+                    'error'
+                ]
             }
         },
         mounted() {
@@ -166,7 +172,11 @@
                 }
             },
             saveMeal(name) {
-                let meals = this.mealTags.join(',');
+                let mealNames = [];
+                this.mealTags.forEach((item) => {
+                    mealNames.push(item.name)
+                });
+                let meals = mealNames.join(",");
                 meal.doSaveUserMeal(this, {
                     id: this.mealForm.id,
                     mealType: this.mealForm.mealType,
@@ -189,7 +199,10 @@
                 this.mealForm.id = row.id;
                 this.mealForm.mealType = row.mealType;
                 this.mealForm.mainMeal = row.mainMeal;
-                this.mealTags = row.mealName.split(",");
+                let mealNames = row.mealName.split(",");
+                mealNames.forEach((item) => {
+                    this.mealTags.push({name: item, color: this.randomMealTagColor()});
+                })
             },
             deleteMeal(row) {
                 this.$Modal.confirm({
@@ -219,17 +232,17 @@
                 if (this.mealForm.mealName === null || this.mealForm.mealName === '') {
                     return;
                 }
-                this.mealTags.push(this.mealForm.mealName);
+                this.mealTags.push({name: this.mealForm.mealName, color: this.randomMealTagColor()});
                 this.mealForm.mealName = null;
-                if (event && event.keyCode === 13) { // enter 键
-                    console.log("回车键")
-                } else if (event && event.keyCode === 9) {
-                    console.log("Tab键")
-                }
             },
             deleteMealTag(event, name) {
                 const index = this.mealTags.indexOf(name);
                 this.mealTags.splice(index, 1);
+            },
+            randomMealTagColor() {
+                let length = this.mealTagColors.length;
+                let random = Math.floor(Math.random() * length);
+                return this.mealTagColors[random];
             }
         }
     }
