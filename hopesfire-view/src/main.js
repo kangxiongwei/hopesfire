@@ -9,7 +9,10 @@ import {getToken} from './libs/store'
 import 'view-design/dist/styles/iview.css';
 
 Vue.use(VueRouter);
-Vue.use(ViewUI);
+Vue.use(ViewUI, {
+    transfer: true,
+    size: 'small'
+});
 Vue.prototype.$axios = axios;
 
 // 路由配置

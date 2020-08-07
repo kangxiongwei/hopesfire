@@ -43,7 +43,15 @@
             <Content id="content">
                 <Row type="flex" justify="center" style="width: 100%; height: 100%">
                     <Col span="24" style="width: 100%; height: 100%">
-                        <img style="width: 100%; height: 100%" src="../images/login-bg.jpg"/>
+                        <!--<Carousel :height="this.screenHeight" style="width: 800px; text-align: right; border: 1px solid red">
+                            <div v-for="item in homeImages" style="height: 100%">
+                                <CarouselItem style="height: 100%;">
+                                    <img style="height: 500px; width: auto" :src="item" alt=""/>
+                                </CarouselItem>
+                            </div>
+                        </Carousel>-->
+                        <!--<img style="width: 100%; height: 100%; border: 1px solid red" src="http://localhost/images/homePage/1596731423914_login-bg.jpg"/>-->
+                        <img style="width: 100%; height: 100%;" src="../images/login-bg.jpg"/>
                     </Col>
                 </Row>
             </Content>
@@ -125,7 +133,19 @@
             },
             selectCtlPage() {
                 this.$router.push({path: '/ctl'});
+            },
+            getHeight() {
+                //this.screenHeight = window.innerHeight - 128;
+                console.log("屏幕高度" + window.innerHeight + "，" + window.outerHeight);
+                console.log("屏幕宽度" + window.innerWidth + "，" + window.outerWidth);
             }
+        },
+        created() {
+            window.addEventListener('resize', this.getHeight);
+            this.getHeight()
+        },
+        destroyed() {
+            window.removeEventListener('resize', this.getHeight)
         }
     }
 </script>
