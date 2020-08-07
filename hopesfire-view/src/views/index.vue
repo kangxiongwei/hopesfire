@@ -21,7 +21,7 @@
                             控制台
                         </div>
                     </Col>
-                    <Col span="14">
+                    <Col :xs="0" :sm="4" :md="6" :lg="8" :xl="16" :xxl="20">
                         <div></div>
                     </Col>
                     <Col span="2" :class="ctlLoginClass">
