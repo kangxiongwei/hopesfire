@@ -5,14 +5,17 @@
     <div id="ctl_layout">
         <Layout style="height: 100%;">
             <Header id="ctl_header">
-                <Row>
-                    <Col :span="1" style="width: 100px; text-align: center">
+                <Row type="flex" justify="start">
+                    <Col :span="2" style="width: 100px; text-align: center">
                         <img class="header_nav_logo" src="../../images/logo.png" @click="goToIndexPage"/>
                     </Col>
-                    <Col :span="10">
+                    <Col :span="6">
                         <h2 class="header_nav_title">欢迎使用hopesfire系统！</h2>
                     </Col>
-                    <Col span="2" :offset="10" class="header_login" style="text-align: center">
+                    <Col :xs="6" :sm="8" :md="10" :lg="12" :xl="14" :xxl="16">
+                        <div></div>
+                    </Col>
+                    <Col span="2" class="header_login" style="text-align: center">
                         <Dropdown trigger="click" placement="top" @on-click="handleLoginInfo">
                             <a href="javascript:void(0)" style="color: white;">
                                 {{loginUser.username}}
