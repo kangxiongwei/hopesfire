@@ -211,12 +211,13 @@
                 this.mealForm.id = row.id;
                 this.mealForm.mealType = row.mealType;
                 this.mealForm.mainMeal = row.mainMeal.split(",");
-                let mealNames = row.mealName.split(",");
-                mealNames.forEach((item) => {
-                    this.mealTags.push({name: item, color: this.randomMealTagColor()});
-                })
+                if (row.mealName != null && row.mealName !== '') {
+                    let mealNames = row.mealName.split(",");
+                    mealNames.forEach((item) => {
+                        this.mealTags.push({name: item, color: this.randomMealTagColor()});
+                    })
+                }
                 this.listMeal(1);
-                //this.listMeal(2);
             },
             deleteMeal(row) {
                 this.$Modal.confirm({
