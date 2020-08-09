@@ -122,7 +122,6 @@
                     {
                         title: '操作',
                         slot: 'action',
-                        width: 150,
                         fixed: 'right',
                         align: 'center'
                     }

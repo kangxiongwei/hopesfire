@@ -1,5 +1,15 @@
 <style scoped lang="less">
     @import "../../styles/home.less";
+
+    #sider_icon {
+        width: 100%;
+        height: 24px;
+        text-align: center;
+        line-height: 24px;
+        position: absolute;
+        bottom: 0;
+    }
+
 </style>
 <template>
     <div id="ctl_layout">
@@ -10,7 +20,7 @@
                         <img class="header_nav_logo" src="../../images/logo.png" @click="goToIndexPage"/>
                     </Col>
                     <Col :span="6">
-                        <h2 class="header_nav_title">欢迎使用hopesfire系统！</h2>
+                        <h2 class="header_nav_title">hopesfire</h2>
                     </Col>
                     <Col :xs="6" :sm="8" :md="10" :lg="12" :xl="14" :xxl="16">
                         <div></div>
@@ -30,37 +40,14 @@
                 </Row>
             </Header>
             <Layout id="ctl_main">
-                <Sider ref="nav" collapsible :collapsed-width="78" v-model="isCollapsed" hide-trigger>
-                    <Menu style="height: 100%" width="auto" accordion :open-names="['系统首页']" :class="this.navBarClass">
-                        <div id="ctl_nav_bar" @click="collapsedSider">
-                            <Icon :type="navBarType" size="20"/>
-                        </div>
-                        <Submenu name="系统首页">
-                            <template slot="title">
-                                <Icon type="ios-menu"/>
-                                <span>系统首页</span>
-                            </template>
-                            <MenuItem name="数据大盘" to="/ctl/root/dashboard">数据大盘</MenuItem>
-                        </Submenu>
-                        <Submenu name="权限控制">
-                            <template slot="title">
-                                <Icon type="ios-settings"/>
-                                <span>权限控制</span>
-                            </template>
-                            <MenuItem name="2-1" to="/ctl/auth/user">用户管理</MenuItem>
-                            <MenuItem name="2-2" to="/ctl/auth/role">角色管理</MenuItem>
-                            <MenuItem name="2-3" to="/ctl/auth/group">群组管理</MenuItem>
-                        </Submenu>
-                        <Submenu name="盼盼的饮食管理">
-                            <template slot="title">
-                                <Icon type="ios-alarm"/>
-                                <span>盼盼的饮食管理</span>
-                            </template>
-                            <MenuItem name="3-1" to="/ctl/meal/category">盼盼的菜品管理</MenuItem>
-                            <MenuItem name="3-2" to="/ctl/user/meal">盼盼的饮食记录</MenuItem>
-                        </Submenu>
-                    </Menu>
+                <Sider style="background: #F5F7F9" ref="nav" collapsible
+                       breakpoint="md" :collapsed-width="78" v-model="isCollapsed" hide-trigger>
+                    <!--侧边栏导航组件-->
+                    <SiderMenu :isCollapsed="isCollapsed"></SiderMenu>
+                    <!--侧边栏伸缩图标-->
+                    <Icon id="sider_icon" :type="navBarType" @click.native="collapsedSider"></Icon>
                 </Sider>
+
                 <Content id="ctl_content">
                     <Breadcrumb id="ctl_breadcrumb">
                         <BreadcrumbItem v-for="path in currentPath" :key="path">{{ path }}</BreadcrumbItem>
@@ -86,8 +73,10 @@
 
     import {getToken} from "../../libs/store";
     import login from "../../api/login";
+    import SiderMenu from "./sider_menu";
 
     export default {
+        components: {SiderMenu},
         data() {
             return {
                 isCollapsed: false,
@@ -125,14 +114,14 @@
                 }
             },
             collapsedSider() {
-                /*if (this.isCollapsed) {
+                if (this.isCollapsed) {
                     this.navBarType = 'ios-arrow-back'
                     this.navBarClass = 'nav-bar-open'
                 } else {
                     this.navBarType = 'ios-arrow-forward'
                     this.navBarClass = 'nav-bar-close'
-                }*/
-                //this.$refs['nav'].toggleCollapse();
+                }
+                this.$refs['nav'].toggleCollapse();
             }
         },
         watch: {
