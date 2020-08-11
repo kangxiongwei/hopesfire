@@ -5,6 +5,7 @@ import com.kxw.hopesfire.biz.enums.AttachTypeEnum;
 import com.kxw.hopesfire.biz.model.AttachModel;
 import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.biz.service.IAttachService;
+import com.kxw.hopesfire.web.config.ApplicationConfiguration;
 import com.kxw.hopesfire.web.model.AttachDownloadModel;
 import com.kxw.hopesfire.web.model.AttachUploadModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
@@ -24,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +40,8 @@ public class AttachController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AttachController.class);
 
+    @Resource
+    private ApplicationConfiguration applicationConfiguration;
     @Resource
     private IAttachService attachService;
 
@@ -57,8 +59,10 @@ public class AttachController {
                 AttachModel attach = diskFile(file, model.getAttachType());
                 if (attach != null) {
                     attaches.add(attach);
+                    response.add(attach.getFileUrl());
+                } else {
+                    response.add(filename + "上传失败！");
                 }
-                response.add(filename + "上传成功！");
             } catch (Exception e) {
                 LOGGER.error("上传文件{}失败，异常为：", filename, e);
                 response.add(filename + "上传失败！");
@@ -92,27 +96,31 @@ public class AttachController {
         }
     }
 
+    /**
+     * 持久化磁盘文件
+     *
+     * @param file
+     * @param attachType
+     * @return
+     */
     private AttachModel diskFile(MultipartFile file, Integer attachType) {
-        URL path = this.getClass().getClassLoader().getResource("");
-        if (file == null || path == null) {
+        if (file == null || StringUtils.isBlank(file.getOriginalFilename())) {
             return null;
-        }
-        String fileUrl = "static/images";
-        String attachPath = AttachTypeEnum.getAttachType(attachType);
-        if (StringUtils.isNotBlank(attachPath)) {
-            fileUrl += "/" + attachPath;
         }
         String filename = file.getOriginalFilename();
-        if (StringUtils.isBlank(filename)) {
-            return null;
-        }
+        String filePath = applicationConfiguration.getAttachPath();
         try {
             File tempFile = File.createTempFile("temp_", filename);
             file.transferTo(tempFile);
             String realFileName = System.currentTimeMillis() + "_" + filename;
-            File destFile = new File(path.getPath() + fileUrl, realFileName);
+            String attachPath = AttachTypeEnum.getAttachType(attachType);
+            String fileUrl = StringUtils.isNotBlank(attachPath) ? attachPath : "";
+            File destFile = new File(filePath + fileUrl, realFileName);
             if (!destFile.getParentFile().exists()) {
-                destFile.getParentFile().mkdirs();
+                boolean mkdirs = destFile.getParentFile().mkdirs();
+                if (!mkdirs) {
+                    throw new RuntimeException("创建父文件夹失败！");
+                }
             }
             IoUtil.copyFile(tempFile, destFile);
             tempFile.deleteOnExit();
@@ -122,7 +130,7 @@ public class AttachController {
             attach.setOriginName(filename);
             attach.setFileName(realFileName);
             attach.setFilePath(destFile.getPath());
-            attach.setFileUrl(fileUrl + "/" + realFileName);
+            attach.setFileUrl(File.separator + "attach" + File.separator + fileUrl + File.separator + realFileName);
             Subject subject = SecurityUtils.getSubject();
             Object principal = subject == null ? null : subject.getPrincipal();
             attach.setUsername(principal == null ? "admin" : ((UserModel) principal).getUsername());

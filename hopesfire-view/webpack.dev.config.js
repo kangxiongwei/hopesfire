@@ -58,6 +58,11 @@ module.exports = merge(webpackBaseConfig, {
                 target: 'http://localhost:80',
                 pathRewrite: {'^/logout' : '/logout'},
                 changeOrigin: true
+            },
+            '/attach': {
+                target: 'http://localhost:80',
+                pathRewrite: {'^/attach' : '/attach'},
+                changeOrigin: true
             }
         }
     }

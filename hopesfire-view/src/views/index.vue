@@ -24,11 +24,14 @@
                     <Col :xs="2" :sm="4" :md="6" :lg="8" :xl="16" :xxl="20">
                         <div></div>
                     </Col>
-                    <Col span="2" :class="ctlLoginClass">
+                    <Col :span="1" style="text-align: center">
+                        <Avatar :src="loginUserInfo.headImg" style="width: 30px; height: 30px; line-height: 30px"></Avatar>
+                    </Col>
+                    <Col span="2" :class="ctlLoginClass" style="margin-left: 0">
                         <div @mouseover="selectHeaderNav('login')" @mouseout="unSelectHeaderNav('login')" @click="handleLoginClick">
                             <Dropdown trigger="click" placement="top" @on-click="handleLoginInfo">
                                 <a href="javascript:void(0)" style="color: white;">
-                                    {{ctlLoginUser}}
+                                    {{loginUserInfo.username}}
                                     <Icon type="ios-arrow-down"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
@@ -81,9 +84,11 @@
                 homeNavClass: 'header_nav',
                 ctlNavClass: 'header_nav',
                 ctlLoginClass: 'header_login',
-                ctlLoginUser: '',
                 showUserInfo: false,
-                loginUserInfo: {}
+                loginUserInfo: {
+                    username: '',
+                    headImg: ''
+                }
             }
         },
         mounted() {
@@ -117,8 +122,7 @@
                 if (loginUser === '') {
                     this.$router.push({path: '/login'});
                 } else {
-                    let user = JSON.parse(loginUser);
-                    this.ctlLoginUser = user.username;
+                    this.loginUserInfo = JSON.parse(loginUser);
                 }
             },
             handleLoginInfo(name) {
