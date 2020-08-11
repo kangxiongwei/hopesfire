@@ -20,3 +20,4 @@ CREATE TABLE IF NOT EXISTS t_meal (
     UNIQUE KEY uk_meal_name(meal_name, meal_type)
 ) COMMENT '主食表';
 
+ALTER TABLE t_meal ADD COLUMN weight INT DEFAULT 0 COMMENT '权重，用于调节顺序' AFTER meal_type;

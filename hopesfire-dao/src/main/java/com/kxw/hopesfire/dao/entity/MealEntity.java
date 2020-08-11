@@ -15,6 +15,7 @@ public class MealEntity extends BaseEntity {
 
     private Integer mealType;
     private String mealName;
+    private Integer weight;
     private String username;
 
 }
