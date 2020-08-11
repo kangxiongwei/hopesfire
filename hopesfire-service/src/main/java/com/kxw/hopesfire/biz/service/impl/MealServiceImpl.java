@@ -38,6 +38,7 @@ public class MealServiceImpl implements IMealService {
     @Transactional(rollbackFor = Exception.class)
     public void save(MealModel model) {
         MealEntity entity = BaseConvert.convertEntity(model, new MealEntity());
+        entity.setWeight(entity.getWeight() == null ? 0 : entity.getWeight());
         try {
             if (entity.getId() == null) {
                 this.mealMapper.insert(entity);

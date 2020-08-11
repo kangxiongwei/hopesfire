@@ -41,6 +41,7 @@ public class MealConvert {
         MealEntity entity = new MealEntity();
         entity.setMealName(mealName);
         entity.setMealType(mealType.getMealType());
+        entity.setWeight(0);
         entity.setUsername(username);
         return entity;
     }
