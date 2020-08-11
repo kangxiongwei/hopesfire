@@ -1,6 +1,7 @@
 package com.kxw.hopesfire.web.controller;
 
 import com.kxw.hopesfire.biz.model.UserMealModel;
+import com.kxw.hopesfire.biz.model.UserMealsModel;
 import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.biz.service.IUserMealService;
 import com.kxw.hopesfire.dao.model.PagerModel;
@@ -46,5 +47,13 @@ public class UserMealController {
         PagerModel pager = this.userMealService.find(setLoginUser(meal));
         return HttpBaseModel.buildSuccess(pager);
     }
+
+    @PostMapping("/save/meals")
+    public HttpBaseModel saveUserMeals(@RequestBody UserMealsModel model) {
+        this.userMealService.saveUserMeals(model);
+        return HttpBaseModel.buildSuccess(null);
+    }
+
+
 
 }

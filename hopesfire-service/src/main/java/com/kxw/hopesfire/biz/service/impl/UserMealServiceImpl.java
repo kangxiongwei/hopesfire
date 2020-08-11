@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.convert.MealConvert;
 import com.kxw.hopesfire.biz.model.UserMealModel;
+import com.kxw.hopesfire.biz.model.UserMealsModel;
 import com.kxw.hopesfire.biz.service.IUserMealService;
 import com.kxw.hopesfire.dao.convert.PageConvert;
 import com.kxw.hopesfire.dao.entity.MealEntity;
@@ -99,4 +100,17 @@ public class UserMealServiceImpl implements IUserMealService {
         IPage<UserMealEntity> page = this.userMealMapper.selectPage(PageConvert.convertPage(model), wrapper);
         return BaseConvert.convertPageModel(new UserMealModel(), page);
     }
+
+    /**
+     * 保存用户的菜单
+     *
+     * @param model
+     */
+    @Override
+    public void saveUserMeals(UserMealsModel model) {
+        List<MealEntity> entities = MealConvert.convertEntity(model);
+
+
+    }
+
 }

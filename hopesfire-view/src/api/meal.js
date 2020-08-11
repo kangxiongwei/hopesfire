@@ -81,6 +81,19 @@ function doListMeals(vuex, params) {
     return doFind(vuex, MEAL_LiST_URL, params, '菜品列表');
 }
 
+function formatMealType(mealType) {
+    switch (mealType) {
+        case 1:
+            return '早餐'
+        case 2:
+            return '午餐'
+        case 3:
+            return '晚餐'
+        default:
+            return '未知'
+    }
+}
+
 export default {
     doFindUserMeals,
     doSaveUserMeal,
@@ -88,5 +101,6 @@ export default {
     doFindMeals,
     doSaveMeal,
     doDeleteMeal,
-    doListMeals
+    doListMeals,
+    formatMealType
 }
