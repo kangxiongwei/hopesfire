@@ -33,6 +33,7 @@ public class MealServiceImpl implements IMealService {
     @Override
     public void save(MealModel model) {
         MealEntity entity = BaseConvert.convertEntity(model, new MealEntity());
+        entity.setWeight(entity.getWeight() == null ? 0 : entity.getWeight());
         if (entity.getId() == null) {
             this.mealMapper.insert(entity);
             model.setId(entity.getId());

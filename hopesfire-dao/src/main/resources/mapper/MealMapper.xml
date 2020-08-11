@@ -4,15 +4,15 @@
 <mapper namespace="com.kxw.hopesfire.dao.mapper.MealMapper">
 
     <insert id="insert" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        INSERT IGNORE INTO t_meal (meal_name, meal_type, username)
-        VALUES (#{entity.mealName}, #{entity.mealType}, #{entity.username})
+        INSERT IGNORE INTO t_meal (meal_name, meal_type, weight, username)
+        VALUES (#{entity.mealName}, #{entity.mealType}, #{entity.weight}, #{entity.username})
     </insert>
 
     <insert id="batchInsert" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        INSERT IGNORE INTO t_meal (meal_name, meal_type, username)
+        INSERT IGNORE INTO t_meal (meal_name, meal_type, weight, username)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.mealName}, #{item.mealType}, #{item.username})
+            (#{item.mealName}, #{item.mealType}, #{item.weight}, #{item.username})
         </foreach>
     </insert>
 
