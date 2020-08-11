@@ -14,6 +14,7 @@ public class MealModel extends BaseModel {
 
     private Integer mealType;
     private String mealName;
+    private Integer weight;
     private String username;
 
 }

@@ -8,6 +8,7 @@
                             <Option label="主食" :value="1">主食</Option>
                             <Option label="菜品" :value="2">菜品</Option>
                             <Option label="饮品" :value="3">饮品</Option>
+                            <Option label="水果" :value="4">水果</Option>
                         </Select>
                     </FormItem>
                     <FormItem :label-width="0" style="text-align: center">
@@ -43,6 +44,9 @@
                 </FormItem>
                 <FormItem label="名称" prop="mealName">
                     <Input type="text" v-model="mealForm.mealName" placeholder="请输入名称" clearable></Input>
+                </FormItem>
+                <FormItem label="权重" prop="weight">
+                    <Input type="number" v-model="mealForm.weight" placeholder="请输入权重" clearable></Input>
                 </FormItem>
                 <FormItem :label-width="0" style="text-align: center">
                     <Button @click="saveMeal('mealForm')" type="primary">保存</Button>
@@ -83,6 +87,10 @@
                         }
                     },
                     {
+                        title: '权重',
+                        key: 'weight'
+                    },
+                    {
                         title: '创建时间',
                         key: 'createTime'
                     },
@@ -102,7 +110,8 @@
                 mealForm: {
                     id: null,
                     mealName: '',
-                    mealType: null
+                    mealType: null,
+                    weight: null
                 }
             }
         },
@@ -136,6 +145,8 @@
                         return '菜品';
                     case 3:
                         return '饮品';
+                    case 4:
+                        return '水果';
                     default:
                         return '未知';
                 }
@@ -150,12 +161,14 @@
                 this.mealForm.id = row.id;
                 this.mealForm.mealType = row.mealType;
                 this.mealForm.mealName = row.mealName;
+                this.mealForm.weight = row.weight;
             },
             saveMeal() {
                 meal.doSaveMeal(this, {
                     id: this.mealForm.id,
                     mealType: this.mealForm.mealType,
-                    mealName: this.mealForm.mealName
+                    mealName: this.mealForm.mealName,
+                    weight: this.mealForm.weight
                 }).then(() => {
                     this.saveMealDrawer = false;
                     this.resetMeal('mealForm');
