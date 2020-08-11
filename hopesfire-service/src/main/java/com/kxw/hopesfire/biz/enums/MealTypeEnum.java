@@ -8,7 +8,8 @@ public enum MealTypeEnum {
 
     MEAL_MAIN(1, "主食"),
     MEAL_NAME(2, "菜品"),
-    MEAL_DRINKS(3, "饮料");
+    MEAL_DRINKS(3, "饮品"),
+    MEAL_FRUITS(4, "水果");
 
     private Integer mealType;
     private String mealTypeName;

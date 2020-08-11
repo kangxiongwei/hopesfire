@@ -23,7 +23,14 @@
                             <Input type="text" v-model="loginUser.nickname" placeholder="请输入昵称"></Input>
                         </FormItem>
                         <FormItem label="头像" prop="headImg">
-                            <Upload action="/uploadHeadImg" v-model="loginUser.headImg">
+                            <Upload ref="uploadAvatar" action="/attach/upload" v-model="loginUser.headImg"
+                                    name="files"
+                                    :with-credentials="true"
+                                    :data="userAvatar"
+                                    :before-upload="beforeUploadAvatar"
+                                    :on-success="uploadAvatarSuccess"
+                                    :on-error="uploadAvatarError"
+                                    :on-remove="deleteUploadAvatar">
                                 <Button icon="ios-cloud-upload-outline">上传头像</Button>
                             </Upload>
                         </FormItem>
@@ -89,6 +96,9 @@
                             trigger: "change"
                         }
                     ]
+                },
+                userAvatar: {
+                    attachType: 2
                 }
             }
         },
@@ -104,6 +114,17 @@
             },
             handleReset(name) {
                 this.$refs[name].resetFields();
+            },
+            beforeUploadAvatar(file) {
+            },
+            uploadAvatarSuccess(response) {
+                this.loginUser.headImg = response.data[0];
+            },
+            uploadAvatarError(error) {
+                this.$Message.error("上传头像失败，请联系管理员！");
+            },
+            deleteUploadAvatar(file) {
+                console.log("删除文件")
             }
         }
     }
