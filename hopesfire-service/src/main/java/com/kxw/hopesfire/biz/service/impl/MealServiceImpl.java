@@ -1,7 +1,6 @@
 package com.kxw.hopesfire.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.model.MealModel;
@@ -10,7 +9,11 @@ import com.kxw.hopesfire.dao.convert.PageConvert;
 import com.kxw.hopesfire.dao.entity.MealEntity;
 import com.kxw.hopesfire.dao.mapper.MealMapper;
 import com.kxw.hopesfire.dao.model.PagerModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.List;
 @Service("mealService")
 public class MealServiceImpl implements IMealService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MealServiceImpl.class);
     @Resource
     private MealMapper mealMapper;
 
@@ -31,19 +35,21 @@ public class MealServiceImpl implements IMealService {
      * @param model
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(MealModel model) {
         MealEntity entity = BaseConvert.convertEntity(model, new MealEntity());
-        if (entity.getId() == null) {
-            this.mealMapper.insert(entity);
-            model.setId(entity.getId());
-        } else {
-            MealEntity query = new MealEntity();
-            query.setMealName(model.getMealName());
-            query.setMealType(model.getMealType());
-            MealEntity one = this.mealMapper.selectOne(new QueryWrapper<>(query));
-            if (one == null) {
+        entity.setWeight(entity.getWeight() == null ? 0 : entity.getWeight());
+        try {
+            if (entity.getId() == null) {
+                this.mealMapper.insert(entity);
+                model.setId(entity.getId());
+            } else {
                 this.mealMapper.updateById(entity);
             }
+        } catch (DuplicateKeyException e) {
+            LOGGER.info("菜品已经存在！");
+        } catch (Exception e) {
+            LOGGER.error("保存菜品异常，", e);
         }
     }
 
