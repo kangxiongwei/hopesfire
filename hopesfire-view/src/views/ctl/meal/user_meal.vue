@@ -32,11 +32,10 @@
                   :total="mealQueryForm.total"
                   :page-size="mealQueryForm.pageSize"
                   :current="mealQueryForm.page"
-                  @on-change="changeCurrentPage"
-            />
+                  @on-change="changeCurrentPage"/>
         </template>
         <Drawer :title="saveMealDrawerTitle" :closable="true" :width="40" v-model="saveMealDrawer" @on-close="resetMealDrawer">
-            <saveMeal :mainMeals="mainMeals"></saveMeal>
+            <saveMeal ref="saveMeal" :mainMeals="mainMeals" @success="saveMealsSuccess"></saveMeal>
         </Drawer>
     </div>
 </template>
@@ -45,6 +44,7 @@
 
     import meal from '../../../api/meal'
     import saveMeal from "./save_meal"
+    import {UserMealsModel} from "../../../model/UserMealModel";
 
     export default {
         components: {
@@ -138,16 +138,8 @@
             updateMeal(row) {
                 this.saveMealDrawer = true;
                 this.saveMealDrawerTitle = '修改饮食记录';
-                this.mealForm.id = row.id;
-                this.mealForm.mealType = row.mealType;
-                this.mealForm.mainMeal = row.mainMeal.split(",");
-                if (row.mealName != null && row.mealName !== '') {
-                    let mealNames = row.mealName.split(",");
-                    mealNames.forEach((item) => {
-                        this.mealTags.push({name: item, color: this.randomMealTagColor()});
-                    })
-                }
                 this.listMeal(1);
+                this.$refs['saveMeal'].updateMeal(row);
             },
             deleteMeal(row) {
                 this.$Modal.confirm({
@@ -166,7 +158,7 @@
                 this.mealQueryForm.mealType = null;
             },
             resetMealDrawer() {
-                //this.resetMeal('mealForm');
+                this.$refs['saveMeal'].resetMeal();
             },
             listMeal(type) {
                 meal.doListMeals(this, {
@@ -176,6 +168,11 @@
                         this.mainMeals = res;
                     }
                 })
+            },
+            saveMealsSuccess() {
+                this.saveMealDrawer = false;
+                this.resetMealDrawer();
+                this.findMeals();
             }
         }
     }

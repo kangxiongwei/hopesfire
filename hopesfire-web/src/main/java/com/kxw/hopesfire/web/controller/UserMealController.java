@@ -54,6 +54,4 @@ public class UserMealController {
         return HttpBaseModel.buildSuccess(null);
     }
 
-
-
 }
