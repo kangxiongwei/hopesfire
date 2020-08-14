@@ -19,13 +19,16 @@
                     <Col :span="2" style="width: 100px; text-align: center">
                         <img class="header_nav_logo" src="../../images/logo.png" @click="goToIndexPage"/>
                     </Col>
-                    <Col :span="6">
+                    <Col :span="4" style="width: 190px">
                         <h2 class="header_nav_title">hopesfire</h2>
                     </Col>
-                    <Col :xs="6" :sm="8" :md="10" :lg="12" :xl="14" :xxl="16">
+                    <Col :xs="2" :sm="4" :md="6" :lg="8" :xl="16" :xxl="20">
                         <div></div>
                     </Col>
-                    <Col span="2" class="header_login" style="text-align: center">
+                    <Col :span="1" style="text-align: center">
+                        <Avatar :src="loginUser.headImg" style="width: 30px; height: 30px; line-height: 30px"></Avatar>
+                    </Col>
+                    <Col span="2" class="header_login" style="text-align: left; width: 110px">
                         <Dropdown trigger="click" placement="top" @on-click="handleLoginInfo">
                             <a href="javascript:void(0)" style="color: white;">
                                 {{loginUser.username}}
