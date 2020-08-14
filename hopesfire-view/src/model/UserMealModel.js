@@ -8,7 +8,8 @@ export const MEAL_TAG_COLORS = [
     'default'
 ]
 
-export function UserMealsModel(mealTypes) {
+export function UserMealsModel(mealTypes, saveType) {
+    this.saveType = saveType;      //保存类型 0添加 1更新
     this.addDate = moment().format("YYYY-MM-DD");
     this.meals = [];
     this.sports = new UserSportModel();
@@ -62,6 +63,20 @@ UserMealModel.prototype.formatMeal = function () {
     } else {
         this.mainMeal = ''
     }
+}
+
+UserMealModel.prototype.initMeal = function (row) {
+    this.id = row.id;
+    this.mealType = row.mealType;
+    this.mainMeal = row.mainMeal.split(",");
+    if (row.mealName != null && row.mealName !== '') {
+        let mealNames = row.mealName.split(",");
+        mealNames.forEach((name) => {
+            this.mealTags.push({name: name, color: this.randomMealTagColor()});
+        })
+    }
+    this.mealDrink = row.mealDrink;
+    this.mealFruit = row.mealFruit;
 }
 
 UserMealsModel.prototype.addUserMeal = function (mealType) {

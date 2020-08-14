@@ -1,7 +1,9 @@
 package com.kxw.hopesfire.biz.service;
 
 import com.kxw.hopesfire.biz.model.UserMealModel;
+import com.kxw.hopesfire.biz.model.UserMealQueryModel;
 import com.kxw.hopesfire.biz.model.UserMealsModel;
+import com.kxw.hopesfire.dao.model.PagerModel;
 
 /**
  * @author kangxiongwei
@@ -16,5 +18,12 @@ public interface IUserMealService extends IBaseService<UserMealModel> {
      */
     void saveUserMeals(UserMealsModel model);
 
+    /**
+     * 带条件分页查询结果
+     *
+     * @param model
+     * @return
+     */
+    PagerModel find(UserMealQueryModel model);
 
 }

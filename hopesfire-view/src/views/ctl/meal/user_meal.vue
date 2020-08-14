@@ -3,6 +3,13 @@
         <Row type="flex" align="middle">
             <Col span="22">
                 <Form ref="mealQueryForm" :label-width="70" label-position="left" inline style="height: 34px; line-height: 34px">
+                    <FormItem :label-width="70" label="时间范围">
+                        <DatePicker v-model="mealQueryForm.dateRange" type="daterange"
+                                    placeholder="查询日期范围"
+                                    @on-change="changeMealDate"
+                                    style="width: 200px">
+                        </DatePicker>
+                    </FormItem>
                     <FormItem :label-width="40" label="类型">
                         <Select v-model="mealQueryForm.mealType" size="small" placeholder="请选择类型" style="width:150px">
                             <Option label="全部" :value="0">全部</Option>
@@ -44,7 +51,6 @@
 
     import meal from '../../../api/meal'
     import saveMeal from "./save_meal"
-    import {UserMealsModel} from "../../../model/UserMealModel";
 
     export default {
         components: {
@@ -53,19 +59,18 @@
         data() {
             return {
                 mealQueryForm: {
+                    startDate: null,
+                    endDate: null,
                     mealType: null,
                     page: 1,
                     pageSize: 10,
                     total: 0,
                     sort: 'update_time',
-                    order: 'desc'
+                    order: 'desc',
+                    dateRange: null
                 },
                 mealTable: [],
                 mealTableHeader: [
-                    {
-                        title: '编号',
-                        key: 'id'
-                    },
                     {
                         title: '类型',
                         key: 'mealType',
@@ -73,7 +78,8 @@
                             return h('div',
                                 this.formatMealType(params.row)
                             )
-                        }
+                        },
+                        width: 70
                     },
                     {
                         title: '主食',
@@ -84,17 +90,27 @@
                         key: 'mealName'
                     },
                     {
-                        title: '创建时间',
-                        key: 'createTime'
+                        title: '饮品',
+                        key: 'mealDrink'
                     },
                     {
-                        title: '更新时间',
-                        key: 'updateTime'
+                        title: '水果',
+                        key: 'mealFruit'
+                    },
+                    {
+                        title: '运动',
+                        key: 'sports'
+                    },
+                    {
+                        title: '日期',
+                        key: 'addDate',
+                        width: 100
                     },
                     {
                         title: '操作',
                         slot: 'action',
                         fixed: 'right',
+                        width: 130,
                         align: 'center'
                     }
                 ],
@@ -112,6 +128,8 @@
                 let mealType = type === 0 ? null : type;
                 meal.doFindUserMeals(this, {
                     mealType: mealType,
+                    startDate: this.mealQueryForm.startDate,
+                    endDate: this.mealQueryForm.endDate,
                     page: this.mealQueryForm.page,
                     pageSize: this.mealQueryForm.pageSize,
                     sort: this.mealQueryForm.sort,
@@ -156,6 +174,9 @@
             },
             resetQueryMeal() {
                 this.mealQueryForm.mealType = null;
+                this.mealQueryForm.startDate = null;
+                this.mealQueryForm.endDate = null;
+                this.mealQueryForm.dateRange = null;
             },
             resetMealDrawer() {
                 this.$refs['saveMeal'].resetMeal();
@@ -173,6 +194,10 @@
                 this.saveMealDrawer = false;
                 this.resetMealDrawer();
                 this.findMeals();
+            },
+            changeMealDate(formatDate) {
+                this.mealQueryForm.startDate = formatDate[0];
+                this.mealQueryForm.endDate = formatDate[1];
             }
         }
     }

@@ -52,13 +52,13 @@
         ],
         data() {
             return {
-                mealForm: new UserMealsModel([1, 2, 3])
+                mealForm: new UserMealsModel([1, 2, 3], 0)
             }
         },
         methods: {
             resetMeal() {
                 this.mealForm = null;
-                this.mealForm = new UserMealsModel([1, 2, 3]);
+                this.mealForm = new UserMealsModel([1, 2, 3], 0);
             },
             formatMealType(mealType) {
                 return meal.formatMealType(mealType);
@@ -73,18 +73,9 @@
                 });
             },
             updateMeal(row) {
-                this.mealForm = new UserMealsModel([row.mealType]);
-                this.mealForm.meals.forEach(item => {
-                    item.id = row.id;
-                    item.mealType = row.mealType;
-                    item.mainMeal = row.mainMeal.split(",");
-                    if (row.mealName != null && row.mealName !== '') {
-                        let mealNames = row.mealName.split(",");
-                        mealNames.forEach((name) => {
-                            item.mealTags.push({name: name, color: item.randomMealTagColor()});
-                        })
-                    }
-                })
+                this.mealForm = new UserMealsModel([row.mealType], 1);
+                this.mealForm.meals[0].initMeal(row);
+                this.mealForm.sports.sports = row.sports;
             }
         },
         components: {
