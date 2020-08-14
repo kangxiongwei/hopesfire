@@ -1,5 +1,16 @@
 <style scoped type="text/css">
     @import "../styles/index.less";
+
+    .home-carousel-item {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<style type="less">
+    .ivu-carousel-list {
+        height: 100%;
+        width: 100%;
+    }
 </style>
 <template>
     <div id="main">
@@ -28,7 +39,7 @@
                         <Avatar :src="loginUserInfo.headImg" style="width: 30px; height: 30px; line-height: 30px"></Avatar>
                     </Col>
                     <Col span="2" :class="ctlLoginClass" style="margin-left: 0">
-                        <div @mouseover="selectHeaderNav('login')" @mouseout="unSelectHeaderNav('login')" @click="handleLoginClick">
+                        <div @click="handleLoginClick">
                             <Dropdown trigger="click" placement="top" @on-click="handleLoginInfo">
                                 <a href="javascript:void(0)" style="color: white;">
                                     {{loginUserInfo.username}}
@@ -44,16 +55,15 @@
                 </Row>
             </Header>
             <Content id="content">
-                <Row type="flex" justify="center" style="width: 100%; height: 100%">
-                    <Col span="24" style="width: 100%; height: 100%">
-                        <!--<Carousel :height="this.screenHeight" style="width: 800px; text-align: right; border: 1px solid red">
-                            <div v-for="item in homeImages" style="height: 100%">
-                                <CarouselItem style="height: 100%;">
-                                    <img style="height: 500px; width: auto" :src="item" alt=""/>
-                                </CarouselItem>
-                            </div>
+                <Row style="width: 100%; height: 100%">
+                    <Col :span="24" style="width: 100%; height: 100%">
+                        <!--<Carousel v-model="activateImage" loop autoplay autoplay-speed="2000"
+                                  :radius-dot="true" arrow="always"
+                                  style="width: 100%; height: 100%; text-align: center">
+                            <CarouselItem v-for="item in homeImages" class="home-carousel-item">
+                                <img style="height: 100%; width: 100%" :src="item.fileUrl" alt=""/>
+                            </CarouselItem>
                         </Carousel>-->
-                        <!--<img style="width: 100%; height: 100%; border: 1px solid red" src="http://localhost/images/homePage/1596731423914_login-bg.jpg"/>-->
                         <img style="width: 100%; height: 100%;" src="../images/login-bg.jpg"/>
                     </Col>
                 </Row>
@@ -88,7 +98,16 @@
                 loginUserInfo: {
                     username: '',
                     headImg: ''
-                }
+                },
+                homeImages: [
+                    {
+                        fileUrl: "/attach/avatar/1597069062977_login-bg.jpg"
+                    },
+                    {
+                        fileUrl: "/attach/avatar/1597059933612_277510879.jpg"
+                    }
+                ],
+                activateImage: 0
             }
         },
         mounted() {
@@ -102,8 +121,6 @@
                     this.ctlNavClass = 'header_nav_hover';
                 } else if (type === 'logo') {
                     this.ctlLogoClass = 'header_nav'
-                } else if (type === 'login') {
-                    this.ctlLoginClass = 'header_login_hover'
                 }
             },
             unSelectHeaderNav(type) {
@@ -113,8 +130,6 @@
                     this.ctlNavClass = 'header_nav';
                 } else if (type === 'logo') {
                     this.ctlLogoClass = 'header_nav'
-                } else if (type === 'login') {
-                    this.ctlLoginClass = 'header_login'
                 }
             },
             handleLoginClick() {
@@ -137,19 +152,7 @@
             },
             selectCtlPage() {
                 this.$router.push({path: '/ctl'});
-            },
-            getHeight() {
-                //this.screenHeight = window.innerHeight - 128;
-                console.log("屏幕高度" + window.innerHeight + "，" + window.outerHeight);
-                console.log("屏幕宽度" + window.innerWidth + "，" + window.outerWidth);
             }
-        },
-        created() {
-            window.addEventListener('resize', this.getHeight);
-            this.getHeight()
-        },
-        destroyed() {
-            window.removeEventListener('resize', this.getHeight)
         }
     }
 </script>
