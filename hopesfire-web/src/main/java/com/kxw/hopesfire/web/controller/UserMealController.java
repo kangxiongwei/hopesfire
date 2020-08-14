@@ -1,12 +1,11 @@
 package com.kxw.hopesfire.web.controller;
 
 import com.kxw.hopesfire.biz.model.UserMealModel;
-import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.biz.model.UserMealQueryModel;
+import com.kxw.hopesfire.biz.model.UserMealsModel;
 import com.kxw.hopesfire.biz.service.IUserMealService;
 import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -17,21 +16,15 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/ctl/user/meal")
-public class UserMealController {
+public class UserMealController extends BaseController {
 
     @Resource
     private IUserMealService userMealService;
 
-    private UserMealModel setLoginUser(UserMealModel meal) {
-        Subject subject = SecurityUtils.getSubject();
-        UserModel login = (UserModel)subject.getPrincipal();
-        meal.setUsername(login.getUsername());
-        return meal;
-    }
-
     @PostMapping("/save")
     public HttpBaseModel save(@RequestBody UserMealModel meal) {
-        this.userMealService.save(setLoginUser(meal));
+        meal.setUsername(this.getLoginUsername());
+        this.userMealService.save(meal);
         return HttpBaseModel.buildSuccess(meal.getId());
     }
 
@@ -42,9 +35,17 @@ public class UserMealController {
     }
 
     @PostMapping("/find")
-    public HttpBaseModel find(@RequestBody UserMealModel meal) {
-        PagerModel pager = this.userMealService.find(setLoginUser(meal));
+    public HttpBaseModel find(@RequestBody UserMealQueryModel meal) {
+        meal.setUsername(this.getLoginUsername());
+        PagerModel pager = this.userMealService.find(meal);
         return HttpBaseModel.buildSuccess(pager);
+    }
+
+    @PostMapping("/save/meals")
+    public HttpBaseModel saveUserMeals(@RequestBody UserMealsModel model) {
+        model.setUsername(this.getLoginUsername());
+        this.userMealService.saveUserMeals(model);
+        return HttpBaseModel.buildSuccess(null);
     }
 
 }

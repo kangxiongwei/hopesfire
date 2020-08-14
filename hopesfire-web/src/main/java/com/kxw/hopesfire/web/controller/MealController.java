@@ -1,12 +1,9 @@
 package com.kxw.hopesfire.web.controller;
 
 import com.kxw.hopesfire.biz.model.MealModel;
-import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.biz.service.IMealService;
 import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,16 +15,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/ctl/meal")
-public class MealController {
+public class MealController extends BaseController {
 
     @Resource
     private IMealService mealService;
 
     @PostMapping("/save")
     public HttpBaseModel save(@RequestBody MealModel model) {
-        Subject subject = SecurityUtils.getSubject();
-        UserModel user = (UserModel)subject.getPrincipal();
-        model.setUsername(user.getUsername());
+        model.setUsername(this.getLoginUsername());
         this.mealService.save(model);
         return HttpBaseModel.buildSuccess(model.getId());
     }

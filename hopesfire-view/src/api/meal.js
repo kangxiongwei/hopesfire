@@ -1,6 +1,7 @@
 import {get, post} from '../libs/axios'
 
 const USER_MEAL_SAVE_URL = '/ctl/user/meal/save'
+const USER_MEALS_SAVE_URL = '/ctl/user/meal/save/meals'
 const USER_MEAL_DELETE_URL = '/ctl/user/meal/delete/'
 const USER_MEAL_FIND_URL = '/ctl/user/meal/find'
 const MEAL_SAVE_URL = '/ctl/meal/save'
@@ -57,6 +58,10 @@ function doSaveUserMeal(vuex, params) {
     return doSave(vuex, USER_MEAL_SAVE_URL, params, '饮食记录')
 }
 
+function doSaveUserMeals(vuex, params) {
+    return doSave(vuex, USER_MEALS_SAVE_URL, params, '饮食记录')
+}
+
 function doDeleteUserMeal(vuex, id) {
     return doDelete(vuex, USER_MEAL_DELETE_URL + id, '饮食记录')
 }
@@ -81,12 +86,27 @@ function doListMeals(vuex, params) {
     return doFind(vuex, MEAL_LiST_URL, params, '菜品列表');
 }
 
+function formatMealType(mealType) {
+    switch (mealType) {
+        case 1:
+            return '早餐'
+        case 2:
+            return '午餐'
+        case 3:
+            return '晚餐'
+        default:
+            return '未知'
+    }
+}
+
 export default {
     doFindUserMeals,
     doSaveUserMeal,
+    doSaveUserMeals,
     doDeleteUserMeal,
     doFindMeals,
     doSaveMeal,
     doDeleteMeal,
-    doListMeals
+    doListMeals,
+    formatMealType
 }
