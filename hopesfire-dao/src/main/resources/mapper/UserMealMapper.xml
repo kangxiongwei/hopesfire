@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kxw.hopesfire.dao.mapper.UserMealMapper">
+
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_user_meal (meal_type, main_meal, meal_name, meal_drink, meal_fruit, sports, username, add_date)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.mealType}, #{item.mainMeal}, #{item.mealName}, #{item.mealDrink}, #{item.mealFruit},
+            #{item.sports}, #{item.username}, #{item.addDate})
+        </foreach>
+    </insert>
+
+</mapper>

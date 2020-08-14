@@ -21,3 +21,7 @@ CREATE TABLE IF NOT EXISTS t_meal (
 ) COMMENT '主食表';
 
 ALTER TABLE t_meal ADD COLUMN weight INT DEFAULT 0 COMMENT '权重，用于调节顺序' AFTER meal_type;
+ALTER TABLE t_user_meal ADD COLUMN sports VARCHAR(256) COMMENT '运动' AFTER meal_name;
+ALTER TABLE t_user_meal ADD COLUMN meal_fruit VARCHAR(256) COMMENT '水果' AFTER meal_name;
+ALTER TABLE t_user_meal ADD COLUMN meal_drink VARCHAR(256) COMMENT '饮品' AFTER meal_name;
+

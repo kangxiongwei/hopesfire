@@ -108,9 +108,18 @@ public class UserMealServiceImpl implements IUserMealService {
      */
     @Override
     public void saveUserMeals(UserMealsModel model) {
-        List<MealEntity> entities = MealConvert.convertEntity(model);
-
-
+        List<UserMealModel> meals = model.getMeals();
+        if (CollectionUtils.isEmpty(meals)) {
+            return;
+        }
+        List<UserMealEntity> entities = MealConvert.convertEntities(model);
+        //更新，每次只能更新一条
+        if (model.getSaveType() == 1) {
+            UserMealEntity entity = entities.get(0);
+            this.userMealMapper.updateById(entity);
+        } else {
+            this.userMealMapper.batchInsert(entities);
+        }
     }
 
 }

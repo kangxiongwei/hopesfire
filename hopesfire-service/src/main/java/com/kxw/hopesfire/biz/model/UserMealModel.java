@@ -17,6 +17,8 @@ public class UserMealModel extends BaseModel {
     private String mealDrink;
     private String mealName;
     private String mealFruit;
+    private String sports;
     private String username;
+    private String addDate;
 
 }

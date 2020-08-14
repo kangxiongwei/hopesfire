@@ -4,6 +4,7 @@ import com.kxw.hopesfire.biz.enums.MealTypeEnum;
 import com.kxw.hopesfire.biz.model.UserMealModel;
 import com.kxw.hopesfire.biz.model.UserMealsModel;
 import com.kxw.hopesfire.dao.entity.MealEntity;
+import com.kxw.hopesfire.dao.entity.UserMealEntity;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -25,20 +26,38 @@ public class MealConvert {
      */
     public static List<MealEntity> convertEntity(UserMealModel userMeal) {
         List<MealEntity> entities = new ArrayList<>();
-        convertMeals(entities, userMeal.getMainMeal(), MealTypeEnum.MEAL_MAIN, userMeal.getUsername());
-        convertMeals(entities, userMeal.getMealName(), MealTypeEnum.MEAL_NAME, userMeal.getUsername());
+        convertMealEntities(entities, userMeal);
+        return entities;
+    }
+
+    public static List<UserMealEntity> convertEntities(UserMealsModel model) {
+        List<UserMealEntity> entities = new ArrayList<>();
+        for (UserMealModel meal: model.getMeals()) {
+            meal.setUsername(model.getUsername());
+            meal.setAddDate(model.getAddDate());
+            UserMealEntity entity = BaseConvert.convertEntity(meal, new UserMealEntity());
+            if (model.getSports() != null) {
+                entity.setSports(model.getSports().getSports());
+            }
+            entities.add(entity);
+        }
         return entities;
     }
 
     public static List<MealEntity> convertEntity(UserMealsModel model) {
         List<MealEntity> entities = new ArrayList<>();
         for (UserMealModel meal : model.getMeals()) {
-            convertMeals(entities, meal.getMainMeal(), MealTypeEnum.MEAL_MAIN, model.getUsername());
-            convertMeals(entities, meal.getMealName(), MealTypeEnum.MEAL_NAME, model.getUsername());
-            convertMeals(entities, meal.getMealDrink(), MealTypeEnum.MEAL_DRINKS, model.getUsername());
-            convertMeals(entities, meal.getMealFruit(), MealTypeEnum.MEAL_FRUITS, model.getUsername());
+            meal.setUsername(model.getUsername());
+            convertMealEntities(entities, meal);
         }
         return entities;
+    }
+
+    private static void convertMealEntities(List<MealEntity> entities, UserMealModel meal) {
+        convertMeals(entities, meal.getMainMeal(), MealTypeEnum.MEAL_MAIN, meal.getUsername());
+        convertMeals(entities, meal.getMealName(), MealTypeEnum.MEAL_NAME, meal.getUsername());
+        convertMeals(entities, meal.getMealDrink(), MealTypeEnum.MEAL_DRINK, meal.getUsername());
+        convertMeals(entities, meal.getMealFruit(), MealTypeEnum.MEAL_FRUIT, meal.getUsername());
     }
 
     private static void convertMeals(List<MealEntity> entities, String meals, MealTypeEnum mealType, String username) {
