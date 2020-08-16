@@ -152,6 +152,7 @@
                 this.saveMealDrawer = true;
                 this.saveMealDrawerTitle = '添加饮食记录';
                 this.listMeal(1);
+                this.$refs['saveMeal'].addMeal();
             },
             updateMeal(row) {
                 this.saveMealDrawer = true;

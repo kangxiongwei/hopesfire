@@ -1,4 +1,5 @@
 import moment from 'moment';
+import meal from '../api/meal'
 
 export const MEAL_TAG_COLORS = [
     'primary',
@@ -21,7 +22,8 @@ export function UserMealsModel(mealTypes, saveType) {
 export function UserMealModel(mealType) {
     this.id = null;
     this.mealType = mealType;
-    this.mainMeal = [];
+    this.mealTypeName = meal.formatMealType(mealType);
+    this.mainMeal = '';
     this.mealDrink = '';
     this.mealFruit = '';
     this.mealName = '';
@@ -30,6 +32,7 @@ export function UserMealModel(mealType) {
 
 export function UserSportModel() {
     this.sports = '';
+    this.mealTypeName = '运动';
 }
 
 UserMealModel.prototype.randomMealTagColor = function () {
@@ -68,17 +71,13 @@ UserMealModel.prototype.formatMeal = function () {
 UserMealModel.prototype.initMeal = function (row) {
     this.id = row.id;
     this.mealType = row.mealType;
-    this.mainMeal = row.mainMeal.split(",");
-    if (row.mealName != null && row.mealName !== '') {
-        let mealNames = row.mealName.split(",");
-        mealNames.forEach((name) => {
-            this.mealTags.push({name: name, color: this.randomMealTagColor()});
-        })
-    }
+    this.mealTypeName = meal.formatMealType(row.mealType);
+    this.mainMeal = row.mainMeal;
+    this.mealName = row.mealName;
     this.mealDrink = row.mealDrink;
     this.mealFruit = row.mealFruit;
 }
 
 UserMealsModel.prototype.addUserMeal = function (mealType) {
-    this.meals.push(new UserMealModel(mealType))
+    this.meals.push(new UserMealModel(mealType));
 }

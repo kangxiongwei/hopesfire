@@ -3,6 +3,7 @@ package com.kxw.hopesfire.biz.convert;
 import com.kxw.hopesfire.biz.enums.MealTypeEnum;
 import com.kxw.hopesfire.biz.model.UserMealModel;
 import com.kxw.hopesfire.biz.model.UserMealsModel;
+import com.kxw.hopesfire.biz.model.UserSportModel;
 import com.kxw.hopesfire.dao.entity.MealEntity;
 import com.kxw.hopesfire.dao.entity.UserMealEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +36,9 @@ public class MealConvert {
         for (UserMealModel meal: model.getMeals()) {
             meal.setUsername(model.getUsername());
             meal.setAddDate(model.getAddDate());
+            if (!validUserMealModel(meal, model.getSports())) {
+                continue;
+            }
             UserMealEntity entity = BaseConvert.convertEntity(meal, new UserMealEntity());
             if (model.getSports() != null) {
                 entity.setSports(model.getSports().getSports());
@@ -42,6 +46,22 @@ public class MealConvert {
             entities.add(entity);
         }
         return entities;
+    }
+
+    private static boolean validUserMealModel(UserMealModel meal, UserSportModel sport) {
+        if (StringUtils.isNotBlank(meal.getMainMeal())) {
+            return true;
+        }
+        if (StringUtils.isNotBlank(meal.getMealName())) {
+            return true;
+        }
+        if (StringUtils.isNotBlank(meal.getMealFruit())) {
+            return true;
+        }
+        if (StringUtils.isNotBlank(meal.getMealDrink())) {
+            return true;
+        }
+        return StringUtils.isNotBlank(sport.getSports());
     }
 
     public static List<MealEntity> convertEntity(UserMealsModel model) {
