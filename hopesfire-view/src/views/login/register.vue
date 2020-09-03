@@ -23,7 +23,7 @@
                             <Input type="text" v-model="loginUser.nickname" placeholder="请输入昵称"></Input>
                         </FormItem>
                         <FormItem label="头像" prop="headImg">
-                            <Upload ref="uploadAvatar" action="/attach/upload" v-model="loginUser.headImg"
+                            <Upload ref="uploadAvatar" action="/head/upload" v-model="loginUser.headImg"
                                     name="files"
                                     :with-credentials="true"
                                     :data="userAvatar"

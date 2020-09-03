@@ -1,7 +1,11 @@
 package com.kxw.hopesfire.web.controller;
 
 import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.biz.service.IAttachService;
 import com.kxw.hopesfire.biz.service.IUserService;
+import com.kxw.hopesfire.web.config.ApplicationConfiguration;
+import com.kxw.hopesfire.web.model.AttachUploadInfoModel;
+import com.kxw.hopesfire.web.model.AttachUploadModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
@@ -20,12 +24,16 @@ import javax.annotation.Resource;
  * @date 2020-07-03 18:17
  */
 @RestController
-public class LoginController {
+public class LoginController extends BaseController {
 
     @Resource
+    private ApplicationConfiguration applicationConfiguration;
+    @Resource
     private IUserService userService;
+    @Resource
+    private IAttachService attachService;
 
-    /**nnn
+    /**
      * 用户登录
      *
      * @param user
@@ -47,6 +55,19 @@ public class LoginController {
     public HttpBaseModel register(@RequestBody UserModel user) {
         this.userService.save(user);
         return HttpBaseModel.buildSuccess(user);
+    }
+
+    /**
+     * 头像上传接口
+     *
+     * @param model
+     * @return
+     */
+    @PostMapping("/head/upload")
+    public HttpBaseModel uploadHead(AttachUploadModel model) {
+        AttachUploadInfoModel result = this.uploadAttaches(model, applicationConfiguration.getAttachPath());
+        attachService.save(result.getAttaches());
+        return HttpBaseModel.buildSuccess(result.getMessages());
     }
 
     /**

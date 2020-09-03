@@ -48,6 +48,9 @@ public class AttachServiceImpl implements IAttachService {
      */
     @Override
     public void save(List<AttachModel> attaches) {
+        if (CollectionUtils.isEmpty(attaches)) {
+            return;
+        }
         List<AttachEntity> entities = BaseConvert.convertEntities(attaches, new AttachEntity());
         if (CollectionUtils.isEmpty(entities)) {
             return;

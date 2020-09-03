@@ -5,6 +5,7 @@ import com.kxw.hopesfire.biz.model.AttachModel;
 import com.kxw.hopesfire.biz.service.IAttachService;
 import com.kxw.hopesfire.web.config.ApplicationConfiguration;
 import com.kxw.hopesfire.web.model.AttachDownloadModel;
+import com.kxw.hopesfire.web.model.AttachUploadInfoModel;
 import com.kxw.hopesfire.web.model.AttachUploadModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
 import org.slf4j.Logger;
@@ -13,15 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 附件管理，所有附件操作都放在这里
@@ -42,29 +40,9 @@ public class AttachController extends BaseController {
 
     @PostMapping("/upload")
     public HttpBaseModel upload(AttachUploadModel model) {
-        MultipartFile[] files = model.getFiles();
-        if (files == null || files.length <= 0) {
-            return HttpBaseModel.buildSuccess(null);
-        }
-        List<String> response = new ArrayList<>();
-        List<AttachModel> attaches = new ArrayList<>();
-        for (MultipartFile file : files) {
-            String filename = file.getOriginalFilename();
-            try {
-                AttachModel attach = diskFile(file, model.getAttachType(), applicationConfiguration.getAttachPath());
-                if (attach != null) {
-                    attaches.add(attach);
-                    response.add(attach.getFileUrl());
-                } else {
-                    response.add(filename + "上传失败！");
-                }
-            } catch (Exception e) {
-                LOGGER.error("上传文件{}失败，异常为：", filename, e);
-                response.add(filename + "上传失败！");
-            }
-        }
-        attachService.save(attaches);
-        return HttpBaseModel.buildSuccess(response);
+        AttachUploadInfoModel result = uploadAttaches(model, applicationConfiguration.getAttachPath());
+        attachService.save(result.getAttaches());
+        return HttpBaseModel.buildSuccess(result.getMessages());
     }
 
     @GetMapping("/download")

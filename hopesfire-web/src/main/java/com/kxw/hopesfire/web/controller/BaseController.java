@@ -5,12 +5,16 @@ import com.kxw.hopesfire.basic.util.IoUtil;
 import com.kxw.hopesfire.biz.enums.AttachTypeEnum;
 import com.kxw.hopesfire.biz.model.AttachModel;
 import com.kxw.hopesfire.biz.model.UserModel;
+import com.kxw.hopesfire.web.model.AttachUploadInfoModel;
+import com.kxw.hopesfire.web.model.AttachUploadModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 基本的控制类
@@ -33,6 +37,38 @@ public class BaseController {
         UserModel user = (UserModel) subject.getPrincipal();
         return user.getUsername();
     }
+
+    /**
+     * 上传附件的方法
+     *
+     * @param model
+     */
+    protected AttachUploadInfoModel uploadAttaches(AttachUploadModel model, String attachPath) {
+        AttachUploadInfoModel result = new AttachUploadInfoModel();
+        MultipartFile[] files = model.getFiles();
+        if (files == null || files.length <= 0) {
+            return result;
+        }
+        List<AttachModel> attaches = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+        for (MultipartFile file : files) {
+            String filename = file.getOriginalFilename();
+            try {
+                AttachModel attach = diskFile(file, model.getAttachType(), attachPath);
+                if (attach != null) {
+                    attaches.add(attach);
+                } else {
+                    errors.add(filename + "上传失败！");
+                }
+            } catch (Exception e) {
+                errors.add(filename + "上传失败！");
+            }
+        }
+        result.setAttaches(attaches);
+        result.setMessages(errors);
+        return result;
+    }
+
 
     /**
      * 持久化磁盘文件
