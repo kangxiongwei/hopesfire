@@ -1,17 +1,12 @@
 package com.kxw.hopesfire.web.controller;
 
 import com.kxw.hopesfire.basic.util.IoUtil;
-import com.kxw.hopesfire.biz.enums.AttachTypeEnum;
 import com.kxw.hopesfire.biz.model.AttachModel;
-import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.biz.service.IAttachService;
 import com.kxw.hopesfire.web.config.ApplicationConfiguration;
 import com.kxw.hopesfire.web.model.AttachDownloadModel;
 import com.kxw.hopesfire.web.model.AttachUploadModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,14 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 图片管理，所有图片操作都放在这里
+ * 附件管理，所有附件操作都放在这里
  *
  * @author kangxiongwei
  * @date 2020/8/6 6:33 下午
  */
 @RestController
-@RequestMapping("/attach")
-public class AttachController {
+@RequestMapping("/ctl/attach")
+public class AttachController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AttachController.class);
 
@@ -56,7 +51,7 @@ public class AttachController {
         for (MultipartFile file : files) {
             String filename = file.getOriginalFilename();
             try {
-                AttachModel attach = diskFile(file, model.getAttachType());
+                AttachModel attach = diskFile(file, model.getAttachType(), applicationConfiguration.getAttachPath());
                 if (attach != null) {
                     attaches.add(attach);
                     response.add(attach.getFileUrl());
@@ -93,50 +88,6 @@ public class AttachController {
             } catch (IOException e) {
                 LOGGER.error("服务端错误！", e);
             }
-        }
-    }
-
-    /**
-     * 持久化磁盘文件
-     *
-     * @param file
-     * @param attachType
-     * @return
-     */
-    private AttachModel diskFile(MultipartFile file, Integer attachType) {
-        if (file == null || StringUtils.isBlank(file.getOriginalFilename())) {
-            return null;
-        }
-        String filename = file.getOriginalFilename();
-        String filePath = applicationConfiguration.getAttachPath();
-        try {
-            File tempFile = File.createTempFile("temp_", filename);
-            file.transferTo(tempFile);
-            String realFileName = System.currentTimeMillis() + "_" + filename;
-            String attachPath = AttachTypeEnum.getAttachType(attachType);
-            String fileUrl = StringUtils.isNotBlank(attachPath) ? attachPath : "";
-            File destFile = new File(filePath + fileUrl, realFileName);
-            if (!destFile.getParentFile().exists()) {
-                boolean mkdirs = destFile.getParentFile().mkdirs();
-                if (!mkdirs) {
-                    throw new RuntimeException("创建父文件夹失败！");
-                }
-            }
-            IoUtil.copyFile(tempFile, destFile);
-            tempFile.deleteOnExit();
-            //封装附件对象
-            AttachModel attach = new AttachModel();
-            attach.setAttachType(attachType);
-            attach.setOriginName(filename);
-            attach.setFileName(realFileName);
-            attach.setFilePath(destFile.getPath());
-            attach.setFileUrl(File.separator + "attach" + File.separator + fileUrl + File.separator + realFileName);
-            Subject subject = SecurityUtils.getSubject();
-            Object principal = subject == null ? null : subject.getPrincipal();
-            attach.setUsername(principal == null ? "admin" : ((UserModel) principal).getUsername());
-            return attach;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 

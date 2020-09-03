@@ -68,6 +68,23 @@ const routers = [
                 ]
             },
             {
+                path: '/ctl/attach',
+                name: '内容管理',
+                component: MenuComponent,
+                children: [
+                    {
+                        path: '/ctl/attach/articles',
+                        name: '文章管理',
+                        component: (resolve) => require(['./views/ctl/content/articles'], resolve)
+                    },
+                    {
+                        path: '/ctl/attach/attaches',
+                        name: '附件管理',
+                        component: (resolve) => require(['./views/ctl/content/attaches'], resolve)
+                    }
+                ]
+            },
+            {
                 path: '/ctl/meal',
                 name: '饮食管理',
                 component: MenuComponent,

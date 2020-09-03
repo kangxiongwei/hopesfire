@@ -89,6 +89,20 @@
                         ]
                     },
                     {
+                        name: "内容管理",
+                        icon: "ios-folder",
+                        children: [
+                            {
+                                name: "文章管理",
+                                to: "/ctl/attach/articles"
+                            },
+                            {
+                                name: "附件管理",
+                                to: "/ctl/attach/attaches"
+                            }
+                        ]
+                    },
+                    {
                         name: "盼盼的饮食管理",
                         icon: "ios-alarm",
                         children: [

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import ViewUI from 'view-design';
 import VueRouter from 'vue-router';
+import VueCropper from 'vue-cropper'
 import Routers from './router';
 import Util from './libs/util';
 import App from './app.vue';
@@ -13,6 +14,7 @@ Vue.use(ViewUI, {
     transfer: true,
     size: 'small'
 });
+Vue.use(VueCropper);
 Vue.prototype.$axios = axios;
 
 // 路由配置
