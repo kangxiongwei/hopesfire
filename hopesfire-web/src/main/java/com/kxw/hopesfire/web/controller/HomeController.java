@@ -4,6 +4,7 @@ import com.kxw.hopesfire.biz.model.AttachModel;
 import com.kxw.hopesfire.biz.service.IAttachService;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +30,7 @@ public class HomeController extends BaseController {
      * @return
      */
     @PostMapping("/carousel")
-    public HttpBaseModel listHomeImages() {
-        AttachModel model = new AttachModel();
+    public HttpBaseModel listHomeImages(@RequestBody AttachModel model) {
         model.setUsername(this.getUsername());
         List<AttachModel> images = attachService.list(model);
         return HttpBaseModel.buildSuccess(images);
