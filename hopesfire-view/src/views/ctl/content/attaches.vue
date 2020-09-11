@@ -25,7 +25,7 @@
                 </FormItem>
                 <FormItem label="附件内容">
                     <Upload ref="uploadAttach"
-                            style="height: 34px; line-height: 34px;"
+                            multiple
                             action="/ctl/attach/upload"
                             name="files"
                             :with-credentials="true"
@@ -33,14 +33,20 @@
                             :show-upload-list="false"
                             :before-upload="beforeUploadAttach"
                             :on-success="uploadAttachSuccess"
-                            :on-error="uploadAttachError"
-                            :on-remove="deleteUploadAttach">
-                        <Button icon="ios-cloud-upload" type="primary">上传附件</Button>
+                            :on-error="uploadAttachError">
+                        <Button icon="ios-cloud-upload" type="primary">添加附件</Button>
                     </Upload>
+                    <Tag v-for="(item, index) in attachAttributes.files"
+                         :name="index"
+                         closable @on-close="closeAttachTag">
+                        {{item.name}}
+                    </Tag>
+                </FormItem>
+                <FormItem :label-width="0" style="text-align: center">
+                    <Button @click="saveAttach()" type="primary">保存</Button>
                 </FormItem>
             </Form>
         </Drawer>
-
 
 
         <!--<Upload paste name="files" action="" :before-upload="beforeUploadAttaches">
@@ -76,14 +82,11 @@
             return {
                 cropperModel: false,
                 cropperImg: null,
-                attachTableHeader: [
-
-                ],
-                attachTable: [
-
-                ],
+                attachTableHeader: [],
+                attachTable: [],
                 attachAttributes: {
-                    attachType: 1
+                    attachType: 1,
+                    files: []
                 },
                 saveAttachDrawer: false,
                 attachTypes: [
@@ -108,8 +111,21 @@
             addAttach() {
                 this.saveAttachDrawer = true
             },
+            saveAttach() {
+                for (let i = 0; i < this.attachAttributes.files.length; i++) {
+                    let item = this.attachAttributes.files[i];
+                    this.$refs.uploadAttach.post(item);
+                }
+                this.attachAttributes.files = []
+            },
+            closeAttachTag(event, name) {
+                let files = this.attachAttributes.files;
+                const index = files.indexOf(name);
+                files.splice(index, 1);
+            },
             beforeUploadAttach(files) {
-
+                this.attachAttributes.files.push(files);
+                return false;
             },
             uploadAttachSuccess(response) {
                 if (response.code === 200) {
@@ -119,10 +135,7 @@
                 }
             },
             uploadAttachError(error) {
-
-            },
-            deleteUploadAttach(files) {
-                console.log("删除文件" + JSON.stringify(files))
+                this.$Message.error("上传失败，请联系管理员！");
             }
         }
     }

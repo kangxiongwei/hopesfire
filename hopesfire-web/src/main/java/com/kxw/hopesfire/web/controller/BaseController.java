@@ -38,6 +38,11 @@ public class BaseController {
         return user.getUsername();
     }
 
+    protected String getUsername() {
+        String username = this.getLoginUsername();
+        return username == null ? "admin" : username;
+    }
+
     /**
      * 上传附件的方法
      *

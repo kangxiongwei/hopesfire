@@ -66,14 +66,14 @@
             <Content id="content">
                 <Row style="width: 100%; height: 100%">
                     <Col :span="24" style="width: 100%; height: 100%">
-                        <!--<Carousel v-model="activateImage" loop autoplay autoplay-speed="2000"
+                        <Carousel v-if="this.homeImages.length > 0" v-model="activateImage" loop autoplay :autoplay-speed="2000"
                                   :radius-dot="true" arrow="always"
                                   style="width: 100%; height: 100%; text-align: center">
                             <CarouselItem v-for="item in homeImages" class="home-carousel-item">
-                                <img style="height: 100%; width: 100%" :src="item.fileUrl" alt=""/>
+                                <img style="height: calc(100vh - 128px); width: 100%" :src="item" alt=""/>
                             </CarouselItem>
-                        </Carousel>-->
-                        <img style="width: 100%; height: 100%;" src="../images/login-bg.jpg"/>
+                        </Carousel>
+                        <img v-if="this.homeImages.length <= 0" style="width: 100%; height: 100%;" src="../images/login-bg.jpg"/>
                     </Col>
                 </Row>
             </Content>
@@ -95,6 +95,7 @@
 
     import {getToken} from '../libs/store'
     import login from '../api/login'
+    import home from '../api/home'
 
     export default {
         data() {
@@ -109,19 +110,13 @@
                     username: '',
                     headImg: ''
                 },
-                homeImages: [
-                    {
-                        fileUrl: "/attach/avatar/1597069062977_login-bg.jpg"
-                    },
-                    {
-                        fileUrl: "/attach/avatar/1597059933612_277510879.jpg"
-                    }
-                ],
+                homeImages: [],
                 activateImage: 0
             }
         },
         mounted() {
             this.handleLoginClick();
+            this.listHomeCarousel();
         },
         methods: {
             selectHeaderNav(type) {
@@ -162,6 +157,13 @@
             },
             selectCtlPage() {
                 this.$router.push({path: '/ctl'});
+            },
+            listHomeCarousel() {
+                home.doListHOmeCarousel(this, null).then(res => {
+                    res.forEach(item => {
+                        this.homeImages.push(item.fileUrl);
+                    })
+                })
             }
         }
     }
