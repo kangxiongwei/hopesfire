@@ -65,7 +65,7 @@
                     page: 1,
                     pageSize: 10,
                     total: 0,
-                    sort: 'update_time',
+                    sort: 'add_date',
                     order: 'desc',
                     dateRange: null
                 },
