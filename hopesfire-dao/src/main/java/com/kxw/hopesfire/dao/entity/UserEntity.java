@@ -16,6 +16,7 @@ public class UserEntity extends BaseEntity {
     private String username;
     private String password;
     private String nickname;
+    private Long headId;
     private String headImg;
     private Integer sex;
     private String telephone;

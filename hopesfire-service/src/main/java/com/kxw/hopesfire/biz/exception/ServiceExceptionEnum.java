@@ -12,7 +12,8 @@ public enum ServiceExceptionEnum {
     AUTH_ERROR(405, "授权失败！"),
     REFLECT_ERROR(505, "反射异常！"),
     FILE_NOT_EXIST(506, "文件不存在！"),
-    IO_EXCEPTION(507, "文件流处理失败！");
+    IO_EXCEPTION(507, "文件流处理失败！"),
+    HEAD_ERROR(508, "头像上传错误！");
 
     private int code;
     private String msg;

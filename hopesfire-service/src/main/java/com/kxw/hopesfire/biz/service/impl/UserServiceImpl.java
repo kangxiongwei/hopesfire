@@ -43,7 +43,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void save(UserModel user) {
-        UserEntity entity = UserConvert.convertEntity(user);
+        UserEntity entity = BaseConvert.convertEntity(user, new UserEntity());
         if (user.getId() != null) {
             userMapper.updateById(entity);
         } else {
@@ -76,7 +76,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public PagerModel find(UserModel user) {
-        Wrapper<UserEntity> wrapper = new QueryWrapper<>(UserConvert.convertEntity(user));
+        Wrapper<UserEntity> wrapper = BaseConvert.convertWrapper(user, new UserEntity());
         IPage<UserEntity> entities = this.userMapper.selectPage(PageConvert.convertPage(user), wrapper);
         List<UserModel> records = UserConvert.convertModelList(entities.getRecords());
         return PageConvert.convertToModel(entities, records);

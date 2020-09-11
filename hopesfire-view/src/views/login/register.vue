@@ -71,6 +71,7 @@
                     password: '',
                     nickname: '',
                     sex: '',
+                    headId: null,
                     headImg: '',
                     telephone: '',
                     address: ''
@@ -119,12 +120,12 @@
             beforeUploadAvatar(file) {
             },
             uploadAvatarSuccess(response) {
-                let attach = response.data;
-                if (attach.attaches.length > 0) {
-                    this.loginUser.headImg = attach.attaches[0].fileUrl;
-                    return;
+                if (response.code === 200) {
+                    this.loginUser.headId = response.data.id;
+                    this.loginUser.headImg = response.data.fileUrl;
+                } else {
+                    this.$Message.error("上传头像失败，请联系管理员！");
                 }
-                this.$Message.error("上传头像失败，" + attach.messages[0] + "，请联系管理员！");
             },
             uploadAvatarError(error) {
                 this.$Message.error("上传头像失败，请联系管理员！");

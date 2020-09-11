@@ -1,5 +1,8 @@
 package com.kxw.hopesfire.web.controller;
 
+import com.kxw.hopesfire.biz.exception.ServiceException;
+import com.kxw.hopesfire.biz.exception.ServiceExceptionEnum;
+import com.kxw.hopesfire.biz.model.AttachModel;
 import com.kxw.hopesfire.biz.model.UserModel;
 import com.kxw.hopesfire.biz.service.IAttachService;
 import com.kxw.hopesfire.biz.service.IUserService;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 登录注册控制器
@@ -66,8 +70,15 @@ public class LoginController extends BaseController {
     @PostMapping("/head/upload")
     public HttpBaseModel uploadHead(AttachUploadModel model) {
         AttachUploadInfoModel result = this.uploadAttaches(model, applicationConfiguration.getAttachPath());
-        attachService.save(result.getAttaches());
-        return HttpBaseModel.buildSuccess(result);
+        List<AttachModel> attaches = result.getAttaches();
+        if (attaches.size() == 1) {
+            AttachModel attach = attaches.get(0);
+            attachService.save(attach);
+            return HttpBaseModel.buildSuccess(attach);
+        } else {
+            ServiceException exp = ServiceException.build(ServiceExceptionEnum.HEAD_ERROR);
+            return HttpBaseModel.buildFailed(exp);
+        }
     }
 
     /**

@@ -36,6 +36,7 @@ public class AttachServiceImpl implements IAttachService {
         AttachEntity entity = BaseConvert.convertEntity(model, new AttachEntity());
         if (entity.getId() == null) {
             this.attachMapper.insert(entity);
+            model.setId(entity.getId());
         } else {
             this.attachMapper.updateById(entity);
         }

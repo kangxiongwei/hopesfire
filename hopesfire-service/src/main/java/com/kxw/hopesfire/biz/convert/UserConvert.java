@@ -49,26 +49,4 @@ public class UserConvert {
         return entities.stream().map(UserConvert::convertModel).collect(Collectors.toList());
     }
 
-    /**
-     * 单个转换
-     *
-     * @param user
-     * @return
-     */
-    public static UserEntity convertEntity(UserModel user) {
-        if (user == null) {
-            return null;
-        }
-        UserEntity entity = new UserEntity();
-        entity.setId(user.getId());
-        entity.setUsername(user.getUsername());
-        entity.setPassword(user.getPassword());
-        entity.setNickname(user.getNickname());
-        entity.setSex(user.getSex());
-        entity.setHeadImg(user.getHeadImg());
-        entity.setTelephone(user.getTelephone());
-        entity.setAddress(user.getAddress());
-        return entity;
-    }
-
 }

@@ -19,10 +19,12 @@ public class UserModel extends BaseModel {
     private String username;
     private String password;
     private String nickname;
+    private Long headId;
     private String headImg;
     private Integer sex;
     private String telephone;
     private String address;
+    private AttachModel headAttach;         //用户头像
     private List<RoleModel> roles;
 
 }
