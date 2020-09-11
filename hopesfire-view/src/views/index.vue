@@ -159,7 +159,9 @@
                 this.$router.push({path: '/ctl'});
             },
             listHomeCarousel() {
-                home.doListHOmeCarousel(this, null).then(res => {
+                home.doListHomeCarousel(this, {
+                    attachType: 1
+                }).then(res => {
                     res.forEach(item => {
                         this.homeImages.push(item.fileUrl);
                     })
