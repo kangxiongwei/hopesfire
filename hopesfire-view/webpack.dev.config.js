@@ -63,6 +63,11 @@ module.exports = merge(webpackBaseConfig, {
                 target: 'http://localhost:80',
                 pathRewrite: {'^/attach' : '/attach'},
                 changeOrigin: true
+            },
+            '/head/upload': {
+                target: 'http://localhost:80',
+                pathRewrite: {'^/head/upload' : '/head/upload'},
+                changeOrigin: true
             }
         }
     }
