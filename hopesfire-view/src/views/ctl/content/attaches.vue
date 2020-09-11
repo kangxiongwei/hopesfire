@@ -108,6 +108,10 @@
                         key: 'filePath'
                     },
                     {
+                        title: '缩略图URL',
+                        key: 'thumbnailUrl'
+                    },
+                    {
                         title: '创建时间',
                         key: 'createTime'
                     },
