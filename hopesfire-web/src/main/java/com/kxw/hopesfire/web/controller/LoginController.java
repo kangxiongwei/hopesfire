@@ -67,7 +67,7 @@ public class LoginController extends BaseController {
     public HttpBaseModel uploadHead(AttachUploadModel model) {
         AttachUploadInfoModel result = this.uploadAttaches(model, applicationConfiguration.getAttachPath());
         attachService.save(result.getAttaches());
-        return HttpBaseModel.buildSuccess(result.getMessages());
+        return HttpBaseModel.buildSuccess(result);
     }
 
     /**

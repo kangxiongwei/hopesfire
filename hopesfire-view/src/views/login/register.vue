@@ -1,5 +1,6 @@
 <style lang="less">
     @import './login.less';
+
     .login {
         &-con {
             top: 60%;
@@ -118,7 +119,12 @@
             beforeUploadAvatar(file) {
             },
             uploadAvatarSuccess(response) {
-                this.loginUser.headImg = response.data[0];
+                let attach = response.data;
+                if (attach.attaches.length > 0) {
+                    this.loginUser.headImg = attach.attaches[0].fileUrl;
+                    return;
+                }
+                this.$Message.error("上传头像失败，" + attach.messages[0] + "，请联系管理员！");
             },
             uploadAvatarError(error) {
                 this.$Message.error("上传头像失败，请联系管理员！");
