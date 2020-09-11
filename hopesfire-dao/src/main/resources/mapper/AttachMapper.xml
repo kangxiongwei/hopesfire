@@ -4,10 +4,10 @@
 <mapper namespace="com.kxw.hopesfire.dao.mapper.AttachMapper">
 
     <insert id="batchInsert" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO t_attach(attach_type, origin_name, file_name, file_path, file_url, username)
+        INSERT INTO t_attach(attach_type, origin_name, file_name, file_path, file_url, thumbnail_url, username)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.attachType}, #{item.originName}, #{item.fileName}, #{item.filePath}, #{item.fileUrl}, #{item.username})
+            (#{item.attachType}, #{item.originName}, #{item.fileName}, #{item.filePath}, #{item.fileUrl}, #{item.thumbnailUrl}, #{item.username})
         </foreach>
     </insert>
 

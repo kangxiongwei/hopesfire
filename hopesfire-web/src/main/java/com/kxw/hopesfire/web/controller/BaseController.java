@@ -108,9 +108,9 @@ public class BaseController {
             attach.setOriginName(filename);
             attach.setFileName(realFileName);
             attach.setFilePath(destFile.getPath());
-            attach.setFileUrl(destFile.getPath().replace(filePath, "/attach"));
+            attach.setFileUrl(destFile.getPath().replace(filePath, "/attach/"));
             if (thumbFile != null) {
-                attach.setThumbnailUrl(thumbFile.getPath().replace(filePath, "/attach"));
+                attach.setThumbnailUrl(thumbFile.getPath().replace(filePath, "/attach/"));
             }
             attach.setUsername(getUsername());
             return attach;

@@ -163,7 +163,7 @@
                     attachType: 1
                 }).then(res => {
                     res.forEach(item => {
-                        this.homeImages.push(item.fileUrl);
+                        this.homeImages.push(item.thumbnailUrl);
                     })
                 })
             }
