@@ -1,6 +1,7 @@
 package com.kxw.hopesfire.web.controller;
 
 import com.kxw.hopesfire.basic.util.FileUtil;
+import com.kxw.hopesfire.basic.util.ImageUtil;
 import com.kxw.hopesfire.basic.util.IoUtil;
 import com.kxw.hopesfire.biz.enums.AttachTypeEnum;
 import com.kxw.hopesfire.biz.model.AttachModel;
@@ -91,10 +92,15 @@ public class BaseController {
             File tempFile = File.createTempFile("temp_", filename);
             file.transferTo(tempFile);
             String realFileName = System.currentTimeMillis() + "_" + filename;
-            String attachPath = AttachTypeEnum.getAttachType(attachType);
+            AttachTypeEnum attachTypeEnum = AttachTypeEnum.getAttachType(attachType);
+            String attachPath = attachTypeEnum == null ? "" : attachTypeEnum.getAttachType();
             String fileUrl = StringUtils.isNotBlank(attachPath) ? attachPath : "";
             File destFile = FileUtil.createFile(filePath + fileUrl, realFileName);
             IoUtil.copyFile(tempFile, destFile);
+            File thumbFile = null;
+            if (attachTypeEnum != null) {
+                thumbFile = ImageUtil.compress(destFile, attachTypeEnum.getWidth(), attachTypeEnum.getHeight());
+            }
             tempFile.deleteOnExit();
             //封装attach对象
             AttachModel attach = new AttachModel();
@@ -102,7 +108,10 @@ public class BaseController {
             attach.setOriginName(filename);
             attach.setFileName(realFileName);
             attach.setFilePath(destFile.getPath());
-            attach.setFileUrl(File.separator + "attach" + File.separator + fileUrl + File.separator + realFileName);
+            attach.setFileUrl(destFile.getPath().replace(filePath, "/attach"));
+            if (thumbFile != null) {
+                attach.setThumbnailUrl(thumbFile.getPath().replace(filePath, "/attach"));
+            }
             attach.setUsername(getLoginUsername() == null ? "admin" : getLoginUsername());
             return attach;
         } catch (Exception e) {

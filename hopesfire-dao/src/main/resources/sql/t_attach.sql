@@ -13,3 +13,6 @@ CREATE TABLE IF NOT EXISTS t_attach (
     KEY idx_origin_name(origin_name),
     KEY idx_username(username)
 ) COMMENT '附件存储表';
+
+
+ALTER TABLE t_attach ADD COLUMN thumbnail_url VARCHAR(256) COMMENT '缩略图地址' AFTER file_url;

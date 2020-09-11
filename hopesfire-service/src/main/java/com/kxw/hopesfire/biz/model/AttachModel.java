@@ -19,6 +19,7 @@ public class AttachModel extends BaseModel {
     private String fileName;        //附件实际名称
     private String filePath;        //附件实际路径
     private String fileUrl;         //附件的URL地址
+    private String thumbnailUrl;    //压缩图片地址
     private String username;        //用户名称
 
 }

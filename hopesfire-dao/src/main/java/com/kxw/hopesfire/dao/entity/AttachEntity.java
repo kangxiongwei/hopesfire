@@ -18,6 +18,7 @@ public class AttachEntity extends BaseEntity {
     private String fileName;
     private String filePath;
     private String fileUrl;
+    private String thumbnailUrl;
     private String username;
 
 }
