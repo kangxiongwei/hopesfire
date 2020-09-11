@@ -30,6 +30,9 @@
                 </div>
             </Card>
         </div>
+        <div class="login-footer">
+            Copyright &copy; 2020-2025 希望之火 | <a class="realm_link" :href="realmUrl" target="_blank">京ICP备20021406号</a>
+        </div>
     </div>
 </template>
 
@@ -45,7 +48,8 @@
                 loginUser: {
                     username: '',
                     password: ''
-                }
+                },
+                realmUrl: "https://beian.miit.gov.cn"
             }
         },
         mounted() {
