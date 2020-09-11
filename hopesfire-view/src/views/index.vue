@@ -5,6 +5,15 @@
         width: 100%;
         height: 100%;
     }
+
+    .realm_link {
+        color: white;
+    }
+
+    .realm_link:hover {
+        color: #2d8cf0;
+    }
+
 </style>
 <style type="less">
     .ivu-carousel-list {
@@ -70,7 +79,7 @@
             </Content>
             <Footer id="footer">
                 <Row type="flex" justify="center">
-                    <Col span="24">Copyright &copy; 2020-2025 希望之火 | 京ICP备20021406号</Col>
+                    <Col span="24">Copyright &copy; 2020-2025 希望之火 | <a class="realm_link" :href="realmUrl" target="_blank">京ICP备20021406号</a></Col>
                 </Row>
             </Footer>
         </Layout>
@@ -95,6 +104,7 @@
                 ctlNavClass: 'header_nav',
                 ctlLoginClass: 'header_login',
                 showUserInfo: false,
+                realmUrl: "https://beian.miit.gov.cn",
                 loginUserInfo: {
                     username: '',
                     headImg: ''
