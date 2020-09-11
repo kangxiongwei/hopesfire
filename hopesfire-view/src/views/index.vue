@@ -41,7 +41,7 @@
                             控制台
                         </div>
                     </Col>
-                    <Col :xs="2" :sm="4" :md="6" :lg="8" :xl="16" :xxl="20">
+                    <Col :xs="2" :sm="4" :md="6" :lg="8" :xl="16" :xxl="18">
                         <div></div>
                     </Col>
                     <Col :span="1" style="text-align: center">

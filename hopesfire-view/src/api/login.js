@@ -28,6 +28,7 @@ function register(vuex, loginUser) {
         password: loginUser.password,
         nickname: loginUser.nickname,
         sex: loginUser.sex,
+        headId: loginUser.headId,
         headImg: loginUser.headImg,
         telephone: loginUser.telephone,
         address: loginUser.address
