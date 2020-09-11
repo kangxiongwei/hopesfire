@@ -112,7 +112,7 @@ public class BaseController {
             if (thumbFile != null) {
                 attach.setThumbnailUrl(thumbFile.getPath().replace(filePath, "/attach"));
             }
-            attach.setUsername(getLoginUsername() == null ? "admin" : getLoginUsername());
+            attach.setUsername(getUsername());
             return attach;
         } catch (Exception e) {
             throw new RuntimeException(e);
