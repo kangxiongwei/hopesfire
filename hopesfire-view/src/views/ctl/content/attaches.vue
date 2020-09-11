@@ -13,7 +13,7 @@
         <Table stripe border size="small" :columns="attachTableHeader" :data="attachTable">
             <template slot-scope="{row}" slot="action">
                 <Button type="primary" size="small" @click="">编辑</Button>
-                <Button type="error" size="small" @click="">删除</Button>
+                <Button type="error" size="small" @click="deleteAttach(row)">删除</Button>
             </template>
         </Table>
         <Drawer title="上传附件" :closable="true" :width="40" v-model="saveAttachDrawer">
@@ -76,13 +76,52 @@
 </template>
 
 <script>
+
+    import attach from '../../../api/attach'
+    import meal from "../../../api/meal";
+
     export default {
         name: "attaches",
         data() {
             return {
                 cropperModel: false,
                 cropperImg: null,
-                attachTableHeader: [],
+                attachTableHeader: [
+                    {
+                        title: "编号",
+                        key: 'id'
+                    },
+                    {
+                        title: '附件名称',
+                        key: 'originName'
+                    },
+                    {
+                        title: '附件类型',
+                        key: 'attachType'
+                    },
+                    {
+                        title: '附件URL',
+                        key: 'fileUrl'
+                    },
+                    {
+                        title: '附件路径',
+                        key: 'filePath'
+                    },
+                    {
+                        title: '创建时间',
+                        key: 'createTime'
+                    },
+                    {
+                        title: '更新时间',
+                        key: 'updateTime'
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        fixed: 'right',
+                        align: 'center'
+                    }
+                ],
                 attachTable: [],
                 attachAttributes: {
                     attachType: 1,
@@ -136,7 +175,31 @@
             },
             uploadAttachError(error) {
                 this.$Message.error("上传失败，请联系管理员！");
+            },
+            findAttaches() {
+                attach.doFindAttaches(this, {}).then(res => {
+                    this.attachTable = res.records;
+                })
+            },
+            deleteAttach(row) {
+                console.log("删除记录" + row.id)
+                this.$Modal.confirm({
+                    title: '确认删除',
+                    content: '请问您确认要删除这条记录吗？',
+                    closable: true,
+                    okText: '删除',
+                    onOk: () => {
+                        attach.doDeleteAttach(this, {
+                            id: row.id
+                        }).then(() => {
+                            this.findAttaches();
+                        });
+                    }
+                });
             }
+        },
+        mounted() {
+            this.findAttaches();
         }
     }
 </script>

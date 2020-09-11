@@ -3,6 +3,7 @@ package com.kxw.hopesfire.web.controller;
 import com.kxw.hopesfire.basic.util.IoUtil;
 import com.kxw.hopesfire.biz.model.AttachModel;
 import com.kxw.hopesfire.biz.service.IAttachService;
+import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.web.config.ApplicationConfiguration;
 import com.kxw.hopesfire.web.model.AttachDownloadModel;
 import com.kxw.hopesfire.web.model.AttachUploadInfoModel;
@@ -10,10 +11,7 @@ import com.kxw.hopesfire.web.model.AttachUploadModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -67,6 +65,19 @@ public class AttachController extends BaseController {
                 LOGGER.error("服务端错误！", e);
             }
         }
+    }
+
+    @PostMapping("/find")
+    public HttpBaseModel find(@RequestBody AttachModel model) {
+        model.setUsername(this.getLoginUsername());
+        PagerModel pager = this.attachService.find(model);
+        return HttpBaseModel.buildSuccess(pager);
+    }
+
+    @PostMapping("/delete")
+    public HttpBaseModel delete(@RequestBody AttachModel model) {
+        this.attachService.delete(model.getId());
+        return HttpBaseModel.buildSuccess(model.getId());
     }
 
 }
