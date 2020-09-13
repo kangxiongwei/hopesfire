@@ -1,12 +1,6 @@
 <style scoped type="text/css">
     @import "../styles/index.less";
 </style>
-<style type="less">
-    .ivu-carousel-list {
-        height: 100%;
-        width: 100%;
-    }
-</style>
 <template>
     <div id="main">
         <Layout style="width: 100%; height: 100%">
@@ -16,22 +10,16 @@
                         <img class="header_logo_img" src="../images/logo.png" alt="logo"/>
                     </Col>
                     <Col span="2" class="header_nav">
-                        <div>
-                            首页
-                        </div>
+                        <div @click="activePage('HomePage')">首页</div>
                     </Col>
                     <Col span="2" class="header_nav">
-                        <div @click="selectCtlPage">
-                            控制台
-                        </div>
+                        <div @click="activePage('ctl')">控制台</div>
                     </Col>
                     <Col span="2" class="header_nav">
-                        <div>
-                            最新资讯
-                        </div>
+                        <div @click="activePage('OurNews')">最新资讯</div>
                     </Col>
                     <Col span="2" class="header_nav">
-                        <div>关于我们</div>
+                        <div @click="activePage('AboutUs')">关于我们</div>
                     </Col>
                     <Col :md="2" :lg="4" :xl="8" :xxl="10">
 
@@ -39,7 +27,7 @@
                     <Col :span="1" style="text-align: center">
                         <Avatar :src="loginUserInfo.headImg" style="width: 30px; height: 30px; line-height: 30px"></Avatar>
                     </Col>
-                    <Col span="2" :class="ctlLoginClass" style="margin-left: 0">
+                    <Col span="2" class="header_login" style="margin-left: 0">
                         <div @click="handleLoginClick">
                             <Dropdown trigger="click" placement="top" @on-click="handleLoginInfo">
                                 <a href="javascript:void(0)" style="color: white;">
@@ -58,14 +46,9 @@
             <Content id="content">
                 <Row style="width: 100%; height: 100%">
                     <Col :span="24" style="width: 100%; height: 100%">
-                        <Carousel v-if="this.homeImages.length > 0" v-model="activateImage" loop autoplay :autoplay-speed="2000"
-                                  :radius-dot="true" arrow="always"
-                                  style="width: 100%; height: 100%; text-align: center">
-                            <CarouselItem v-for="item in homeImages" class="home-carousel-item">
-                                <img style="height: calc(100vh - 128px); width: 100%" :src="item" alt=""/>
-                            </CarouselItem>
-                        </Carousel>
-                        <img v-if="this.homeImages.length <= 0" style="width: 100%; height: 100%;" src="../images/login-bg.jpg"/>
+                        <HomePage v-if="selectPage === 'HomePage'"></HomePage>
+                        <OurNews v-if="selectPage === 'OurNews'"></OurNews>
+                        <AboutUs v-if="selectPage === 'AboutUs'"></AboutUs>
                     </Col>
                 </Row>
             </Content>
@@ -87,28 +70,31 @@
 
     import {getToken} from '../libs/store'
     import login from '../api/login'
-    import home from '../api/home'
+    import HomePage from './home/HomePage'
+    import OurNews from "./home/OurNews";
+    import AboutUs from "./home/AboutUs"
 
     export default {
+
+        components: {
+            HomePage,
+            OurNews,
+            AboutUs
+        },
+
         data() {
             return {
-                ctlLogoClass: 'header_nav',
-                homeNavClass: 'header_nav',
-                ctlNavClass: 'header_nav',
-                ctlLoginClass: 'header_login',
                 showUserInfo: false,
                 realmUrl: "https://beian.miit.gov.cn",
                 loginUserInfo: {
                     username: '',
                     headImg: ''
                 },
-                homeImages: [],
-                activateImage: 0
+                selectPage: 'HomePage'
             }
         },
         mounted() {
             this.handleLoginClick();
-            this.listHomeCarousel();
         },
         methods: {
             handleLoginClick() {
@@ -129,17 +115,12 @@
                     login.logout(this);
                 }
             },
-            selectCtlPage() {
-                this.$router.push({path: '/ctl'});
-            },
-            listHomeCarousel() {
-                home.doListHomeCarousel(this, {
-                    attachType: 1
-                }).then(res => {
-                    res.forEach(item => {
-                        this.homeImages.push(item.thumbnailUrl);
-                    })
-                })
+            activePage(type) {
+                if (type === 'ctl') {
+                    this.$router.push({path: '/ctl'});
+                } else {
+                    this.selectPage = type;
+                }
             }
         }
     }
