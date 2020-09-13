@@ -1,19 +1,5 @@
 <style scoped type="text/css">
     @import "../styles/index.less";
-
-    .home-carousel-item {
-        width: 100%;
-        height: 100%;
-    }
-
-    .realm_link {
-        color: white;
-    }
-
-    .realm_link:hover {
-        color: #2d8cf0;
-    }
-
 </style>
 <style type="less">
     .ivu-carousel-list {
@@ -26,23 +12,29 @@
         <Layout style="width: 100%; height: 100%">
             <Header id="header">
                 <Row type="flex" justify="start" class="header_nav_row">
-                    <Col span="2" :class="ctlLogoClass">
-                        <div @mouseover="selectHeaderNav('logo')" @mouseout="unSelectHeaderNav('logo')">
-                            <img class="header_logo_img" src="../images/logo.png" alt="logo"/>
-                        </div>
+                    <Col span="2" class="header_logo_nav">
+                        <img class="header_logo_img" src="../images/logo.png" alt="logo"/>
                     </Col>
-                    <Col span="2" :class="homeNavClass">
-                        <div @mouseover="selectHeaderNav('home')" @mouseout="unSelectHeaderNav('home')">
+                    <Col span="2" class="header_nav">
+                        <div>
                             首页
                         </div>
                     </Col>
-                    <Col span="2" :class="ctlNavClass">
-                        <div @mouseover="selectHeaderNav('ctl')" @mouseout="unSelectHeaderNav('ctl')" @click="selectCtlPage">
+                    <Col span="2" class="header_nav">
+                        <div @click="selectCtlPage">
                             控制台
                         </div>
                     </Col>
-                    <Col :xs="2" :sm="4" :md="6" :lg="8" :xl="16" :xxl="18">
-                        <div></div>
+                    <Col span="2" class="header_nav">
+                        <div>
+                            最新资讯
+                        </div>
+                    </Col>
+                    <Col span="2" class="header_nav">
+                        <div>关于我们</div>
+                    </Col>
+                    <Col :md="2" :lg="4" :xl="8" :xxl="10">
+
                     </Col>
                     <Col :span="1" style="text-align: center">
                         <Avatar :src="loginUserInfo.headImg" style="width: 30px; height: 30px; line-height: 30px"></Avatar>
@@ -119,24 +111,6 @@
             this.listHomeCarousel();
         },
         methods: {
-            selectHeaderNav(type) {
-                if (type === 'home') {
-                    this.homeNavClass = 'header_nav_hover';
-                } else if (type === 'ctl') {
-                    this.ctlNavClass = 'header_nav_hover';
-                } else if (type === 'logo') {
-                    this.ctlLogoClass = 'header_nav'
-                }
-            },
-            unSelectHeaderNav(type) {
-                if (type === 'home') {
-                    this.homeNavClass = 'header_nav';
-                } else if (type === 'ctl') {
-                    this.ctlNavClass = 'header_nav';
-                } else if (type === 'logo') {
-                    this.ctlLogoClass = 'header_nav'
-                }
-            },
             handleLoginClick() {
                 let loginUser = getToken();
                 if (loginUser === '') {
