@@ -3,7 +3,7 @@
         <Row style="width: 100%; height: calc(100vh - 178px)">
             <Col span="4" style="height: 100%; border-right: 1px solid #e8eaec">
                 <Row>
-                    <Tree :data="bannerTree" @on-select-change="selectBannerTree" @on-contextmenu="handleContextMenu">
+                    <Tree :data="bannerTree" :render="renderBannerTree" @on-select-change="selectBannerTree" @on-contextmenu="handleContextMenu">
                         <template slot="contextMenu">
                             <DropdownItem style="text-align: center; color: #19be6b" @click.native="addBanner">
                                 添加
@@ -224,6 +224,20 @@
             },
             handleContextMenu(data) {
                 this.parentBanner = data;
+            },
+            renderBannerTree(h, {root, node, data}) {
+                return h('span', [
+                    h('Icon', {
+                        props: {
+                            type: data.children == null ? 'ios-paper' : 'ios-folder-open',
+                            color: data.children == null ? '#2d8cf0' : '#ff9900'
+                        },
+                        style: {
+                            marginRight: '8px'
+                        }
+                    }),
+                    h('span', data.title)
+                ])
             }
         },
         mounted() {
