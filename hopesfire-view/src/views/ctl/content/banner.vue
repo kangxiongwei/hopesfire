@@ -226,11 +226,12 @@
                 this.parentBanner = data;
             },
             renderBannerTree(h, {root, node, data}) {
+                let isLeafNode = data.children == null || data.children.length === 0;
                 return h('span', [
                     h('Icon', {
                         props: {
-                            type: data.children == null ? 'ios-paper' : 'ios-folder-open',
-                            color: data.children == null ? '#2d8cf0' : '#ff9900'
+                            type: isLeafNode ? 'ios-paper' : 'ios-folder-open',
+                            color: isLeafNode ? '#2d8cf0' : '#ff9900'
                         },
                         style: {
                             marginRight: '8px'
