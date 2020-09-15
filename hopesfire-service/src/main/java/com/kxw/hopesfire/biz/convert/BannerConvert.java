@@ -3,7 +3,6 @@ package com.kxw.hopesfire.biz.convert;
 import com.kxw.hopesfire.biz.model.BannerModel;
 import com.kxw.hopesfire.biz.model.BannerTreeModel;
 import com.kxw.hopesfire.dao.entity.BannerEntity;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -24,12 +23,10 @@ public class BannerConvert {
     }
 
     public static void convertTreeChildren(BannerTreeModel parent, List<BannerTreeModel> children) {
-        if (!CollectionUtils.isEmpty(children)) {
-            parent.setChildren(children);
-            for (BannerTreeModel n : children) {
-                BannerModel banner = n.getBanner();
-                banner.setParent(parent.getBanner());
-            }
+        parent.setChildren(children);
+        for (BannerTreeModel n : children) {
+            BannerModel banner = n.getBanner();
+            banner.setParent(parent.getBanner());
         }
     }
 
