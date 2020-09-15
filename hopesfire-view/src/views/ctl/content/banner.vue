@@ -173,6 +173,8 @@
                 banner.doSaveBanner(this, {
                     id: id,
                     status: status
+                }).then(res => {
+                    this.listBannerTree();
                 })
             },
             addBanner() {
