@@ -73,12 +73,17 @@ const routers = [
                 component: MenuComponent,
                 children: [
                     {
-                        path: '/ctl/attach/articles',
+                        path: '/ctl/banner',
+                        name: '栏目管理',
+                        component: (resolve) => require(['./views/ctl/content/banner'], resolve)
+                    },
+                    {
+                        path: '/ctl/article',
                         name: '文章管理',
                         component: (resolve) => require(['./views/ctl/content/articles'], resolve)
                     },
                     {
-                        path: '/ctl/attach/attaches',
+                        path: '/ctl/attach',
                         name: '附件管理',
                         component: (resolve) => require(['./views/ctl/content/attaches'], resolve)
                     }

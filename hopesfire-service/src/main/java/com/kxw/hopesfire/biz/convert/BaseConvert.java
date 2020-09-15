@@ -10,6 +10,7 @@ import com.kxw.hopesfire.dao.convert.PageConvert;
 import com.kxw.hopesfire.dao.entity.BaseEntity;
 import com.kxw.hopesfire.dao.model.BaseModel;
 import com.kxw.hopesfire.dao.model.PagerModel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -23,6 +24,8 @@ import java.util.List;
  * @date 2020-07-24 23:27
  */
 public class BaseConvert {
+
+    private static final String ORDER_DESC = "desc";
 
     public static <M, E> E convertEntity(M model, E entity) {
         if (model == null) {
@@ -48,6 +51,20 @@ public class BaseConvert {
     public static <M, E> Wrapper<E> convertWrapper(M model, E entity) {
         E e = convertEntity(model, entity);
         return new QueryWrapper<>(e);
+    }
+
+    public static <M, E> Wrapper<E> convertSortWrapper(M model, E entity) {
+        E e = convertEntity(model, entity);
+        QueryWrapper<E> wrapper = new QueryWrapper<>(e);
+        BaseModel bm = (BaseModel) model;
+        if (StringUtils.isNotBlank(bm.getSort())) {
+            if (ORDER_DESC.equalsIgnoreCase(bm.getOrder())) {
+                wrapper.orderByDesc(bm.getSort().split(","));
+            } else {
+                wrapper.orderByAsc(bm.getSort().split(","));
+            }
+        }
+        return wrapper;
     }
 
     public static <M, E> M convertModel(M model, E entity) {

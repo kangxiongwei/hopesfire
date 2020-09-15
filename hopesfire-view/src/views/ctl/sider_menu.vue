@@ -93,12 +93,16 @@
                         icon: "ios-folder",
                         children: [
                             {
+                                name: '栏目管理',
+                                to: '/ctl/banner'
+                            },
+                            {
                                 name: "文章管理",
-                                to: "/ctl/attach/articles"
+                                to: "/ctl/article"
                             },
                             {
                                 name: "附件管理",
-                                to: "/ctl/attach/attaches"
+                                to: "/ctl/attach"
                             }
                         ]
                     },
