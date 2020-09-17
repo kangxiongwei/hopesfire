@@ -1,5 +1,6 @@
 package com.kxw.hopesfire.biz.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.enums.ArticleStatusEnum;
 import com.kxw.hopesfire.biz.model.ArticleModel;
@@ -77,7 +78,9 @@ public class ArticleServiceImpl implements IArticleService {
      */
     @Override
     public List<ArticleModel> list(ArticleModel model) {
-        return null;
+        Wrapper<ArticleEntity> wrapper = BaseConvert.convertWrapper(model, new ArticleEntity());
+        List<ArticleEntity> entities = this.articleMapper.selectList(wrapper);
+        return BaseConvert.convertModels(new ArticleModel(), entities);
     }
 
     /**
