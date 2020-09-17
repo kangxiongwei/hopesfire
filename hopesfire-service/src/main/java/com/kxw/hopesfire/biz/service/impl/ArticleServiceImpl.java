@@ -3,12 +3,8 @@ package com.kxw.hopesfire.biz.service.impl;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.enums.ArticleStatusEnum;
 import com.kxw.hopesfire.biz.model.ArticleModel;
-import com.kxw.hopesfire.biz.model.AttachModel;
-import com.kxw.hopesfire.biz.model.BannerModel;
 import com.kxw.hopesfire.biz.service.IArticleService;
 import com.kxw.hopesfire.dao.entity.ArticleEntity;
-import com.kxw.hopesfire.dao.entity.AttachEntity;
-import com.kxw.hopesfire.dao.entity.BannerEntity;
 import com.kxw.hopesfire.dao.mapper.ArticleMapper;
 import com.kxw.hopesfire.dao.mapper.AttachMapper;
 import com.kxw.hopesfire.dao.mapper.BannerMapper;
@@ -43,8 +39,6 @@ public class ArticleServiceImpl implements IArticleService {
     @Override
     public void save(ArticleModel model) {
         ArticleEntity entity = BaseConvert.convertEntity(model, new ArticleEntity());
-        entity.setIconId(model.getIcon() == null ? null : model.getIcon().getId());
-        entity.setBannerId(model.getBanner() == null ? null : model.getBanner().getId());
         if (model.getId() == null) {
             this.articleMapper.insert(entity);
             model.setId(entity.getId());
@@ -72,18 +66,7 @@ public class ArticleServiceImpl implements IArticleService {
     @Override
     public ArticleModel get(Long id) {
         ArticleEntity entity = this.articleMapper.selectById(id);
-        ArticleModel model = BaseConvert.convertModel(new ArticleModel(), entity);
-        if (entity.getIconId() != null && entity.getIconId() > 0) {
-            AttachEntity icon = this.attachMapper.selectById(entity.getIconId());
-            model.setIcon(BaseConvert.convertModel(new AttachModel(), icon));
-        }
-        if (entity.getBannerId() != null && entity.getBannerId() > 0) {
-            BannerEntity banner = this.bannerMapper.selectById(entity.getBannerId());
-            BannerModel bannerModel = BaseConvert.convertModel(new BannerModel(), banner);
-            bannerModel.setParent(new BannerModel(banner.getParentId()));
-            model.setBanner(bannerModel);
-        }
-        return model;
+        return BaseConvert.convertModel(new ArticleModel(), entity);
     }
 
     /**

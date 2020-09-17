@@ -7,7 +7,8 @@ package com.kxw.hopesfire.biz.enums;
 public enum AttachTypeEnum {
 
     HOME_PAGE_IMAGES(1, "home", "首页轮播图", 1366, 768),
-    AVATAR_IMAGES(2, "avatar", "用户头像图", 200, 200);
+    AVATAR_IMAGES(2, "avatar", "用户头像图", 200, 200),
+    ARTICLE_ICON_IMAGES(3, "article/icon", "文章标题图", 480, 320);
 
     private Integer code;
     private String attachType;

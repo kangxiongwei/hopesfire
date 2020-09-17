@@ -17,8 +17,8 @@ import java.util.Date;
 public class ArticleModel extends BaseModel {
 
     private String title;
-    private AttachModel icon;
-    private BannerModel banner;
+    private Long iconId;
+    private Long bannerId;
     private String keyword;
     private String summary;
     private String content;

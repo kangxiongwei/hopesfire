@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 附件管理，所有附件操作都放在这里
@@ -39,8 +40,16 @@ public class AttachController extends BaseController {
     @PostMapping("/upload")
     public HttpBaseModel upload(AttachUploadModel model) {
         AttachUploadInfoModel result = uploadAttaches(model, applicationConfiguration.getAttachPath());
-        attachService.save(result.getAttaches());
-        return HttpBaseModel.buildSuccess(result.getMessages());
+        List<AttachModel> attaches = result.getAttaches();
+        if (model.getFiles().length == 1) {
+            //单个文件上传
+            attachService.save(attaches.get(0));
+            return HttpBaseModel.buildSuccess(attaches.get(0).getId());
+        } else {
+            //批量文件上传
+            attachService.save(attaches);
+            return HttpBaseModel.buildSuccess(result.getMessages());
+        }
     }
 
     @GetMapping("/download")

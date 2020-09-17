@@ -3,7 +3,7 @@
         <Row style="height: 30px">
             <Col span="24" class="banner_tabs">
                 <Tabs v-model="bannerValue" type="card" :animated="true" @on-click="changeNavBanner">
-                    <TabPane v-for="item in navBanners" :label="item.banner" :name="item.id">
+                    <TabPane v-for="item in navBanners" :label="item.banner" :name="item.id + ''">
                         <Row style="height: 100%">
                             <Col span="12">
                                 <Card v-for="item in leftArticles"
@@ -38,25 +38,15 @@
 </template>
 
 <script>
+
+    import banner from '../../api/banner'
+
     export default {
         name: "OurNews",
 
         data() {
             return {
-                navBanners: [
-                    {
-                        id: "1",
-                        banner: '热门资讯'
-                    },
-                    {
-                        id: "2",
-                        banner: '旅游攻略'
-                    },
-                    {
-                        id: "3",
-                        banner: '减肥瘦身'
-                    }
-                ],
+                navBanners: [],
                 bannerValue: '',
                 leftArticles: [
                     {
@@ -80,7 +70,21 @@
         methods: {
             changeNavBanner(name) {
                 console.log("选中的导航：" + name);
+            },
+            listBanners() {
+                banner.doListBanners(this, {
+                    parent: {
+                        id: 0
+                    },
+                    status: 1
+                }).then(res => {
+                    this.navBanners = res;
+                })
             }
+        },
+
+        mounted() {
+            this.listBanners();
         }
 
     }

@@ -95,4 +95,4 @@ function doDeleteBanner(vuex, params) {
     })
 }
 
-export default {doSaveBanner, doListBannerTree, listBannerTypes, doDeleteBanner}
+export default {doSaveBanner, doListBannerTree, listBannerTypes, doDeleteBanner, doListBanners}
