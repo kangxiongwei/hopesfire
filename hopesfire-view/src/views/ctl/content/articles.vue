@@ -188,6 +188,7 @@
                     this.saveArticleDrawer = false;
                     this.articleForm.keywordTags = [];
                     this.resetArticle();
+                    this.findArticles();
                 })
             },
             resetArticle() {
