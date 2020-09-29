@@ -2,6 +2,7 @@ package com.kxw.hopesfire.web.controller;
 
 import com.kxw.hopesfire.biz.model.ArticleModel;
 import com.kxw.hopesfire.biz.service.IArticleService;
+import com.kxw.hopesfire.dao.model.PagerModel;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,5 +44,19 @@ public class ArticleController extends BaseController {
         List<ArticleModel> list = this.articleService.list(model);
         return HttpBaseModel.buildSuccess(list);
     }
+
+    /**
+     * 分页查询接口
+     *
+     * @param model
+     * @return
+     */
+    @PostMapping("/find")
+    public HttpBaseModel find(@RequestBody ArticleModel model) {
+        model.setAuthor(this.getUsername());
+        PagerModel pager = this.articleService.find(model);
+        return HttpBaseModel.buildSuccess(pager);
+    }
+
 
 }

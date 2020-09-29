@@ -2,6 +2,7 @@ import {post} from "../libs/axios";
 
 const ARTICLE_SAVE_URL = '/ctl/article/save'
 const ARTICLE_LIST_URL = '/ctl/article/list'
+const ARTICLE_FIND_URL = '/ctl/article/find'
 
 function doSaveArticle(vuex, params) {
     let keywordTags = params.keywordTags;
@@ -35,4 +36,19 @@ function doListArticles(vuex, params) {
     })
 }
 
-export default {doSaveArticle, doListArticles}
+function doFindArticle(vuex, params) {
+    return post(ARTICLE_FIND_URL, params).then(res => {
+        let data = res.data;
+        if (data != null && data.code === 200) {
+            return data.data;
+        } else {
+            vuex.$Message.error('查询文章列表失败！' + data.message);
+            return null;
+        }
+    }).catch(() => {
+        vuex.$Message.error('查询文章列表失败！');
+        return null;
+    })
+}
+
+export default {doSaveArticle, doListArticles, doFindArticle}

@@ -1,10 +1,12 @@
 package com.kxw.hopesfire.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.enums.ArticleStatusEnum;
 import com.kxw.hopesfire.biz.model.ArticleModel;
 import com.kxw.hopesfire.biz.service.IArticleService;
+import com.kxw.hopesfire.dao.convert.PageConvert;
 import com.kxw.hopesfire.dao.entity.ArticleEntity;
 import com.kxw.hopesfire.dao.mapper.ArticleMapper;
 import com.kxw.hopesfire.dao.mapper.AttachMapper;
@@ -91,7 +93,10 @@ public class ArticleServiceImpl implements IArticleService {
      */
     @Override
     public PagerModel find(ArticleModel model) {
-        return null;
+        Wrapper<ArticleEntity> wrapper = BaseConvert.convertWrapper(model, new ArticleEntity());
+        IPage<ArticleEntity> pager = PageConvert.convertPage(model);
+        IPage<ArticleEntity> articles = this.articleMapper.selectPage(pager, wrapper);
+        return BaseConvert.convertPageModel(new ArticleModel(), articles);
     }
 
     /**

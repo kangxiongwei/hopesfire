@@ -49,7 +49,8 @@
                            @on-enter="addKeywordTag">
                     </Input>
                     <Tag v-for="(item, index) in articleForm.keywordTags" :name="index"
-                         closable @on-close="deleteKeywordTag">{{item}}</Tag>
+                         closable @on-close="deleteKeywordTag">{{item}}
+                    </Tag>
                 </FormItem>
                 <FormItem label="文章摘要">
                     <Input type="text" v-model="articleForm.summary"></Input>
@@ -59,7 +60,8 @@
                         <Col><span class="ctl_article_label">文章内容</span></Col>
                     </Row>
                     <Row>
-                        <ViewEditor v-model:content="this.articleForm.content" @on-change="changeEditorText"></ViewEditor>
+                        <ViewEditor v-model:content="this.articleForm.content"
+                                    @on-change="changeEditorText"></ViewEditor>
                     </Row>
                 </FormItem>
                 <FormItem label="审核人">
@@ -89,16 +91,68 @@
             return {
                 articleTableHeader: [
                     {
-                        title: '编号',
-                        key: 'id'
+                        title: '标题',
+                        key: 'title'
                     },
                     {
-                        title: '标题',
-                        key: 'header'
+                        title: '图片',
+                        key: 'iconId'
+                    },
+                    {
+                        title: '栏目',
+                        key: 'bannerId'
+                    },
+                    {
+                        title: '关键词',
+                        key: 'keyword'
+                    },
+                    {
+                        title: '摘要',
+                        key: 'summary'
+                    },
+                    {
+                        title: '内容',
+                        key: 'content',
+                        render: (h, params) => {
+                            return h('div',
+                                {
+                                    domProps: {
+                                        innerHTML: params.row.content
+                                    }
+                                }
+                            )
+                        }
+                    },
+                    {
+                        title: '权重',
+                        key: 'weight'
+                    },
+                    {
+                        title: '状态',
+                        key: 'status'
+                    },
+                    {
+                        title: '审核意见',
+                        key: 'auditReport'
+                    },
+                    {
+                        title: '审核人',
+                        key: 'auditor'
+                    },
+                    {
+                        title: '发布时间',
+                        key: 'publishTime'
                     },
                     {
                         title: '创建时间',
                         key: 'createTime'
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        fixed: 'right',
+                        align: 'center',
+                        width: 150
                     }
                 ],
                 articleTable: [],
@@ -121,12 +175,16 @@
             }
         },
         methods: {
+            findArticles() {
+                article.doFindArticle(this, {}).then(res => {
+                    this.articleTable = res.records;
+                });
+            },
             addArticle() {
                 this.saveArticleDrawer = true;
             },
             saveArticle() {
                 article.doSaveArticle(this, this.articleForm).then(res => {
-                    console.log(JSON.stringify(res));
                     this.saveArticleDrawer = false;
                     this.articleForm.keywordTags = [];
                     this.resetArticle();
@@ -175,6 +233,7 @@
             }
         },
         mounted() {
+            this.findArticles();
             this.listBanners();
         }
     }
