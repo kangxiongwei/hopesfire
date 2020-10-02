@@ -2,18 +2,34 @@
     <div class="ctl_article">
         <Row type="flex" align="middle">
             <Col :span="22">
-                <Form inline style="height: 34px; line-height: 34px">
-                    <FormItem></FormItem>
+                <Form ref="articleQueryForm" :model="articleQueryForm" inline
+                      style="height: 34px; line-height: 34px" :label-width="70" label-position="left">
+                    <FormItem prop="title" label="文章标题">
+                        <Input v-model="articleQueryForm.title"></Input>
+                    </FormItem>
+                    <FormItem prop="status" label="状态">
+                        <Input type="text" v-model="articleQueryForm.status"></Input>
+                    </FormItem>
+                    <FormItem prop="keyword" label="关键词">
+                        <Input type="text" v-model="articleQueryForm.keyword"></Input>
+                    </FormItem>
+                    <FormItem prop="auditor" label="审核人">
+                        <Input type="text" v-model="articleQueryForm.auditor"></Input>
+                    </FormItem>
+                    <FormItem :label-width="0" style="text-align: center">
+                        <Button @click="findArticles()" type="primary" size="small" icon="ios-search">查询</Button>
+                        <Button @click="resetQueryForm()" type="primary" size="small" icon="ios-nuclear">重置</Button>
+                    </FormItem>
                 </Form>
             </Col>
-            <Col :span="2">
+            <Col :span="2" style="text-align: center">
                 <Button type="primary" @click="addArticle">添加文章</Button>
             </Col>
         </Row>
         <Table stripe border size="small" :columns="articleTableHeader" :data="articleTable">
             <template slot-scope="{row}" slot="action">
-                <Button type="primary" size="small" @click="">编辑</Button>
-                <Button type="error" size="small" @click="">删除</Button>
+                <Button type="primary" size="small" @click="updateArticle(row)">编辑</Button>
+                <Button type="error" size="small" @click="deleteArticle(row)">删除</Button>
             </template>
         </Table>
         <Drawer title="编辑文章" v-model="saveArticleDrawer" :closable="true" :width="50" draggable mask>
@@ -60,8 +76,7 @@
                         <Col><span class="ctl_article_label">文章内容</span></Col>
                     </Row>
                     <Row>
-                        <ViewEditor v-model:content="this.articleForm.content"
-                                    @on-change="changeEditorText"></ViewEditor>
+                        <ViewEditor ref="viewEditor" @on-change="changeEditorText"></ViewEditor>
                     </Row>
                 </FormItem>
                 <FormItem label="审核人">
@@ -79,65 +94,64 @@
 <script>
 
     import ViewEditor from "../../editor/ViewEditor";
+    import ArticleTablePlugin from "../../plugins/ArticleTablePlugin";
     import banner from '../../../api/banner'
     import article from '../../../api/article'
 
     export default {
         name: "articles",
         components: {
-            ViewEditor
+            ViewEditor,
+            ArticleTablePlugin
         },
         data() {
             return {
                 articleTableHeader: [
                     {
+                        title: '展开/收起',
+                        type: 'expand',
+                        width: 100,
+                        render: (h, params) => {
+                            return h(ArticleTablePlugin, {
+                                props: {
+                                    row: params.row
+                                }
+                            })
+                        }
+                    },
+                    {
                         title: '标题',
-                        key: 'title'
+                        key: 'title',
+                        tooltip: true
+                    },
+                    {
+                        title: '栏目',
+                        key: 'bannerId',
+                        tooltip: true
                     },
                     {
                         title: '图片',
                         key: 'iconId'
                     },
                     {
-                        title: '栏目',
-                        key: 'bannerId'
-                    },
-                    {
                         title: '关键词',
-                        key: 'keyword'
+                        key: 'keyword',
+                        tooltip: true
                     },
                     {
                         title: '摘要',
-                        key: 'summary'
-                    },
-                    {
-                        title: '内容',
-                        key: 'content',
-                        render: (h, params) => {
-                            return h('div',
-                                {
-                                    domProps: {
-                                        innerHTML: params.row.content
-                                    }
-                                }
-                            )
-                        }
+                        key: 'summary',
+                        tooltip: true
                     },
                     {
                         title: '权重',
-                        key: 'weight'
+                        key: 'weight',
+                        width: 80,
+                        sortable: true
                     },
                     {
                         title: '状态',
                         key: 'status'
-                    },
-                    {
-                        title: '审核意见',
-                        key: 'auditReport'
-                    },
-                    {
-                        title: '审核人',
-                        key: 'auditor'
                     },
                     {
                         title: '发布时间',
@@ -171,19 +185,64 @@
                 attachAttributes: {
                     attachType: 3
                 },
+                articleQueryForm: {
+                    title: null,
+                    keyword: null,
+                    status: null,
+                    auditor: null
+                },
                 navBanners: []
             }
         },
         methods: {
             findArticles() {
-                article.doFindArticle(this, {}).then(res => {
+                article.doFindArticle(this, {
+                    status: this.articleQueryForm.status,
+                    title: this.articleQueryForm.title === '' ? null : this.articleQueryForm.title,
+                    keyword: this.articleQueryForm.keyword === '' ? null : this.articleQueryForm.keyword,
+                    auditor: this.articleQueryForm.auditor === '' ? null : this.articleQueryForm.auditor
+                }).then(res => {
                     this.articleTable = res.records;
                 });
             },
             addArticle() {
                 this.saveArticleDrawer = true;
             },
+            updateArticle(row) {
+                this.saveArticleDrawer = true;
+                this.articleForm.id = row.id;
+                this.articleForm.title = row.title;
+                this.articleForm.bannerId = row.bannerId;
+                this.articleForm.iconId = row.iconId;
+                this.articleTable.keyword = null;
+                this.articleForm.keywordTags = [];
+                if (row.keyword != null && row.keyword !== '') {
+                    let keywords = row.keyword.split("|");
+                    keywords.forEach((item) => {
+                        this.articleForm.keywordTags.push(item);
+                    })
+                }
+                this.articleForm.summary = row.summary;
+                this.changeEditorHtml(row.content);
+                this.articleForm.auditor = row.auditor;
+            },
+            deleteArticle(row) {
+                this.$Modal.confirm({
+                    title: '确认删除',
+                    content: '请问您确认要删除这条记录吗？',
+                    closable: true,
+                    okText: '删除',
+                    onOk: () => {
+                        article.doDeleteArticle(this, {
+                            id: row.id
+                        }).then(() => {
+                            this.findArticles();
+                        });
+                    }
+                });
+            },
             saveArticle() {
+                this.articleForm.content = this.$refs['viewEditor'].getEditorHtml();
                 article.doSaveArticle(this, this.articleForm).then(res => {
                     this.saveArticleDrawer = false;
                     this.articleForm.keywordTags = [];
@@ -193,6 +252,11 @@
             },
             resetArticle() {
                 this.$refs['articleForm'].resetFields();
+                this.$refs['viewEditor'].resetEditorHtml();
+            },
+            resetQueryForm() {
+                console.log("重置")
+                this.$refs['articleQueryForm'].resetFields();
             },
             addKeywordTag() {
                 let keyword = this.articleForm.keyword;
@@ -207,6 +271,9 @@
             },
             changeEditorText(html, text) {
                 this.articleForm.content = html;
+            },
+            changeEditorHtml(html) {
+                this.$refs['viewEditor'].setEditorHtml(html);
             },
             listBanners() {
                 banner.doListBanners(this, {

@@ -32,6 +32,12 @@ public class ArticleController extends BaseController {
         return HttpBaseModel.buildSuccess(model.getId());
     }
 
+    @PostMapping("/delete")
+    public HttpBaseModel delete(@RequestBody ArticleModel model) {
+        this.articleService.delete(model.getId());
+        return HttpBaseModel.buildSuccess(model.getId());
+    }
+
     /**
      * 查询文章列表
      *

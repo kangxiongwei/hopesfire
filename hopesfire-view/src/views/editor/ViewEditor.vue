@@ -25,14 +25,22 @@
             this.editor = new E(this.$refs.editor);
             this.editor.customConfig.onchange = html => {
                 this.editorHtml = html;
-                let text = this.editor.txt.text()
-                this.$emit('on-change', html, text)
+                let text = this.editor.txt.text();
+                this.$emit('on-change', html, text);
             };
             this.editor.create();
         },
         methods: {
             getEditorHtml() {
                 return this.editorHtml;
+            },
+            setEditorHtml(html) {
+                this.editorHtml = html;
+                this.editor.txt.html(html);
+            },
+            resetEditorHtml() {
+                this.editorHtml = '';
+                this.editor.txt.clear();
             }
         }
     }

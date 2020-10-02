@@ -57,6 +57,10 @@ public class ArticleServiceImpl implements IArticleService {
      */
     @Override
     public void delete(Long id) {
+        ArticleEntity entity = this.articleMapper.selectById(id);
+        if (entity.getIconId() != null) {
+            this.attachMapper.deleteById(entity.getIconId());
+        }
         this.articleMapper.deleteById(id);
     }
 

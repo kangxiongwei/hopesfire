@@ -78,7 +78,6 @@
 <script>
 
     import attach from '../../../api/attach'
-    import meal from "../../../api/meal";
 
     export default {
         name: "attaches",
@@ -190,7 +189,6 @@
                 })
             },
             deleteAttach(row) {
-                console.log("删除记录" + row.id)
                 this.$Modal.confirm({
                     title: '确认删除',
                     content: '请问您确认要删除这条记录吗？',
