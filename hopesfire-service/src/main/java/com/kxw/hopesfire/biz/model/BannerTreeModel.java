@@ -1,9 +1,9 @@
 package com.kxw.hopesfire.biz.model;
 
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.Data;
 
 /**
  * 栏目的树形结构
@@ -18,6 +18,8 @@ public class BannerTreeModel {
 
     private Long id;                                //当前节点ID
     private String title;                           //当前节点标题
+    private Long value;                             //值--给级联用
+    private String label;                           //标识--给级联用
     private List<BannerTreeModel> children;         //孩子节点
     private BannerModel banner;                     //当前栏目信息
     private boolean contextmenu = true;             //是否展示右键菜单
@@ -27,6 +29,8 @@ public class BannerTreeModel {
         //初始化一个根栏目，作为树的根节点
         ROOT_BANNER.setId(0L);
         ROOT_BANNER.setTitle("全部栏目");
+        ROOT_BANNER.setValue(0L);
+        ROOT_BANNER.setLabel("全部栏目");
         BannerModel root = new BannerModel(0L);
         root.setBanner(ROOT_BANNER.getTitle());
         ROOT_BANNER.setBanner(root);

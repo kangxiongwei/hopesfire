@@ -106,6 +106,12 @@ const routers = [
                     }
                 ]
             },
+            {
+                path: "/article/get",
+                name: '文章明细',
+                component: (resolve) => require(['./views/articles/ArticleDetail'], resolve),
+                children: []
+            }
         ]
     }
 ];

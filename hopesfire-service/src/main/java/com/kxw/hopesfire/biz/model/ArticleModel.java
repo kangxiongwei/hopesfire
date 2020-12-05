@@ -1,10 +1,11 @@
 package com.kxw.hopesfire.biz.model;
 
+import java.util.Date;
+
 import com.kxw.hopesfire.dao.model.BaseModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * 文章管理
@@ -19,6 +20,7 @@ public class ArticleModel extends BaseModel {
     private String title;
     private Long iconId;
     private Long bannerId;
+    private Integer articleType;
     private String keyword;
     private String summary;
     private String content;
@@ -28,5 +30,8 @@ public class ArticleModel extends BaseModel {
     private String author;
     private String auditor;
     private Date publishTime;
+
+    private BannerModel banner;
+    private AttachModel attach;
 
 }

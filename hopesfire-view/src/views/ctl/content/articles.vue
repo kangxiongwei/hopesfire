@@ -38,9 +38,10 @@
                     <Input type="text" v-model="articleForm.title" clearable></Input>
                 </FormItem>
                 <FormItem label="所属栏目">
-                    <Select v-model="articleForm.bannerId">
-                        <Option v-for="item in navBanners" :value="item.id">{{item.banner}}</Option>
-                    </Select>
+                    <Cascader v-model="articleForm.bannerIds"
+                              :data="bannerTree"
+                              placeholder="请选择栏目"
+                              :filterable="true"></Cascader>
                 </FormItem>
                 <FormItem label="标题图片">
                     <Row>
@@ -180,7 +181,8 @@
                     summary: '',
                     content: '',
                     auditor: '',
-                    keywordTags: []
+                    keywordTags: [],
+                    bannerIds: []
                 },
                 attachAttributes: {
                     attachType: 3
@@ -191,7 +193,8 @@
                     status: null,
                     auditor: null
                 },
-                navBanners: []
+                navBanners: [],
+                bannerTree: []
             }
         },
         methods: {
@@ -298,11 +301,22 @@
             },
             uploadAttachError(error) {
                 this.$Message.error("上传失败，请联系管理员！");
-            }
+            },
+            listBannerTree() {
+                banner.doListBannerTree(this, {
+                    parent: {
+                        id: 0
+                    },
+                    sort: 'weight'
+                }).then(res => {
+                    this.bannerTree = res;
+                })
+            },
         },
         mounted() {
             this.findArticles();
             this.listBanners();
+            this.listBannerTree();
         }
     }
 </script>

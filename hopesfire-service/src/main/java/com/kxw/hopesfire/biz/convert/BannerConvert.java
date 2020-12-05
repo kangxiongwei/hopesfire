@@ -1,10 +1,10 @@
 package com.kxw.hopesfire.biz.convert;
 
+import java.util.List;
+
 import com.kxw.hopesfire.biz.model.BannerModel;
 import com.kxw.hopesfire.biz.model.BannerTreeModel;
 import com.kxw.hopesfire.dao.entity.BannerEntity;
-
-import java.util.List;
 
 /**
  * 转换树节点的属性
@@ -18,6 +18,8 @@ public class BannerConvert {
         BannerTreeModel node = new BannerTreeModel();
         node.setId(entity.getId());
         node.setTitle(entity.getBanner());
+        node.setValue(entity.getId());
+        node.setLabel(entity.getBanner());
         node.setBanner(BaseConvert.convertModel(new BannerModel(), entity));
         return node;
     }

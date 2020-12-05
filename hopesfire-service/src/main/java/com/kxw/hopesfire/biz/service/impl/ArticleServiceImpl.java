@@ -1,22 +1,29 @@
 package com.kxw.hopesfire.biz.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kxw.hopesfire.biz.convert.BaseConvert;
 import com.kxw.hopesfire.biz.enums.ArticleStatusEnum;
 import com.kxw.hopesfire.biz.model.ArticleModel;
+import com.kxw.hopesfire.biz.model.AttachModel;
+import com.kxw.hopesfire.biz.model.BannerModel;
 import com.kxw.hopesfire.biz.service.IArticleService;
 import com.kxw.hopesfire.dao.convert.PageConvert;
 import com.kxw.hopesfire.dao.entity.ArticleEntity;
+import com.kxw.hopesfire.dao.entity.AttachEntity;
+import com.kxw.hopesfire.dao.entity.BannerEntity;
 import com.kxw.hopesfire.dao.mapper.ArticleMapper;
 import com.kxw.hopesfire.dao.mapper.AttachMapper;
 import com.kxw.hopesfire.dao.mapper.BannerMapper;
 import com.kxw.hopesfire.dao.model.PagerModel;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 文章处理接口
@@ -86,7 +93,20 @@ public class ArticleServiceImpl implements IArticleService {
     public List<ArticleModel> list(ArticleModel model) {
         Wrapper<ArticleEntity> wrapper = BaseConvert.convertWrapper(model, new ArticleEntity());
         List<ArticleEntity> entities = this.articleMapper.selectList(wrapper);
-        return BaseConvert.convertModels(new ArticleModel(), entities);
+        List<ArticleModel> articles = new ArrayList<>();
+        for (ArticleEntity entity : entities) {
+            ArticleModel article = BaseConvert.convertModel(new ArticleModel(), entity);
+            if (entity.getBannerId() != null) {
+                BannerEntity banner = this.bannerMapper.selectById(entity.getBannerId());
+                article.setBanner(BaseConvert.convertModel(new BannerModel(), banner));
+            }
+            if (entity.getIconId() != null) {
+                AttachEntity attach = this.attachMapper.selectById(entity.getIconId());
+                article.setAttach(BaseConvert.convertModel(new AttachModel(), attach));
+            }
+            articles.add(article);
+        }
+        return articles;
     }
 
     /**
