@@ -14,6 +14,7 @@
         <module>hopesfire-service</module>
         <module>hopesfire-bi</module>
         <module>hopesfire-web</module>
+        <module>hopesfire-dm</module>
     </modules>
 
     <properties>
