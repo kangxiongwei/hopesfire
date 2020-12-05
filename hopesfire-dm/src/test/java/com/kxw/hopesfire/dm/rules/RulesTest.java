@@ -19,7 +19,7 @@ import com.kxw.hopesfire.dm.pojo.SessionContext;
 import com.kxw.hopesfire.dm.pojo.SlotValue;
 
 /**
- * @author kangxiongwei <kangxiongwei@kuaishou.com>
+ * @author kangxiongwei
  * Created on 2020-12-03
  */
 public class RulesTest {
