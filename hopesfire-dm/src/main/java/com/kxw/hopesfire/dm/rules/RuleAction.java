@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @author kangxiongwei <kangxiongwei@kuaishou.com>
+ * @author kangxiongwei
  * Created on 2020-12-04
  */
 @Data
