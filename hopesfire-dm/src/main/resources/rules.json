@@ -1,0 +1,11 @@
+[
+    {
+        "name": "alcohol rule",
+        "description": "children are not allowed to buy alcohol",
+        "priority": 2,
+        "condition": "username == 'kangxiongwei' && (age > 10 || age < 5)",
+        "actions": [
+            "System.out.println(\"node1\");"
+        ]
+    }
+]
