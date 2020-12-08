@@ -119,6 +119,16 @@
                                 to: "/ctl/user/meal"
                             }
                         ]
+                    },
+                    {
+                        name: '知识管理',
+                        icon: 'md-contacts',
+                        children: [
+                            {
+                                name: '任务流程',
+                                to: '/ctl/kb/task/version'
+                            }
+                        ]
                     }
                 ]
             }
