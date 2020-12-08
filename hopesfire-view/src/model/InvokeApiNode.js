@@ -33,7 +33,10 @@ export const InvokeApi = Graph.registerNode('invokeApi', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
                     }
                 },
             },
@@ -44,9 +47,12 @@ export const InvokeApi = Graph.registerNode('invokeApi', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
-                    },
-                },
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
+                    }
+                }
             },
             bottom: {
                 position: 'bottom',
@@ -55,9 +61,12 @@ export const InvokeApi = Graph.registerNode('invokeApi', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
-                    },
-                },
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
+                    }
+                }
             },
             left: {
                 position: 'left',
@@ -66,10 +75,13 @@ export const InvokeApi = Graph.registerNode('invokeApi', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
-                    },
-                },
-            },
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
+                    }
+                }
+            }
         },
         items: [
             {

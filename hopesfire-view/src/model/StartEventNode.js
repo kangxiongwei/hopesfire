@@ -33,8 +33,11 @@ export const StartEvent = Graph.registerNode('startEvent', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
-                    },
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
+                    }
                 },
             },
             right: {
@@ -44,7 +47,10 @@ export const StartEvent = Graph.registerNode('startEvent', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
                     },
                 },
             },
@@ -55,9 +61,12 @@ export const StartEvent = Graph.registerNode('startEvent', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
-                    },
-                },
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
+                    }
+                }
             },
             left: {
                 position: 'left',
@@ -66,10 +75,13 @@ export const StartEvent = Graph.registerNode('startEvent', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
-                    },
-                },
-            },
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
+                    }
+                }
+            }
         },
         items: [
             {

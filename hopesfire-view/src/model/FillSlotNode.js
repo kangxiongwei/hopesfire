@@ -33,7 +33,10 @@ export const FillSlot = Graph.registerNode('fillSlot', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
                     }
                 },
             },
@@ -44,7 +47,10 @@ export const FillSlot = Graph.registerNode('fillSlot', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
                     },
                 },
             },
@@ -55,7 +61,10 @@ export const FillSlot = Graph.registerNode('fillSlot', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
                     },
                 },
             },
@@ -66,7 +75,10 @@ export const FillSlot = Graph.registerNode('fillSlot', {
                         r: 3,
                         magnet: true,
                         stroke: '#5F95FF',
-                        fill: '#fff'
+                        fill: '#fff',
+                        style: {
+                            visibility: 'hidden'
+                        }
                     },
                 },
             },
