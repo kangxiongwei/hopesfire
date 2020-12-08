@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import {Addon, Graph} from '@antv/x6'
+    import {Addon, Graph, Shape} from '@antv/x6'
     import {StartEvent} from "../../../model/StartEventNode";
     import {FillSlot} from "../../../model/FillSlotNode";
     import {InvokeApi} from "../../../model/InvokeApiNode";
@@ -23,8 +23,20 @@
                 }
             }
         },
-        methods: {},
+        methods: {
+            /**
+             * 是否显示连接点
+             * @param ports
+             * @param show
+             */
+            showPorts(ports, show) {
+                for (let i = 0, len = ports.length; i < len; i = i + 1) {
+                    ports[i].style.visibility = show ? 'visible' : 'hidden'
+                }
+            }
+        },
         mounted() {
+            const graphLayout = document.getElementById("graph_layout");
             //创建画布
             const graph = new Graph({
                 container: document.getElementById('graph_layout'),
@@ -44,13 +56,32 @@
                 },
                 selecting: {        //选择器
                     enabled: true,
-                    showNodeSelectionBox: true  //选中时边框
+                    showNodeSelectionBox: true,  //选中时边框
+                    anchor: 'center',            //锚点
+                    connectionPoint: 'anchor'    //连接点
                 },
                 interacting: true,              //开启可交互
                 connecting: {
                     snap: true,                 //自动吸附
                     dangling: false,            //边的起点和终点只能是节点或连接桩
-                    highlight: true            //拖动边是高亮显示可用的节点或连接桩
+                    highlight: true,            //拖动边是高亮显示可用的节点或连接桩
+                    createEdge() {
+                        return new Shape.Edge({
+                            attrs: {
+                                line: {
+                                    stroke: '#5F95FF',
+                                    strokeWidth: 1,
+                                    targetMarker: {
+                                        name: 'classic',
+                                        size: 8
+                                    }
+                                }
+                            },
+                            router: {
+                                name: 'manhattan'
+                            },
+                        })
+                    },
                 }
             })
             //画布拖拽
@@ -103,6 +134,14 @@
                     graph.removeCells(cells)
                 }
                 return false
+            })
+            graph.on('node:mouseenter', (e) => {
+                const ports = graphLayout.querySelectorAll('.x6-port-body');
+                this.showPorts(ports, true)
+            })
+            graph.on('node:mouseleave', () => {
+                const ports = graphLayout.querySelectorAll('.x6-port-body');
+                this.showPorts(ports, false)
             })
             //加载数据
             graph.fromJSON(this.graphData)
