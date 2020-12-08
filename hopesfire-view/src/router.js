@@ -106,6 +106,18 @@ const routers = [
                     }
                 ]
             },
+            {
+                path: '/ctl/kb',
+                name: '知识管理',
+                component: MenuComponent,
+                children: [
+                    {
+                        path: '/ctl/kb/task/version',
+                        name: '任务流',
+                        component: (resolve) => require(['./views/ctl/kb/TaskVersion'], resolve)
+                    }
+                ]
+            }
         ]
     }
 ];
