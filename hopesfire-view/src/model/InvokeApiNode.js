@@ -6,8 +6,8 @@ export const InvokeApi = Graph.registerNode('invokeApi', {
     height: 40,
     attrs: {
         body: {
-            fill: '#ffd591',
-            stroke: '#ffd591'
+            fill: '#f19d38',
+            stroke: '#f19d38'
         },
         text: {
             text: '函数节点',

@@ -1,17 +1,29 @@
 <template>
-    <div id="task_layout">
+    <div id="task_layout" style="width: 100%">
+        <Row style="position: absolute; left: 130px; top: 0; z-index: 100">
+            <Button type="warning" size="small" icon="md-undo" @click="undoGraph">撤销</Button>
+            <Button type="warning" size="small" icon="md-redo" @click="redoGraph">恢复</Button>
+            <Button type="warning" size="small" icon="md-grid" @click="zoomFitGraph">自适应</Button>
+            <Button type="warning" size="small" icon="md-expand" @click="zoomOutGraph">放大</Button>
+            <Button type="warning" size="small" icon="md-contract" @click="zoomInGraph">缩小</Button>
+        </Row>
+        <Row style="position: absolute; right: 10px; top: 0; z-index: 100">
+            <Button type="primary" size="small">检测</Button>
+            <Button type="primary" size="small" @click="addTaskVersion">保存</Button>
+            <Button type="primary" size="small">取消</Button>
+        </Row>
         <div id="stencil_layout"></div>
         <div id="graph_layout"></div>
-        <div id="node_editor">
-            <Drawer :title="nodeData.nodeName + '[' + nodeData.nodeId + ']'" :closable="true" :width="40" v-model="nodeData.editable">
-                <Form ref="nodeForm" :model="nodeData" :label-width="80" label-position="right">
-                    <FormItem label="节点名称" prop="nodeName">
-                        <Input type="text" v-model="nodeData.nodeName" placeholder="请输入节点名称"/>
-                    </FormItem>
-                </Form>
-            </Drawer>
-        </div>
-        <Button type="primary" size="small" @click="addTaskVersion">保存</Button>
+        <Drawer v-model="nodeData.editable"
+                :title="nodeData.nodeName + '[' + nodeData.nodeId + ']'"
+                :closable="true" :width="30"
+                class-name="graph_drawer">
+            <Form ref="nodeForm" :model="nodeData" :label-width="80" label-position="right">
+                <FormItem label="节点名称" prop="nodeName">
+                    <Input type="text" v-model="nodeData.nodeName" placeholder="请输入节点名称"/>
+                </FormItem>
+            </Form>
+        </Drawer>
     </div>
 </template>
 
@@ -44,8 +56,16 @@
                     container: document.getElementById('graph_layout'),
                     width: 1024,
                     height: 740,
-                    scroller: false,
+                    scroller: {
+                        enabled: false,
+                        pannable: true,
+                        width: 1300,
+                        height: 740
+                    },
                     snapline: true,
+                    background: {
+                        color: '#fffbe6', // 设置画布背景颜色
+                    },
                     grid: {
                         size: 10,      //网格大小 10px
                         visible: true  //渲染网格背景
@@ -72,7 +92,6 @@
                 })
             },
             initTools() {
-
             },
             /**
              * 初始化节点
@@ -178,6 +197,26 @@
                 }
             },
 
+            undoGraph() {
+                this.graph.history.undo();
+            },
+
+            redoGraph() {
+                this.graph.history.redo();
+            },
+
+            zoomInGraph() {
+                this.graph.zoom(-0.1)
+            },
+
+            zoomOutGraph() {
+                this.graph.zoom(0.1)
+            },
+
+            zoomFitGraph() {
+                this.graph.zoomToFit();
+            },
+
             /**
              * 添加版本
              */
@@ -185,9 +224,12 @@
                 let graphData = this.graph.toJSON();
                 console.log(JSON.stringify(graphData));
             }
+
+
         },
         mounted() {
             this.initGraph();
+            this.initTools();
             this.initNodes();
             this.initStencil();
             this.initEvents();
@@ -214,8 +256,6 @@
         flex: 1;
         margin-left: 8px;
         margin-right: 8px;
-        box-shadow: 0 0 10px 1px #e9e9e9;
     }
-
 
 </style>
