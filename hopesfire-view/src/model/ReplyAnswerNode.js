@@ -97,6 +97,11 @@ export const ReplyAnswer = Graph.registerNode('replyAnswer', {
                 group: 'left',
             },
         ]
+    },
+    data: {
+        nodeId: null,
+        nodeName: null,
+        editable: true
     }
 })
 
