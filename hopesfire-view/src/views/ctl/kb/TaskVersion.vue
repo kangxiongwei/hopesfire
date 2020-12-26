@@ -2,6 +2,16 @@
     <div id="task_layout">
         <div id="stencil_layout"></div>
         <div id="graph_layout"></div>
+        <div id="node_editor">
+            <Drawer :title="nodeData.nodeName + '[' + nodeData.nodeId + ']'" :closable="true" :width="40" v-model="nodeData.editable">
+                <Form ref="nodeForm" :model="nodeData" :label-width="80" label-position="right">
+                    <FormItem label="节点名称" prop="nodeName">
+                        <Input type="text" v-model="nodeData.nodeName" placeholder="请输入节点名称"/>
+                    </FormItem>
+                </Form>
+            </Drawer>
+        </div>
+        <Button type="primary" size="small" @click="addTaskVersion">保存</Button>
     </div>
 </template>
 
@@ -18,13 +28,11 @@
         name: "TaskVersion",
         data() {
             return {
-                graphData: {
-                    nodes: [],
-                    edges: []
-                },
+                graphData: {},
                 graph: null,
                 stencil: null,
-                nodes: []
+                nodes: [],
+                nodeData: {}
             }
         },
         methods: {
@@ -42,14 +50,12 @@
                         size: 10,      //网格大小 10px
                         visible: true  //渲染网格背景
                     },
-                    keyboard: {
-                        enabled: true   //键盘快捷键
-                    },
-                    clipboard: {
-                        enabled: true,  //剪切板
-                    },
-                    selecting: {        //选择器
-                        enabled: true,
+                    keyboard: true,     //键盘快捷键
+                    clipboard: true,    //剪切板
+                    history: true,      //撤销、重做功能
+                    selecting: {                     //选择器
+                        enabled: true,               //启用选择器
+                        rubberband: true,            // 启用框选
                         showNodeSelectionBox: true,  //选中时边框
                         anchor: 'center',            //锚点
                         connectionPoint: 'anchor'    //连接点
@@ -64,6 +70,9 @@
                         }
                     }
                 })
+            },
+            initTools() {
+
             },
             /**
              * 初始化节点
@@ -138,6 +147,26 @@
                     this.showPorts(ports, false)
                 })
             },
+
+            /**
+             * 初始化选中节点时的操作
+             */
+            initSelectNode() {
+                this.graph.on('node:selected', (e) => {
+                    const node = e.node;
+                    this.nodeData = node.data;
+                    this.nodeData.nodeId = node.id;
+                    this.nodeData.nodeName = node.attr('text/text');
+                })
+                this.graph.on('node:unselected', (e) => {
+                    const node = e.node;
+                    node.setData(this.nodeData);
+                    node.data.editable = true;
+                    node.attr('text/text', this.nodeData.nodeName)
+                    this.nodeData = {}
+                })
+            },
+
             /**
              * 是否显示连接点
              * @param ports
@@ -147,6 +176,14 @@
                 for (let i = 0, len = ports.length; i < len; i = i + 1) {
                     ports[i].style.visibility = show ? 'visible' : 'hidden'
                 }
+            },
+
+            /**
+             * 添加版本
+             */
+            addTaskVersion() {
+                let graphData = this.graph.toJSON();
+                console.log(JSON.stringify(graphData));
             }
         },
         mounted() {
@@ -154,6 +191,7 @@
             this.initNodes();
             this.initStencil();
             this.initEvents();
+            this.initSelectNode();
         }
     }
 </script>

@@ -97,6 +97,11 @@ export const FillSlot = Graph.registerNode('fillSlot', {
                 group: 'left',
             },
         ]
+    },
+    data: {
+        nodeId: null,
+        nodeName: null,
+        editable: true
     }
 })
 

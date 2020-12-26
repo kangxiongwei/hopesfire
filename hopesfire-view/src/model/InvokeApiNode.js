@@ -97,6 +97,11 @@ export const InvokeApi = Graph.registerNode('invokeApi', {
                 group: 'left',
             },
         ]
+    },
+    data: {
+        nodeId: null,
+        nodeName: null,
+        editable: true
     }
 })
 

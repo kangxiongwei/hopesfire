@@ -97,6 +97,11 @@ export const StartEvent = Graph.registerNode('startEvent', {
                 group: 'left',
             },
         ]
+    },
+    data: {
+        nodeId: null,
+        nodeName: null,
+        editable: true
     }
 })
 
