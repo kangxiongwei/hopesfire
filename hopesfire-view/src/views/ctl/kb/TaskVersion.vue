@@ -1,5 +1,5 @@
 <template>
-    <div id="task_layout" style="width: 100%">
+    <div id="task_layout" style="width: 100%; height: 100%">
         <Row style="position: absolute; left: 130px; top: 0; z-index: 100">
             <Button type="warning" size="small" icon="md-undo" @click="undoGraph">撤销</Button>
             <Button type="warning" size="small" icon="md-redo" @click="redoGraph">恢复</Button>
@@ -54,13 +54,9 @@
             initGraph() {
                 this.graph = new Graph({
                     container: document.getElementById('graph_layout'),
-                    width: 1024,
-                    height: 740,
                     scroller: {
-                        enabled: false,
-                        pannable: true,
-                        width: 1300,
-                        height: 740
+                        enabled: true,
+                        pannable: true
                     },
                     snapline: true,
                     background: {
