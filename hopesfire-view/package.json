@@ -12,7 +12,7 @@
     "license": "MIT",
     "dependencies": {
         "@ant-design/icons": "^4.3.0",
-        "@antv/x6": "^1.2.3",
+        "@antv/x6": "^1.7.7",
         "@antv/x6-react-components": "^1.0.1",
         "axios": "^0.18.0",
         "js-cookie": "^2.2.1",
