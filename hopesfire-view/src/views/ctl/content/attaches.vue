@@ -20,7 +20,7 @@
             <Form ref="attachForm" :model="attachAttributes" :label-width="70" label-position="left">
                 <FormItem label="附件类型" prop="attachType">
                     <Select v-model="attachAttributes.attachType" style="width: 50%">
-                        <Option v-for="item in attachTypes" :value="item.value" :label="item.label"></Option>
+                        <Option v-for="item in attachTypes" :value="item.value" :label="item.label" :key="item.id"></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="附件内容">
@@ -38,6 +38,7 @@
                     </Upload>
                     <Tag v-for="(item, index) in attachAttributes.files"
                          :name="index"
+                         :key="item.id"
                          closable @on-close="closeAttachTag">
                         {{item.name}}
                     </Tag>

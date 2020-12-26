@@ -3,20 +3,20 @@
         <Row style="height: 30px">
             <Col span="24" class="banner_tabs">
                 <Tabs v-model="bannerValue" type="card" :animated="true" @on-click="changeNavBanner">
-                    <TabPane v-for="item in navBanners" :label="item.banner" :name="item.id + ''">
+                    <TabPane v-for="item in navBanners" :label="item.banner" :name="item.id + ''" :key="item.id">
                         <Row style="height: 100%">
                             <Col span="12">
-                                <Card v-for="item in leftArticles" dis-hover style="margin-bottom: 3px" :title="item.title">
+                                <Card v-for="item in leftArticles" dis-hover style="margin-bottom: 3px" :title="item.title" :key="item.id">
                                     <p v-html="item.content"></p>
                                 </Card>
                             </Col>
                             <Col span="6">
-                                <Card v-for="item in leftArticles" dis-hover style="margin-left: 5px; margin-bottom: 3px" :title="item.title">
+                                <Card v-for="item in leftArticles" dis-hover style="margin-left: 5px; margin-bottom: 3px" :title="item.title" :key="item.id">
                                     {{item.summary}}
                                 </Card>
                             </Col>
                             <Col span="6">
-                                <Card v-for="item in leftArticles" dis-hover style="margin-left: 5px; margin-bottom: 3px" :title="item.title">
+                                <Card v-for="item in leftArticles" dis-hover style="margin-left: 5px; margin-bottom: 3px" :title="item.title" :key="item.id">
                                     {{item.summary}}
                                 </Card>
                             </Col>

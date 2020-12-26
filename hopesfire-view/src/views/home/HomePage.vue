@@ -3,7 +3,7 @@
         <Carousel v-if="this.homeImages.length > 0" loop autoplay :autoplay-speed="3000"
                   :radius-dot="true" arrow="always"
                   style="width: 100%; height: 100%; text-align: center">
-            <CarouselItem v-for="item in homeImages" class="home-carousel-item">
+            <CarouselItem v-for="item in homeImages" class="home-carousel-item" :key="item.id">
                 <img style="height: calc(100vh - 128px); width: 100%" :src="item" alt=""/>
             </CarouselItem>
         </Carousel>

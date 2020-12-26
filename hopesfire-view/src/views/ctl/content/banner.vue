@@ -31,7 +31,7 @@
                 </FormItem>
                 <FormItem label="栏目类型" prop="bannerType">
                     <Select v-model="bannerForm.bannerType">
-                        <Option v-for="(item, index) in bannerTypes" :value="index">{{item}}</Option>
+                        <Option v-for="(item, index) in bannerTypes" :value="index" :key="item.id">{{item}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="父级栏目" prop="parentId">

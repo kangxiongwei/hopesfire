@@ -39,7 +39,7 @@
                 </FormItem>
                 <FormItem label="所属栏目">
                     <Select v-model="articleForm.bannerId">
-                        <Option v-for="item in navBanners" :value="item.id">{{item.banner}}</Option>
+                        <Option v-for="item in navBanners" :value="item.id" :key="item.id">{{item.banner}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="标题图片">
@@ -65,6 +65,7 @@
                            @on-enter="addKeywordTag">
                     </Input>
                     <Tag v-for="(item, index) in articleForm.keywordTags" :name="index"
+                         :key="item.id"
                          closable @on-close="deleteKeywordTag">{{item}}
                     </Tag>
                 </FormItem>
