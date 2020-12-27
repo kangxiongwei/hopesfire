@@ -1,10 +1,11 @@
 {
-  "presets": [
-    [
-      "env",
-      {
-        "modules": false
-      }
+    "compact": false,
+    "presets": [
+        [
+            "env",
+            {
+                "modules": false
+            }
+        ]
     ]
-  ]
 }
