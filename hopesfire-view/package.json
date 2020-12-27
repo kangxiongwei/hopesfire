@@ -10,6 +10,10 @@
     },
     "author": "kangxiongwei",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:kangxiongwei/hopesfire.git"
+    },
     "dependencies": {
         "@antv/x6": "^1.7.7",
         "axios": "^0.18.0",
