@@ -1,7 +1,6 @@
 .DS_Store
 .idea/
 *.iml
-*.jar
 *.class
 target/
 hopesfire-web/target/
