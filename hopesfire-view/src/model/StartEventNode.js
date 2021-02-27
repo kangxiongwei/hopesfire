@@ -99,8 +99,8 @@ export const StartEvent = Graph.registerNode('startEvent', {
         ]
     },
     data: {
-        nodeId: null,
-        nodeName: null,
+        nodeId: this.id,
+        nodeName: this.attrs.text.text,
         editable: true
     }
 })
