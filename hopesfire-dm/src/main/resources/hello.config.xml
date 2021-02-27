@@ -1,0 +1,8 @@
+<component name="recognizer" type="edu.cmu.sphinx.recognizer.Recognizer">
+    <property name="decoder" value="decoder"/>
+    <propertylist name="monitors">
+        <item>accuracyTracker</item>
+        <item>speedTracker</item>
+        <item>memoryTracker</item>
+    </propertylist>
+</component>
