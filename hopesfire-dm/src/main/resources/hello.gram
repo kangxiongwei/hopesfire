@@ -2,3 +2,4 @@
 
 grammar hello;
 public <greet> = (good morning | hello) ( bhiksha | evandro | rita | will );
+public <weather> = (今天|明天|后天){usr.date}(北京|上海|天津){city}天气[怎么样|咋样|预报];

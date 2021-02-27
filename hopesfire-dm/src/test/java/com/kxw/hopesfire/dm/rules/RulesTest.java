@@ -1,7 +1,6 @@
 package com.kxw.hopesfire.dm.rules;
 
 import java.io.FileReader;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,8 +40,8 @@ public class RulesTest {
     public void testRuleEngine() {
         SessionContext context = new SessionContext();
         Map<String, List<SlotValue>> slots = new HashMap<>();
-        slots.put("name", Collections.singletonList(new SlotValue("xxx", new BigDecimal("0.9"))));
-        slots.put("age", Collections.singletonList(new SlotValue("10", new BigDecimal("0.99"))));
+        slots.put("name", Collections.singletonList(new SlotValue("xxx", 0.9f)));
+        slots.put("age", Collections.singletonList(new SlotValue("10", 0.99f)));
         context.setSlots(slots);
 
         List<GraphEdge> edges = new ArrayList<>();

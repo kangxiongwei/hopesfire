@@ -1,7 +1,5 @@
 package com.kxw.hopesfire.dm.pojo;
 
-import java.math.BigDecimal;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SlotValue {
 
-    private String value;           //词槽值
-    private BigDecimal score;       //词槽分数
+    private String value;      //词槽值
+    private float score;       //词槽分数
 
 }
