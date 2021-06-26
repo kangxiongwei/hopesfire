@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kxw.hopesfire.web.model.HttpBaseModel;
 
 /**
- * @author kangxiongwei <kangxiongwei@kuaishou.com>
+ * @author kangxiongwei
  * Created on 2021-01-14
  */
 @RestController

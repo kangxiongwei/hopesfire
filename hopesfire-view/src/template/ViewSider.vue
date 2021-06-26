@@ -58,49 +58,7 @@
                 showSettingPage: false,
                 showSuggestionPage: false,
                 menuTheme: 'dark',
-                menu: [
-                    {
-                        name: "主页",
-                        to: "home",
-                        icon: "md-apps",
-                        children: []
-                    },
-                    {
-                        name: "菜单分类1",
-                        to: "user",
-                        icon: "ios-create-outline",
-                        children: [
-                            {
-                                name: "子菜单1",
-                                to: "user"
-                            },
-                            {
-                                name: "子菜单2",
-                                to: "menu"
-                            },
-                            {
-                                name: "子菜单3",
-                                to: "shared_report"
-                            },
-
-                        ]
-                    },
-                    {
-                        name: "菜单分类2",
-                        to: "user2",
-                        icon: "ios-archive-outline",
-                        children: [
-                            {
-                                name: "子菜单2-1",
-                                to: "firewall"
-                            },
-                            {
-                                name: "子菜单2-2",
-                                to: "navi_page"
-                            }
-                        ]
-                    }
-                ]
+                menu: []
             }
         },
         methods: {

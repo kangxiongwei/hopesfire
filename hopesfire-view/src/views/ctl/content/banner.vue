@@ -5,11 +5,13 @@
                 <Row>
                     <Tree :data="bannerTree" :render="renderBannerTree" @on-select-change="selectBannerTree" @on-contextmenu="handleContextMenu">
                         <template slot="contextMenu">
-                            <DropdownItem style="text-align: center; color: #19be6b" @click.native="addBanner">
-                                添加
+                            <DropdownItem style="text-align: center;" @click.native="addBanner">
+                                <Button type="success">添加&nbsp;<Icon type="md-add-circle"/>
+                                </Button>
                             </DropdownItem>
-                            <DropdownItem style="text-align: center; color: #ed4014" @click.native="dropBanner">
-                                删除
+                            <DropdownItem style="text-align: center;" @click.native="dropBanner">
+                                <Button type="error">删除&nbsp;<Icon type="md-trash"/>
+                                </Button>
                             </DropdownItem>
                         </template>
                     </Tree>

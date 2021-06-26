@@ -1,7 +1,7 @@
 package com.kxw.hopesfire.service;
 
 /**
- * @author kangxiongwei <kangxiongwei@kuaishou.com>
+ * @author kangxiongwei
  * Created on 2021-01-15
  */
 public class JsgfTest {

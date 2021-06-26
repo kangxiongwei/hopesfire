@@ -88,6 +88,7 @@
                 })
             },
             initTools() {
+                console.log("init tools...")
             },
             /**
              * 初始化节点

@@ -48,6 +48,9 @@
 </template>
 
 <script>
+
+    import menu from '../../api/menu'
+
     export default {
         name: "sider_menu",
         props: [
@@ -59,82 +62,20 @@
                 showSettingPage: false,
                 showSuggestionPage: false,
                 menuTheme: 'light',
-                menu: [
-                    {
-                        name: "系统首页",
-                        icon: "md-apps",
-                        children: [
-                            {
-                                name: "数据大盘",
-                                to: "/ctl/root/dashboard"
-                            }
-                        ]
-                    },
-                    {
-                        name: "权限控制",
-                        icon: "ios-settings",
-                        children: [
-                            {
-                                name: "用户管理",
-                                to: "/ctl/auth/user"
-                            },
-                            {
-                                name: "角色管理",
-                                to: "/ctl/auth/role"
-                            },
-                            {
-                                name: "群组管理",
-                                to: "/ctl/auth/group"
-                            }
-                        ]
-                    },
-                    {
-                        name: "内容管理",
-                        icon: "ios-folder",
-                        children: [
-                            {
-                                name: '栏目管理',
-                                to: '/ctl/banner'
-                            },
-                            {
-                                name: "文章管理",
-                                to: "/ctl/article"
-                            },
-                            {
-                                name: "附件管理",
-                                to: "/ctl/attach"
-                            }
-                        ]
-                    },
-                    {
-                        name: "盼盼的饮食管理",
-                        icon: "ios-alarm",
-                        children: [
-                            {
-                                name: "盼盼的菜品管理",
-                                to: "/ctl/meal/category"
-                            },
-                            {
-                                name: "盼盼的饮食记录",
-                                to: "/ctl/user/meal"
-                            }
-                        ]
-                    },
-                    {
-                        name: '知识管理',
-                        icon: 'md-contacts',
-                        children: [
-                            {
-                                name: '任务流程',
-                                to: '/ctl/kb/task/version'
-                            }
-                        ]
-                    }
-                ]
+                menu: []
             }
         },
         methods: {
-        }
+            listMenuTree() {
+                menu.doListMenuTree(this, {}).then(res => {
+                    this.menu = res;
+                })
+            }
+
+        },
+        mounted() {
+            this.listMenuTree();
+        },
     }
 </script>
 

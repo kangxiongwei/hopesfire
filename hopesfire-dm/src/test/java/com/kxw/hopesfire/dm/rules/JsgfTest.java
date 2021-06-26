@@ -18,7 +18,7 @@ import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 
 /**
- * @author kangxiongwei <kangxiongwei@kuaishou.com>
+ * @author kangxiongwei
  * Created on 2021-01-16
  */
 public class JsgfTest {

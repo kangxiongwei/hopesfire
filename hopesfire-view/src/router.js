@@ -112,8 +112,13 @@ const routers = [
                 component: MenuComponent,
                 children: [
                     {
+                        path: '/ctl/kb/knowledge',
+                        name: '知识管理',
+                        component: (resolve) => require(['./views/ctl/kb/Knowledge'], resolve)
+                    },
+                    {
                         path: '/ctl/kb/task/version',
-                        name: '任务流',
+                        name: '多轮对话',
                         component: (resolve) => require(['./views/ctl/kb/TaskVersion'], resolve)
                     }
                 ]
