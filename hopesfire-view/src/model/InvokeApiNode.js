@@ -6,7 +6,7 @@ export const InvokeApi = Graph.registerNode('invokeApi', {
     height: 40,
     attrs: {
         body: {
-            fill: '#f19d38',
+            fill: '#fff',
             stroke: '#f19d38'
         },
         text: {

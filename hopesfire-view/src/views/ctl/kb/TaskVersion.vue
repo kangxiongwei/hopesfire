@@ -19,9 +19,25 @@
                 :closable="true" :width="30"
                 class-name="graph_drawer">
             <Form ref="nodeForm" :model="nodeData" :label-width="80" label-position="right">
-                <FormItem label="节点名称" prop="nodeName">
-                    <Input type="text" v-model="nodeData.nodeName" placeholder="请输入节点名称"/>
-                </FormItem>
+                <Tabs value="nodeFormTab" @on-click="clickNodeTab">
+                    <TabPane label="准入条件" name="nodeConditionTab">
+                        <FormItem label="节点名称" prop="nodeName">
+                            <Input type="text" v-model="nodeData.nodeName" placeholder="请输入节点名称"/>
+                        </FormItem>
+                        <FormItem label="类目名称" prop="categoryId">
+                            <Input type="text" v-model="nodeData.categoryId" placeholder="请选择类目"/>
+                        </FormItem>
+                        <FormItem label="意图名称" prop="intentId">
+                            <Input type="text" v-model="nodeData.intentId" placeholder="请选择意图"/>
+                        </FormItem>
+                    </TabPane>
+                    <TabPane label="执行动作" name="nodeBaseTab">
+
+                    </TabPane>
+                    <TabPane label="调试窗口" name="nodeDebugTab">
+                        <Input type="textarea" :disabled="true" :value="debugJson" :autosize="debugAreaConfig"/>
+                    </TabPane>
+                </Tabs>
             </Form>
         </Drawer>
     </div>
@@ -44,7 +60,17 @@
                 graph: null,
                 stencil: null,
                 nodes: [],
-                nodeData: {}
+                nodeData: {
+                    editable: false,
+                    nodeId: null,
+                    nodeName: null,
+                    conditions: []
+                },
+                debugJson: null,
+                debugAreaConfig: {
+                    minRows: 4,
+                    maxRows: 16
+                }
             }
         },
         methods: {
@@ -173,6 +199,7 @@
                     this.nodeData = node.data;
                     this.nodeData.nodeId = node.id;
                     this.nodeData.nodeName = node.attr('text/text');
+                    this.debugJson = JSON.stringify(this.nodeData, null, 2);
                 })
                 this.graph.on('node:unselected', (e) => {
                     const node = e.node;
@@ -180,6 +207,7 @@
                     node.data.editable = true;
                     node.attr('text/text', this.nodeData.nodeName)
                     this.nodeData = {}
+                    this.debugJson = null
                 })
             },
 
@@ -220,8 +248,15 @@
             addTaskVersion() {
                 let graphData = this.graph.toJSON();
                 console.log(JSON.stringify(graphData));
-            }
+            },
 
+            clickNodeTab(name) {
+                console.log("click the " + name)
+                if (name === 'nodeDebugTab') {
+                    console.log("format debug info...")
+                    this.debugJson = JSON.stringify(this.nodeData, null, 2);
+                }
+            }
 
         },
         mounted() {

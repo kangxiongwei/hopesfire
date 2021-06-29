@@ -6,7 +6,7 @@ export const ReplyAnswer = Graph.registerNode('replyAnswer', {
     height: 40,
     attrs: {
         body: {
-            fill: '#5f95ff',
+            fill: '#fff',
             stroke: '#5f95ff'
         },
         text: {

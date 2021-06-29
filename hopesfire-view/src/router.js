@@ -113,7 +113,7 @@ const routers = [
                 children: [
                     {
                         path: '/ctl/kb/knowledge',
-                        name: '知识管理',
+                        name: '意图管理',
                         component: (resolve) => require(['./views/ctl/kb/Knowledge'], resolve)
                     },
                     {

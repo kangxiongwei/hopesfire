@@ -1,5 +1,5 @@
 <template>
-    <div>知识管理</div>
+    <div>意图管理</div>
 </template>
 
 <script>

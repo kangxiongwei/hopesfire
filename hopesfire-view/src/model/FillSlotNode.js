@@ -6,7 +6,7 @@ export const FillSlot = Graph.registerNode('fillSlot', {
     height: 40,
     attrs: {
         body: {
-            fill: '#03e9f4',
+            fill: '#fff',
             stroke: '#03e9f4'
         },
         text: {

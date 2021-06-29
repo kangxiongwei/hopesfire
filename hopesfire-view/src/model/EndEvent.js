@@ -6,8 +6,8 @@ export const EndEvent = Graph.registerNode('endEvent', {
     height: 40,
     attrs: {
         body: {
-            fill: '#efdbff',
-            stroke: '#efdbff'
+            fill: '#fff',
+            stroke: '#9254de'
         },
         text: {
             text: '结束',

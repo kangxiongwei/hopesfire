@@ -6,12 +6,12 @@ export const StartEvent = Graph.registerNode('startEvent', {
     height: 40,
     attrs: {
         body: {
-            fill: '#efdbff',
-            stroke: '#efdbff'
+            fill: '#fff',
+            stroke: '#9254de'
         },
         text: {
             text: '开始',
-            fill: '#000000'
+            fill: '#000'
         }
     },
     markup: [
@@ -99,9 +99,8 @@ export const StartEvent = Graph.registerNode('startEvent', {
         ]
     },
     data: {
-        nodeId: this.id,
-        nodeName: this.attrs.text.text,
+        nodeId: null,
+        nodeName: null,
         editable: true
     }
 })
-
